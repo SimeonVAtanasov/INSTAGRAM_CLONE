@@ -135,7 +135,21 @@ table {
 
 #logo {
   flex-grow: 2;
+  margin-top: 0.5em;
 }
+
 #inputMain{
   flex-grow: 2;
 }
+
+.app_header{
+  background-color: white;
+  padding: 10px;
+  object-fit: contain;
+  border-bottom: 1px solid lightgray;
+}
+
+.header_image{
+  object-fit: contain;
+}
+
