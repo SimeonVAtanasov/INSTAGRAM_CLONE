@@ -1,4 +1,4 @@
-import Post from "./Post";
+import Post from "../Post/Post";
 export default function Home({ posts }) {
   return (
     <div>

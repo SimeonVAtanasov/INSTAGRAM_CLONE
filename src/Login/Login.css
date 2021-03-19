@@ -1,0 +1,42 @@
+.mainContainer {
+  position: fixed;
+  left: 21%;
+  display: flex;
+  margin-top: 2em;
+  height: 500px;
+  justify-content: center;
+}
+
+.mainContainer section {
+  margin: 0 0 0 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mainContainer form {
+  display: flex;
+  flex-direction: column;
+}
+.mainContainer form button {
+  color: white;
+  width: 92%;
+  margin-left: 8px;
+  background-color: rgb(63, 120, 243);
+}
+
+.mainContainer form input {
+  margin: 0.5em;
+  height: inherit;
+}
+
+#loginLogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#boxes > div {
+    padding: 3em;
+  border: 1px solid black;
+  margin: 5px;
+}
