@@ -153,3 +153,6 @@ table {
   object-fit: contain;
 }
 
+body{
+  background-color: rgb(253, 248, 241);
+}

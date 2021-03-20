@@ -1,17 +1,14 @@
 .mainContainer {
   position: fixed;
-  left: 21%;
+  left: 20%;
   display: flex;
-  margin-top: 2em;
+  margin-top: 1.5em;
   height: 500px;
   justify-content: center;
 }
 
-.mainContainer section {
-  margin: 0 0 0 2em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+#loginCarousel {
+  margin: 0 0 0 1.9em;
 }
 
 .mainContainer form {
@@ -20,23 +17,73 @@
 }
 .mainContainer form button {
   color: white;
-  width: 92%;
-  margin-left: 8px;
-  background-color: rgb(63, 120, 243);
+  width: 110%;
+  margin: 1px 0 0 0;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background-color: #0095f6;
+  padding: 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#registerBtn {
+  margin: 0;
+}
+
+.mainContainer form button:focus {
+  outline: none;
 }
 
 .mainContainer form input {
-  margin: 0.5em;
-  height: inherit;
+  border: 1px solid rgb(119, 119, 119);
+  border-radius: 3px;
+  width: 108%;
+  height: 26px;
+  margin-bottom: 0.5em;
 }
 
-#loginLogo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.mainContainer form {
+  text-align: center;
+  color: rgb(119, 119, 119);
 }
+
+.mainContainer form > div {
+  position: relative;
+}
+
+.mainContainer form input:focus,
+.mainContainer form input:valid {
+  outline: none;
+}
+
+.mainContainer form input:focus + span,
+.mainContainer form input:valid + span {
+  transition: 0.3s ease-out;
+  top: 1px;
+  font-size: 8px;
+}
+
+.mainContainer form > div > span {
+  font-size: 12px;
+  color: rgb(119, 119, 119);
+  position: absolute;
+  left: 0.5em;
+  top: 0.8em;
+  pointer-events: none;
+}
+
 #boxes > div {
-    padding: 3em;
-  border: 1px solid black;
-  margin: 5px;
+  width: 75%;
+  border-radius: 1px;
+  padding: 0 3em 1em 2em;
+  border: 1px solid lightgrey;
+  margin-bottom: 5px;
+  background-color: white;
+}
+
+#boxes {
+  display: flex;
+  flex-direction: column;
+  margin: 2em 0 0 -1em;
 }

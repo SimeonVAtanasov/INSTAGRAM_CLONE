@@ -7,7 +7,11 @@ import Logo from "./Logo/Logo.js";
 import Login from "./Login/Login.js";
 
 function App() {
-  let isLoggedIn = false;
+
+  const [isLoggedIn, changeStatus] = useState(false);
+
+  let changeStatusLoggedIn = () => { changeStatus(true) };
+
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -19,74 +23,74 @@ function App() {
     })
   }, [])
 
-  if (isLoggedIn) {
-    return (
+  return (
 
-      <Router>
+    <Router>
 
-        <header className="app_header">
-          <nav>
-            <ul className="mainNav">
-              <li id="logo">
-                <Link to="/">
-                  <Logo />
-                </Link>
+      {isLoggedIn ? <><header className="app_header">
+        <nav>
+          <ul className="mainNav">
+            <li id="logo">
+              <Link to="/">
+                <Logo />
+              </Link>
 
-              </li>
-              <li id="inputMain">
-                <form>
-                  <input />
-                </form>
-              </li>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/inbox">Inbox</Link>
-              </li>
-              <li>
-                <Link to="/explore">Explore</Link>
-              </li>
-              <li>
-                <Link to="/notifications">Notifications</Link>
-              </li>
-              <li>
-                <Link to="profile">Profile</Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
+            </li>
+            <li id="inputMain">
+              <form>
+                <input />
+              </form>
+            </li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/inbox">Inbox</Link>
+            </li>
+            <li>
+              <Link to="/explore">Explore</Link>
+            </li>
+            <li>
+              <Link to="/notifications">Notifications</Link>
+            </li>
+            <li>
+              <Link to="profile">Profile</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      </> : <></>}
 
-        <Switch>
-          <Route path="/inbox">
-            <Inbox />
-          </Route>
 
-          <Route path="/explore">
-            <Explore />
-          </Route>
 
-          <Route path="/notifications">
-            <Notifications />
-          </Route>
+      <Switch>
+        <Route path="/inbox">
+          <Inbox />
+        </Route>
 
-          <Route path="/profile">
-            <Profile />
-          </Route>
+        <Route path="/explore">
+          <Explore />
+        </Route>
 
-          <Route exact path="/login">
-            {!isLoggedIn ? <Login /> : <Redirect to="/" />}
-          </Route>
+        <Route path="/notifications">
+          <Notifications />
+        </Route>
 
-          <Route exact path="/">
-            <Home posts={posts} />
-          </Route>
-        </Switch>
-      </Router>
-    );
-  } else {
-    return (<Login />);
-  }
+        <Route path="/profile">
+          <Profile />
+        </Route>
+
+        <Route exact path="/login">
+          {isLoggedIn ? <Redirect to="/" /> : <Login/>}
+        </Route>
+
+        <Route exact path="/">
+          {isLoggedIn ? <Home posts={posts} /> : <Login changeStatus={changeStatusLoggedIn} />}
+        </Route>
+      </Switch>
+    </Router>
+  );
+
 }
 
 
