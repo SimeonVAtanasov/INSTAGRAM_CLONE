@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Logo from "../Logo/Logo.js";
 import Input from "../Input/Input.js";
-import { debounce } from "../utils/debounce.js"
+// import { debounce } from "../utils/debounce.js"
 import './Login.css';
 import PasswordField from "../PasswordField/PasswordField.js";
 import { auth } from "../firebase.js";
@@ -14,56 +14,36 @@ export default function Login(props) {
 
   const [registration, showReg] = useState(false);
 
-  const [mailInputValue, getEmail] = useState("");
-
-  const [passwordInputValue, getPassword] = useState("");
-  const [fullNameInputValue, getFullName] = useState("");
-
-  let onInputEmail = (ev) => {
-    getEmail(ev.target.value);
-  }
-
-  let onInputPassword = (ev) => {
-    getPassword(ev.target.value);
-  }
-
-  let onInputFullName = (ev) => {
-
-    getFullName(ev.target.value);
-  }
-
+  const email = useFormInput("");
+  const password = useFormInput("");
+  const fullName = useFormInput("");
 
   let registerUser = (ev) => {
     ev.preventDefault();
-    auth.createUserWithEmailAndPassword(mailInputValue, passwordInputValue)
+    auth.createUserWithEmailAndPassword(email.value, password.value)
       .then((userCredential) => {
         // Signed in 
         let user = userCredential.user;
 
         user.updateProfile({
-          displayName: fullNameInputValue,
+          displayName: fullName.value,
         }).then(() => console.log(user.displayName))
 
-        // console.log("🚀 ~ file: Login.js ~ line 49 ~ .then ~ user", user);
-        // getEmail("");
-        // getPassword("")
         showReg(false)
       })
       .catch((error) => {
         alert(error.message);
       });
 
-
-
   }
 
   let logUser = (ev) => {
     ev.preventDefault();
-    auth.signInWithEmailAndPassword(mailInputValue, passwordInputValue)
+    auth.signInWithEmailAndPassword(email.value, password.value)
       .then((userCredential) => {
         // Signed in
-        var user = userCredential.user;
-        console.log("🚀 ~ file: Login.js ~ line 70 ~ .then ~ user", user)
+        // var user = userCredential.user;
+        // console.log("🚀 ~ file: Login.js ~ line 70 ~ .then ~ user", user)
         props.changeStatus();
         // ...
       })
@@ -97,13 +77,13 @@ export default function Login(props) {
             <form>
 
               <div>
-                <Input text="Имейл" onInput={onInputEmail} />
+                <Input text="Имейл" onInput={email.onchange} value={email.value} />
               </div>
 
               {registration ? (
                 <>
                   <div>
-                    <Input onInput={onInputFullName} text="Пълно име" />
+                    <Input onInput={fullName.onchange} value={fullName.value} text="Пълно име" />
                   </div>
 
 
@@ -111,7 +91,7 @@ export default function Login(props) {
               ) : <></>}
 
               <div>
-                <PasswordField onInput={onInputPassword} />
+                <PasswordField onInput={password.onchange} value={password.value} />
               </div>
 
 
@@ -129,4 +109,19 @@ export default function Login(props) {
     </>
   )
 
+}
+
+export function useFormInput(initialValue) {
+  const [value, setValue] = useState(initialValue);
+
+
+  function handleChange(ev) {
+    setValue(ev.target.value)
+  }
+
+  return {
+    value,
+    onchange: handleChange
+
+  };
 }
