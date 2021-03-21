@@ -10,7 +10,7 @@ import Login from "./Login/Login.js";
 
 function App() {
 
-  const [isLoggedIn, changeStatus] = useState(true); // should be false
+  const [isLoggedIn, changeStatus] = useState(false); // should be false
 
   let changeStatusLoggedIn = () => { changeStatus(true) };
 

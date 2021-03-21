@@ -84,6 +84,7 @@
 
 #boxes {
   display: flex;
+  width: 375px;
   flex-direction: column;
   margin: 2em 0 0 -1em;
 }
