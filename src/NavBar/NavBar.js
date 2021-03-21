@@ -11,21 +11,13 @@ import { Avatar } from "@material-ui/core";
 import "./NavBar.css"
 
 import { auth } from "../firebase.js";
-import { useState } from "react";
 
 export default function NavBar() {
 
-  const [username, setUsername]= useState("");
 
-  auth.onAuthStateChanged(function(user) {
-    if (user) {
-    console.log("🚀 ~ file: NavBar.js ~ line 18 ~ firebase.auth ~ user", user)
-      setUsername(user.displayName)
-      
-    } else {
-      alert("nolog")
-    }
-  });
+  let user = auth.currentUser;
+
+
 
   return (
     <>
@@ -49,24 +41,24 @@ export default function NavBar() {
           <ul id="linkNav">
 
             <li>
-              <Link to="/"><HomeOutlinedIcon /></Link>
+              <Link to="/"><HomeOutlinedIcon style={{ fontSize: 32 }} /></Link>
             </li>
             <li>
-              <Link to="/inbox"><SendOutlinedIcon /></Link>
+              <Link to="/inbox"><SendOutlinedIcon style={{ fontSize: 26 }} /></Link>
             </li>
             <li>
-              <Link to="/explore"><ExploreOutlinedIcon /></Link>
+              <Link to="/explore"><ExploreOutlinedIcon style={{ fontSize: 26 }} /></Link>
             </li>
             <li>
-              <Link to="/notifications"><FavoriteBorderOutlinedIcon /></Link>
+              <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link>
             </li>
             <li>
               <Link to="profile">
                 <Avatar
                   id="nav_avatar"
-                  alt={username}
+                  alt={user.displayName}
                   //   => alt will later be  {username}
-                  src="/static/images/avatar/1.jpg"
+                  src="/static/images/avatar1.jpg"
                 ></Avatar>
               </Link>
             </li>

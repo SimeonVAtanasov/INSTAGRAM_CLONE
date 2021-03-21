@@ -1,8 +1,9 @@
-.post{
-    max-width: 500px;
-    background-color: white;
-    border: 1px solid lightgrey;
-    margin-bottom: 4em;
+.post {
+  border-radius: 3px;
+  max-width: 614px;
+  background-color: white;
+  border: 1px solid lightgrey;
+  margin-bottom: 4em;
 }
 
 .post_image {
@@ -12,17 +13,19 @@
   border-bottom: 1px solid lightgrey;
 }
 
-.post_header{
-    display: flex;
-    align-items: center;
-    padding:10px;
+.post_header {
+  display: flex;
+  align-items: center;
+  padding: 2px 0 5px 1.1em;
 }
 
-.post_avatar{
-    margin-right: 10px;
+.post_avatar {
+  margin-right: 10px;
+  height: 32px !important;
+  width: 32px !important;
 }
 
-.post_description{
-    font-weight: normal;
-    padding: 20px;
+.post_description {
+  font-weight: normal;
+  padding: 20px;
 }

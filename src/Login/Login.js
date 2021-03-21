@@ -8,7 +8,7 @@ import PasswordField from "../PasswordField/PasswordField.js";
 import { auth } from "../firebase.js";
 import styles from "../Logo/Logo.module.css";
 
-
+import Button from '@material-ui/core/Button';
 
 export default function Login(props) {
 
@@ -24,7 +24,7 @@ export default function Login(props) {
       .then((userCredential) => {
         // Signed in 
         let user = userCredential.user;
-
+        // user.sendEmailVerification();
         user.updateProfile({
           displayName: fullName.value,
         }).then(() => console.log(user.displayName))
@@ -43,8 +43,6 @@ export default function Login(props) {
       .then((userCredential) => {
         // Signed in
         // var user = userCredential.user;
-        // console.log("🚀 ~ file: Login.js ~ line 70 ~ .then ~ user", user)
-        props.changeStatus();
         // ...
       })
       .catch((error) => {
@@ -67,23 +65,23 @@ export default function Login(props) {
       <main className="mainContainer">
 
         <section>
-          <img id='loginCarousel' src={"loginCarousel.png"} alt="loginCarousel" width="370px" height="495px" />
+          <img id='loginCarousel' src={"loginCarousel.png"} alt="loginCarousel" width="455px" height="600px" />
         </section>
         <section id="boxes">
           <div>
 
-            <Logo className={styles.loginLogo} width={"140px"} />
+            <Logo className={styles.loginLogo} width={"200px"} />
 
             <form>
 
               <div>
-                <Input text="Имейл" onInput={email.onchange} value={email.value} />
+                <Input type={"email"} text="Имейл" onInput={email.onchange} value={email.value} />
               </div>
 
               {registration ? (
                 <>
                   <div>
-                    <Input onInput={fullName.onchange} value={fullName.value} text="Пълно име" />
+                    <Input onInput={fullName.onchange} value={fullName.value} type={"text"} text="Пълно име" />
                   </div>
 
 
@@ -95,11 +93,14 @@ export default function Login(props) {
               </div>
 
 
-              {!registration ? (<button type="submit" onClick={(ev) => { logUser(ev); }}>Вход</button>) : <button type="submit" onClick={(ev) => { registerUser(ev) }}>Регистрирай ме!</button>}
+              {!registration ? 
+                <Button variant="contained" color="primary" type="submit" onClick={(ev) => { logUser(ev); }}>Вход</Button>
+                :
+                <Button variant="contained" color="primary" type="submit" onClick={(ev) => { registerUser(ev) }}>Регистрирай ме!</Button>}
 
               {!registration ? <p>Нямате акаунт?</p> : <p>Имате акаунт?</p>}
 
-              <button id="registerBtn" onClick={(ev) => { changeView(ev) }}>{registration ? "Вход" : "Регистрация"}</button>
+              <Button variant="contained" color="primary" onClick={(ev) => { changeView(ev) }}>{registration ? "Вход" : "Регистрация"}</Button>
 
             </form>
           </div>
