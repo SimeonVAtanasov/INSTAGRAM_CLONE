@@ -12,12 +12,12 @@ import { db } from "./firebase";
 import Login from "./Login/Login.js";
 
 function App() {
-  const [isLoggedIn, changeStatus] = useState(true); // should be false
-  const [posts, setPosts] = useState([]);
-  
-  let changeStatusLoggedIn = () => {
-    changeStatus(true);
-  };
+
+  const [isLoggedIn, changeStatus] = useState(false); // should be false
+   const [posts, setPosts] = useState([]);
+
+  let changeStatusLoggedIn = () => { changeStatus(true) };
+
 
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) => {
