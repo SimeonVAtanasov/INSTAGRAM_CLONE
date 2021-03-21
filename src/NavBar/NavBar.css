@@ -41,7 +41,6 @@
 #logo {
   flex-grow: 2;
   margin-left: 3.4em;
-  /* margin-top: 0.5em; */
 }
 
 #inputNav {
@@ -54,6 +53,11 @@
 
 #linkNav li:last-child{
   margin-top: -5px;
+}
+
+#nav_avatar{
+  height: 20px;
+  width: 20px;
 }
 
 
