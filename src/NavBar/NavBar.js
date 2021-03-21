@@ -16,7 +16,7 @@ import { useState } from "react";
 
 export default function NavBar() {
 
-  const [username, setUsername]= useState("");
+ const [username, setUsername]= useState("");
 
   auth.onAuthStateChanged(function(user) {
     if (user) {
@@ -65,8 +65,7 @@ export default function NavBar() {
               <Link to="profile">
                 <Avatar
                   id="nav_avatar"
-                  alt={username}
-                  //   => alt will later be  {username}
+                  alt={username.toUpperCase()}
                   src="/static/images/avatar/1.jpg"
                 ></Avatar>
               </Link>

@@ -1,18 +1,26 @@
 import Post from "../Post/Post";
-import styles from "./Home.module.css"
+import ProfileSection from "../ProfileSection/ProfileSection";
+import PostUpload from "../PostUpload/PostUpload"
+
+import styles from "./Home.module.css";
 
 export default function Home({ posts }) {
   return (
-    <div className={styles.homePage}>
-
-      {posts.map(({ id, post }) => (
-        <Post
-          key={id}
-          username={post.username}
-          caption={post.caption}
-          imageUrl={post.imageUrl}
-        ></Post>
-      ))}
+    <div className = {styles.home_page}>
+      <div className={styles.home_posts}>
+        {posts.map(({ id, post }) => (
+          <Post
+            key={id}
+            username={post.username}
+            caption={post.caption}
+            imageUrl={post.imageUrl}
+          ></Post>
+        ))}
+      </div>
+      <div>
+          <ProfileSection username = {posts.username}></ProfileSection>
+          <PostUpload></PostUpload>
+      </div>
     </div>
   );
 }
