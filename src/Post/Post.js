@@ -10,7 +10,7 @@ function Post({username, caption, imageUrl}) {
   return (
     <div className="post">
       <div className="post_header">
-      <Avatar  shape="circle" size={24} icon={<UserOutlined />}/>
+      <Avatar className="post_avatar" shape="circle" size={24} icon={<UserOutlined />}/>
         <h3>{username}</h3>
       </div>
 

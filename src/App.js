@@ -1,37 +1,44 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Home from "./Home/Home";
-import NavBar from "./NavBar/NavBar"
+import NavBar from "./NavBar/NavBar";
 import { db } from "./firebase";
 import Login from "./Login/Login.js";
 
-
-
 function App() {
-
   const [isLoggedIn, changeStatus] = useState(true); // should be false
-
-  let changeStatusLoggedIn = () => { changeStatus(true) };
-
   const [posts, setPosts] = useState([]);
+  
+  let changeStatusLoggedIn = () => {
+    changeStatus(true);
+  };
 
   useEffect(() => {
-    db.collection("posts").onSnapshot(snapshot => {
-      setPosts(snapshot.docs.map(doc => ({
-        id: doc.id,
-        post: doc.data()
-      })))
-    })
-  }, [])
+    db.collection("posts").onSnapshot((snapshot) => {
+      setPosts(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          post: doc.data(),
+        }))
+      );
+    });
+  }, []);
 
   return (
-
     <Router id="router">
-
-      {isLoggedIn ? <>
-        <NavBar/>
-      </> : <></>}
+      {isLoggedIn ? (
+        <>
+          <NavBar />
+        </>
+      ) : (
+        <></>
+      )}
 
       <Switch>
         <Route path="/inbox">
@@ -55,19 +62,20 @@ function App() {
         </Route>
 
         <Route exact path="/">
-          {isLoggedIn ? <Home posts={posts} /> : <Login changeStatus={changeStatusLoggedIn} />}
+          {isLoggedIn ? (
+            <Home posts={posts} />
+          ) : (
+            <Login changeStatus={changeStatusLoggedIn} />
+          )}
         </Route>
       </Switch>
     </Router>
   );
-
 }
-
 
 function Inbox() {
   return <h2>Inbox</h2>;
 }
-
 
 function Explore() {
   return <h2>Explore</h2>;
