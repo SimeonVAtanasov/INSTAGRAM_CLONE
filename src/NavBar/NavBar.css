@@ -1,0 +1,60 @@
+.app_header {
+  color: black;
+  background-color: white;
+  height: 45px;
+  /* padding: 10px; */
+  border-bottom: 1px solid lightgray;
+}
+.app_header nav {
+  margin: 0 15%;
+  max-width: 75%;
+  height: 54px;
+
+  display: flex;
+  justify-content: center;
+}
+.app_header ul{
+  margin-bottom: 0;
+}
+
+.app_header a,
+.app_header a:visited {
+  color: black;
+}
+
+#mainNav,
+#linkNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+#linkNav {
+  justify-content: flex-end;
+  margin-right: 2.2em ;
+}
+#linkNav li{
+  margin: 0px 16px 8px 0;
+  font-size: 20px;
+}
+
+#logo {
+  flex-grow: 2;
+  margin-left: 3.4em;
+  /* margin-top: 0.5em; */
+}
+
+#inputNav {
+ margin: 0.6em 0 0 2em;
+}
+
+#inputNav input{
+  width: 170px;
+}
+
+#linkNav li:last-child{
+  margin-top: -5px;
+}
+
+
+

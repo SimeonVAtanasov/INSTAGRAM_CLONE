@@ -123,34 +123,4 @@ table {
 
 /* Main css */
 
-.mainNav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-}
-.mainNav li {
-  margin: 0 2em;
-}
 
-#logo {
-  flex-grow: 2;
-  margin-top: 0.5em;
-}
-
-
-
-.app_header{
-  background-color: white;
-  padding: 10px;
-  /* object-fit: contain; */
-  border-bottom: 1px solid lightgray;
-}
-
-.header_image{
-  object-fit: contain;
-}
-
-body{
-  background-color: rgb(253, 248, 241);
-}

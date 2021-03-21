@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Home from "./Home/Home";
+import NavBar from "./NavBar/NavBar"
 import { db } from "./firebase";
-import Logo from "./Logo/Logo.js";
 import Login from "./Login/Login.js";
-import Input from "./Input/Input.js";
-import styles from "./Input/Input.module.css";
 
 
 
 function App() {
 
-  const [isLoggedIn, changeStatus] = useState(false); // should be false
+  const [isLoggedIn, changeStatus] = useState(true); // should be false
 
   let changeStatusLoggedIn = () => { changeStatus(true) };
 
@@ -29,44 +27,11 @@ function App() {
 
   return (
 
-    <Router>
+    <Router id="router">
 
       {isLoggedIn ? <>
-        <header className="app_header">
-          <nav>
-            <ul className="mainNav">
-              <li id="logo">
-                <Link to="/">
-                  <Logo />
-                </Link>
-
-              </li>
-              <li id="inputMain">
-                <form>
-                  <Input className={styles.searchInput} title="Търсене" />
-                </form>
-              </li>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/inbox">Inbox</Link>
-              </li>
-              <li>
-                <Link to="/explore">Explore</Link>
-              </li>
-              <li>
-                <Link to="/notifications">Notifications</Link>
-              </li>
-              <li>
-                <Link to="profile">Profile</Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
+        <NavBar/>
       </> : <></>}
-
-
 
       <Switch>
         <Route path="/inbox">
