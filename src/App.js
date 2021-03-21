@@ -7,8 +7,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import Home from "./Home/Home";
-import NavBar from "./NavBar/NavBar";
-import { db } from "./firebase";
+import NavBar from "./NavBar/NavBar"
+import { db, auth } from "./firebase";
 import Login from "./Login/Login.js";
 
 function App() {
@@ -19,6 +19,14 @@ function App() {
 
   let changeStatusLoggedIn = () => { changeStatus(true) };
 
+
+  auth.onAuthStateChanged(function (user) {
+    if (user) {
+    changeStatus(true);
+    } else {
+      <Redirect to="login"></Redirect>
+    }
+  });
 
   useEffect(() => {
     db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
@@ -33,15 +41,15 @@ function App() {
 
   return (
     <Router id="router">
-      {isLoggedIn ? (
-        <>
-          <NavBar />
-        </>
-      ) : (
-        <></>
-      )}
+
+      {isLoggedIn ? <>
+        <NavBar />
+      </> : <Redirect to="/login" />}
 
       <Switch>
+        <Route exact path="/">
+          {isLoggedIn ? <Home posts={posts} /> : <Login changeStatus={changeStatusLoggedIn} />}
+        </Route>
         <Route path="/inbox">
           <Inbox />
         </Route>
@@ -62,13 +70,6 @@ function App() {
           {isLoggedIn ? <Redirect to="/" /> : <Login />}
         </Route>
 
-        <Route exact path="/">
-          {isLoggedIn ? (
-            <Home posts={posts} />
-          ) : (
-            <Login changeStatus={changeStatusLoggedIn} />
-          )}
-        </Route>
       </Switch>
     </Router>
   );

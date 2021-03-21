@@ -3,12 +3,12 @@
   left: 20%;
   display: flex;
   margin-top: 1.5em;
-  height: 500px;
+  height: 600px;
   justify-content: center;
 }
 
 #loginCarousel {
-  margin: 0 0 0 1.9em;
+  margin: 0 0 0 2.7em;
 }
 
 .mainContainer form {
@@ -75,16 +75,17 @@
 
 #boxes > div {
   width: 75%;
-  border-radius: 1px;
+  border-radius: 3px;
   padding: 0 3em 1em 2em;
   border: 1px solid lightgrey;
+  margin-top: 23m;
   margin-bottom: 5px;
   background-color: white;
 }
 
 #boxes {
   display: flex;
-  width: 375px;
+  width: 360px;
   flex-direction: column;
   margin: 2em 0 0 -1em;
 }

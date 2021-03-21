@@ -1,8 +1,7 @@
 .app_header {
   color: black;
   background-color: white;
-  height: 45px;
-  /* padding: 10px; */
+  height: 54px;
   border-bottom: 1px solid lightgray;
 }
 .app_header nav {
@@ -13,7 +12,7 @@
   display: flex;
   justify-content: center;
 }
-.app_header ul{
+.app_header ul {
   margin-bottom: 0;
 }
 
@@ -31,34 +30,35 @@
 }
 #linkNav {
   justify-content: flex-end;
-  margin-right: 2.2em ;
+  margin-right: 4em;
 }
-#linkNav li{
-  margin: 0px 16px 8px 0;
-  font-size: 20px;
+#linkNav li {
+  margin: 15px 0px 8px 18px;
+  font-size: 24px;
 }
 
 #logo {
   flex-grow: 2;
-  margin-left: 3.4em;
+  margin: 10px 0 0 4em;
 }
 
 #inputNav {
- margin: 0.6em 0 0 2em;
+  margin: 1em -2em 0em 2em;
 }
 
-#inputNav input{
-  width: 170px;
+#inputNav input {
+  border-radius: 3px solid;
+  height: 24px;
+  width: 210px;
 }
 
-#linkNav li:last-child{
+#linkNav li:last-child {
   margin-top: -5px;
 }
 
-#nav_avatar{
-  height: 20px;
-  width: 20px;
+#nav_avatar {
+  margin-top: 15px;
+  text-decoration: none;
+  height: 24px;
+  width: 24px;
 }
-
-
-
