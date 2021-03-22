@@ -1,8 +1,14 @@
 .app_header {
+  position: fixed;
+  
+  top: 0px;
+  width: 100%;
   color: black;
-  background-color: white;
+  background-color: white  ;
   height: 54px;
   border-bottom: 1px solid lightgray;
+  margin-bottom: 40px;
+  z-index: 1;
 }
 .app_header nav {
   margin: 0 15%;

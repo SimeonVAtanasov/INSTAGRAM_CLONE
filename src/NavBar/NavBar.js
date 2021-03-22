@@ -32,7 +32,7 @@ export default function NavBar() {
 
             <li >
               <form>
-                <Input className={styles.searchInput} title="Търсене" />
+                <Input className={styles.searchInput} placeholder="Търсене" />
               </form>
             </li>
           </ul>

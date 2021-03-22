@@ -5,7 +5,7 @@ import styles from "./Home.module.css";
 
 export default function Home({ posts }) {
   return (
-    <div className = {styles.home_page}>
+    <div className={styles.home_page}>
       <div className={styles.home_posts}>
         {posts.map(({ id, post }) => (
           <Post
@@ -16,10 +16,8 @@ export default function Home({ posts }) {
           ></Post>
         ))}
       </div>
-      <div>
-          <ProfileSection username = {posts.username}></ProfileSection>
-         
-      </div>
+      <ProfileSection></ProfileSection>
+
     </div>
   );
 }

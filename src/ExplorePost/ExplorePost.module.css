@@ -1,0 +1,20 @@
+.postLayout{
+    position: relative;
+
+    box-sizing: border-box;
+    margin: 0.5em;
+}
+
+.aditives{
+    color: white;
+    display: none;
+    position:  absolute;
+    top: 50%;
+    left: 30%;
+}
+
+.imagebox:hover +  .aditives{
+display: block;
+}
+
+

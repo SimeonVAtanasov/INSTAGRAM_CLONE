@@ -5,7 +5,8 @@ import firebase from "firebase/app";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import "../ProfileSection/ProfileSection.css";
-
+// import Input from "../Input/Input";
+import { Input } from '@material-ui/core';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
     width: 400,
+    height: 200,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -40,8 +42,8 @@ function PostUpload() {
   let user = firebase.auth().currentUser;
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(false);
 
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState(null);
@@ -96,9 +98,6 @@ function PostUpload() {
             handleClose();
           }
           );
-           
-      
-         
       }
     );
   };
@@ -106,14 +105,14 @@ function PostUpload() {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <progress className="progress" value={progress} max="100" />
-      <input
+      <Input
         type="text"
         placeholder="Write a caption..."
         value={caption}
-        onChange={(ev) => setCaption(ev.target.value)}
-      ></input>
-      <input type="file" onChange={handleChange}></input>
-      <Button onClick={() => {
+        onInput={(ev) => setCaption(ev.target.value)}
+      ></Input>
+      <Input type="file" onChange={handleChange}></Input>
+      <Button  variant="contained" color="primary" type="submit" onClick={() => {
           handleUpload();
         
       }}>Upload post</Button>

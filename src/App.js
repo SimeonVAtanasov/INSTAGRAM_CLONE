@@ -10,6 +10,7 @@ import Home from "./Home/Home";
 import NavBar from "./NavBar/NavBar"
 import { db, auth } from "./firebase";
 import Login from "./Login/Login.js";
+import Explore from "./Explore/Explore";
 
 function App() {
 
@@ -18,7 +19,6 @@ function App() {
 
 
   let changeStatusLoggedIn = () => { changeStatus(true) };
-
 
   auth.onAuthStateChanged(function (user) {
     if (user) {
@@ -37,7 +37,7 @@ function App() {
         }))
       );
     });
-  }, []);
+  });
 
   return (
     <Router id="router">
@@ -55,7 +55,7 @@ function App() {
         </Route>
 
         <Route path="/explore">
-          <Explore />
+          <Explore posts={posts} />
         </Route>
 
         <Route path="/notifications">
@@ -79,9 +79,7 @@ function Inbox() {
   return <h2>Inbox</h2>;
 }
 
-function Explore() {
-  return <h2>Explore</h2>;
-}
+
 
 function Notifications() {
   return <h2>Notifications</h2>;

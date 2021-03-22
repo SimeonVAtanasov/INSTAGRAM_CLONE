@@ -15,7 +15,7 @@ export default function ProfileSection() {
           <div className = "user_details">
             <Avatar
             className="profile_section_avatar"
-            alt={user.displayName.toUpperCase()}
+            alt={user.displayName}
             src="/static/images/avatar/1.jpg"
           ></Avatar>
           <span> {user.displayName}</span>
