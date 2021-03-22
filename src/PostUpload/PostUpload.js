@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { Button } from "@material-ui/core";
+import { Button,InputLabel } from "@material-ui/core";
 import { storage, db } from "../firebase";
 import firebase from "firebase/app";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import "../ProfileSection/ProfileSection.css";
-// import Input from "../Input/Input";
 import { Input } from '@material-ui/core';
+import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50 ;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -27,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
     width: 400,
-    height: 200,
+    maxHeight: 600,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -35,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex", 
     flexDirection: "column",
     outline: "none",
+    justifyContent: "center",
+    fontFamily: 'Snell Roundhand, cursive',
+    fontWeight: "600"
   },
 }));
 
@@ -44,13 +44,14 @@ function PostUpload() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
-
+  const [label,setLabel] = useState("Choose a picture");
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
 
   const handleOpen = () => {
     setOpen(true);
+
   };
 
   const handleClose = () => {
@@ -60,7 +61,8 @@ function PostUpload() {
 
   const handleChange = (ev) => {
     if (ev.target.files[0]) {
-      setImage(ev.target.files[0]);
+      setImage(URL.createObjectURL(ev.target.files[0]));
+      setLabel("Change picture");
     }
   };
 
@@ -96,6 +98,7 @@ function PostUpload() {
             setCaption("");
             setImage(null);
             handleClose();
+            setLabel("Choose a picture")
           }
           );
       }
@@ -104,18 +107,27 @@ function PostUpload() {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
+      <div className="modal">
+        <h1 className="new_post_header">New post</h1>
       <progress className="progress" value={progress} max="100" />
+
+      <input type="file" onChange={handleChange} id="file"></input>
+      <label htmlFor="file" className="upload_label">
+        <ImageSearchIcon></ImageSearchIcon>{label}</label>
       <Input
         type="text"
         placeholder="Write a caption..."
         value={caption}
         onInput={(ev) => setCaption(ev.target.value)}
       ></Input>
-      <Input type="file" onChange={handleChange}></Input>
+   
+      <img src={image} alt={caption}/>
       <Button  variant="contained" color="primary" type="submit" onClick={() => {
           handleUpload();
         
       }}>Upload post</Button>
+      </div>
+      
     </div>
   );
 
