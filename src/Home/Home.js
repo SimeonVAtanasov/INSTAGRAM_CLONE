@@ -1,6 +1,5 @@
 import Post from "../Post/Post";
 import ProfileSection from "../ProfileSection/ProfileSection";
-import PostUpload from "../PostUpload/PostUpload"
 
 import styles from "./Home.module.css";
 
@@ -19,7 +18,7 @@ export default function Home({ posts }) {
       </div>
       <div>
           <ProfileSection username = {posts.username}></ProfileSection>
-          <PostUpload></PostUpload>
+         
       </div>
     </div>
   );

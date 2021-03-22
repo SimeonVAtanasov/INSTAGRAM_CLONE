@@ -11,7 +11,7 @@ import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import { Avatar } from "@material-ui/core";
 import "./NavBar.css"
 
-import { auth } from "../firebase.js";
+import { auth } from "../firebase";
 
 export default function NavBar() {
 
@@ -54,7 +54,7 @@ export default function NavBar() {
               <Link to="profile">
                 <Avatar
                   id="nav_avatar"
-                  alt={user.username.toUpperCase()}
+                  alt={user.displayName}
                   src="/static/images/avatar/1.jpg"
                 ></Avatar>
               </Link>

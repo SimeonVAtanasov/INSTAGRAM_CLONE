@@ -1,8 +1,10 @@
 .home_page{
     display: flex;
+    margin: 3%;
+    justify-content: center;
 }
 
 .home_posts{
-    margin: 3% 19%;
+    /* margin: 3% 19%; */
 }
 

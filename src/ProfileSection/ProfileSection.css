@@ -1,4 +1,39 @@
-.profile_section_header{
-    display: flex;
-    align-items: center;
+.profile_section {
+  width: 300px;
+  margin-left: 8%;
+}
+
+.profile_section_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile_section_avatar {
+  margin-right: 12px;
+  height: 53px !important;
+  width: 55px !important;
+}
+
+.user_details {
+  display: flex;
+  align-items: center;
+}
+
+.new_post_btn {
+  border: none;
+  background: transparent;
+  color: rgba(var(--d69, 0, 149, 246), 1);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.progress {
+  width: 100%;
+}
+
+.user_details span {
+  font-weight: normal;
+  font-family: sans-serif;
+  font-size: 16px;
 }
