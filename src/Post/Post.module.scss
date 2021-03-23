@@ -23,8 +23,22 @@
     padding: 20px;
   }
 
+  .post_avatar {
+    margin-right: 10px;
+    height: 32px !important;
+    width: 32px !important;
+  }
+
   .post_comments {
     padding: 20px;
+    position: relative;
+
+    aside {
+      z-index: 1;
+      top: 19px;
+      left: 3px;
+      left: -17px;
+    }
   }
 
   .comments_form {
@@ -34,10 +48,7 @@
     padding-right: 16px;
     margin-top: 4px;
     height: 3em;
-
-    .emoji-picker-react {
-      display: none;
-    }
+    // position: relative;
 
     .post_textarea {
       background: 0 0;

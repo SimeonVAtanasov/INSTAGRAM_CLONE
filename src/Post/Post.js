@@ -1,11 +1,11 @@
 import React, { useState, useEffect, createRef } from "react";
-import "./Post.css";
+// import "./Post.css";
 import { Avatar } from "@material-ui/core";
 import { db } from "../firebase";
 import firebase from "firebase/app";
 import Comment from "../Comment/Comment";
 import Picker from "emoji-picker-react";
-// import styles from "./Post.module.scss"
+import styles from "./Post.module.scss";
 
 function Post({ postId, username, caption, imageUrl }) {
   const inputRef = createRef();
@@ -25,9 +25,9 @@ function Post({ postId, username, caption, imageUrl }) {
     setCursorPosition(start.length + emojiObject.emoji.length);
   };
 
-  // useEffect(() => {
-  //   inputRef.current.selectedEnd = cursorPosition;
-  // },[inputRef,cursorPosition]);
+  useEffect(() => {
+    inputRef.current.selectedEnd = cursorPosition;
+  },[inputRef,cursorPosition]);
 
   useEffect(() => {
     let unsubscribe;
@@ -77,8 +77,8 @@ function Post({ postId, username, caption, imageUrl }) {
         <h3>{username}</h3>
       </div>
 
-      <img className= {styles.post_image} src={imageUrl} alt="post"></img>
-      <h4 className= {styles.post_description}>
+      <img className={styles.post_image} src={imageUrl} alt="post"></img>
+      <h4 className={styles.post_description}>
         <strong> {username} </strong> {caption}
       </h4>
       <div className={styles.post_comments}>
@@ -89,12 +89,10 @@ function Post({ postId, username, caption, imageUrl }) {
             text={comment.comment}
           ></Comment>
         ))}
+         <Picker onEmojiClick={onEmojiClick} />
       </div>
-
+     
       <form className={styles.comments_form}>
-      
-        <Picker onEmojiClick={onEmojiClick} />
-
         <textarea
           ref={inputRef}
           className={styles.post_textarea}
