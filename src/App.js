@@ -14,15 +14,15 @@ import Explore from "./Explore/Explore";
 
 function App() {
 
-  const [isLoggedIn, changeStatus] = useState(false); // should be false
+  const [isLoggedIn, setStatus] = useState(false); // should be false
   const [posts, setPosts] = useState([]);
 
 
-  let changeStatusLoggedIn = () => { changeStatus(true) };
+  let changeStatusLoggedIn = () => { setStatus(true) };
 
   auth.onAuthStateChanged(function (user) {
     if (user) {
-    changeStatus(true);
+      setStatus(true);
     } else {
       <Redirect to="login"></Redirect>
     }
@@ -37,7 +37,7 @@ function App() {
         }))
       );
     });
-  });
+  }, []);
 
   return (
     <Router id="router">
@@ -48,7 +48,7 @@ function App() {
 
       <Switch>
         <Route exact path="/">
-          {isLoggedIn ? <Home posts={posts} /> : <Login changeStatus={changeStatusLoggedIn} />}
+          {isLoggedIn ? <Home posts={posts} /> : <Login setStatus={changeStatusLoggedIn} />}
         </Route>
         <Route path="/inbox">
           <Inbox />

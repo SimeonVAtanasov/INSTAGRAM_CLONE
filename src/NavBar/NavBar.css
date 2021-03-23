@@ -8,7 +8,7 @@
   height: 54px;
   border-bottom: 1px solid lightgray;
   margin-bottom: 40px;
-  z-index: 1;
+  z-index: 2;
 }
 .app_header nav {
   margin: 0 15%;
