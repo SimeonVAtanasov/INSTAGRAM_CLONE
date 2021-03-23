@@ -48,6 +48,7 @@ function PostUpload() {
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [file, setFilie] = useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -61,8 +62,9 @@ function PostUpload() {
 
   const handleChange = (ev) => {
     if (ev.target.files[0]) {
-      setImage(URL.createObjectURL(ev.target.files[0]));
+      setImage(ev.target.files[0]);
       setLabel("Change picture");
+      setFilie(URL.createObjectURL(ev.target.files[0]))
     }
   };
 
@@ -98,7 +100,8 @@ function PostUpload() {
             setCaption("");
             setImage(null);
             handleClose();
-            setLabel("Choose a picture")
+            setLabel("Choose a picture");
+            setFilie(null);
           }
           );
       }
@@ -121,7 +124,7 @@ function PostUpload() {
         onInput={(ev) => setCaption(ev.target.value)}
       ></Input>
    
-      <img src={image} alt={caption}/>
+      <img src={file} alt={caption}/>
       <Button  variant="contained" color="primary" type="submit" onClick={() => {
           handleUpload();
         
