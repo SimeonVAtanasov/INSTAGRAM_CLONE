@@ -19,7 +19,7 @@ function App() {
   const [posts, setPosts] = useState([]);
 
 
-  let changeStatusLoggedIn = () => { setStatus(true) };
+  let changeStatusLoggedIn = () => { setStatus(prevstate =>   !prevstate) };
 
   auth.onAuthStateChanged(function (user) {
     if (user) {

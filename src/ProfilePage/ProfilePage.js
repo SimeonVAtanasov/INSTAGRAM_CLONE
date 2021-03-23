@@ -1,14 +1,18 @@
 import { Avatar } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import SettingsIcon from '@material-ui/icons/Settings';
 
 import styles from "../ProfilePage/ProfilePage.module.scss"
 import { Link } from "react-router-dom";
+import ExplorePost from "../ExplorePost/ExplorePost.js";
+import style from "../Explore/Explore.module.scss"
 
 export default function ProfilePage() {
 
     const [user, setUser] = useState({ displayName: "User", photoURL: "/static/images/avatar/1.jpg" })
+    const [posts, setPosts] = useState([]);
+
 
     useEffect(() => {
 
@@ -17,6 +21,15 @@ export default function ProfilePage() {
             setUser(user);
 
         }
+
+        db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+            setPosts(
+                snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    post: doc.data(),
+                }))
+            );
+        });
 
     }, []);
 
@@ -35,7 +48,7 @@ export default function ProfilePage() {
                         </Link>
                     </h2>
                     <ul >
-                        <li>42342 публикации</li>
+                        <li>423 публикации</li>
                         <li>42342  последователи</li>
                         <li>324  последвани</li>
                     </ul>
@@ -47,8 +60,10 @@ export default function ProfilePage() {
                 </div>
 
             </header>
-            <main>
-
+            <main className={style.exploreProfileContainer}>
+                {posts.map(({ id, post }) => (
+                    <ExplorePost key={id} post={post} id={id} />
+                ))}
             </main>
         </div>
     );
