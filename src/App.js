@@ -37,7 +37,7 @@ function App() {
         }))
       );
     });
-  });
+  },[]);
 
   return (
     <Router id="router">

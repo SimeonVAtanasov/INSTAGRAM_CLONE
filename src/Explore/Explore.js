@@ -2,6 +2,7 @@ import ExplorePost from "../ExplorePost/ExplorePost";
 import   "./Explore.css"
 
 
+
 export default function Explore({ posts }) {
     return (
         <>
