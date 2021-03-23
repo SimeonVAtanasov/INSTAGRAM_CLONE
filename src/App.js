@@ -11,20 +11,19 @@ import NavBar from "./NavBar/NavBar"
 import { db, auth } from "./firebase";
 import Login from "./Login/Login.js";
 import Explore from "./Explore/Explore";
+import ProfilePage from "./ProfilePage/ProfilePage";
 
 function App() {
 
-  const [isLoggedIn, changeStatus] = useState(false); // should be false
+  const [isLoggedIn, setStatus] = useState(false); // should be false
   const [posts, setPosts] = useState([]);
 
 
-  let changeStatusLoggedIn = () => { changeStatus(true) };
+  let changeStatusLoggedIn = () => { setStatus(true) };
 
   auth.onAuthStateChanged(function (user) {
     if (user) {
-    changeStatus(true);
-    } else {
-      <Redirect to="login"></Redirect>
+      setStatus(true);
     }
   });
 
@@ -43,12 +42,12 @@ function App() {
     <Router id="router">
 
       {isLoggedIn ? <>
-        <NavBar />
+        <NavBar onLogout={changeStatusLoggedIn} />
       </> : <Redirect to="/login" />}
 
       <Switch>
         <Route exact path="/">
-          {isLoggedIn ? <Home posts={posts} /> : <Login changeStatus={changeStatusLoggedIn} />}
+          {isLoggedIn ? <Home posts={posts} /> : <Login setStatus={changeStatusLoggedIn} />}
         </Route>
         <Route path="/inbox">
           <Inbox />
@@ -63,7 +62,7 @@ function App() {
         </Route>
 
         <Route path="/profile">
-          <Profile />
+          <ProfilePage/>
         </Route>
 
         <Route exact path="/login">
@@ -85,7 +84,4 @@ function Notifications() {
   return <h2>Notifications</h2>;
 }
 
-function Profile() {
-  return <h2>Profile</h2>;
-}
 export default App;

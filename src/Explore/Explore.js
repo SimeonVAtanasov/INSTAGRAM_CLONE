@@ -8,7 +8,7 @@ export default function Explore({ posts }) {
         <>
             <div id="exploreContainer">
                 {posts.map(({ id, post }) => (
-                    <ExplorePost key={id} {...post} />
+                    <ExplorePost key={id} post={post} id={id}/>
                 ))}
             </div>
 
