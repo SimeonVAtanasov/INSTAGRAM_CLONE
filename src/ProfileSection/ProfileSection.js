@@ -26,6 +26,6 @@ export default function ProfileSection() {
       </div>
     );
   } else {
-    return(<div></div>) 
+    return(<></>) 
   }
 }

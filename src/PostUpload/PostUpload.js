@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import "../ProfileSection/ProfileSection.css";
 import { Input } from '@material-ui/core';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
+import LinearProgress from "../LinearProgress"
 
 
 function getModalStyle() {
@@ -112,7 +113,8 @@ function PostUpload() {
     <div style={modalStyle} className={classes.paper}>
       <div className="modal">
         <h1 className="new_post_header">New post</h1>
-      <progress className="progress" value={progress} max="100" />
+      {/* <progress className="progress" value={progress} max="100" /> */}
+      <LinearProgress progress = {progress} className="progress" value={progress} />
 
       <input type="file" onChange={handleChange} id="file"></input>
       <label htmlFor="file" className="upload_label">

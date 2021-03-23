@@ -11,6 +11,7 @@ import NavBar from "./NavBar/NavBar"
 import { db, auth } from "./firebase";
 import Login from "./Login/Login.js";
 import Explore from "./Explore/Explore";
+import ProfilePage from "./ProfilePage/ProfilePage";
 
 function App() {
 
@@ -23,8 +24,6 @@ function App() {
   auth.onAuthStateChanged(function (user) {
     if (user) {
       setStatus(true);
-    } else {
-      <Redirect to="login"></Redirect>
     }
   });
 
@@ -37,13 +36,13 @@ function App() {
         }))
       );
     });
-  }, []);
+  },[]);
 
   return (
     <Router id="router">
 
       {isLoggedIn ? <>
-        <NavBar />
+        <NavBar onLogout={changeStatusLoggedIn} />
       </> : <Redirect to="/login" />}
 
       <Switch>
@@ -63,7 +62,7 @@ function App() {
         </Route>
 
         <Route path="/profile">
-          <Profile />
+          <ProfilePage/>
         </Route>
 
         <Route exact path="/login">
@@ -85,7 +84,4 @@ function Notifications() {
   return <h2>Notifications</h2>;
 }
 
-function Profile() {
-  return <h2>Profile</h2>;
-}
 export default App;
