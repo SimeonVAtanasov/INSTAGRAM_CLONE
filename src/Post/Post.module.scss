@@ -18,9 +18,13 @@
     border-bottom: 1px solid lightgrey;
   }
 
+  .liked_by {
+    padding: 0 20px;
+  }
+
   .post_description {
     font-weight: normal;
-    padding: 20px;
+    padding: 0 20px;
   }
 
   .post_avatar {
@@ -36,7 +40,6 @@
     aside {
       z-index: 1;
       top: 19px;
-      left: 3px;
       left: -17px;
     }
   }
@@ -48,22 +51,25 @@
     padding-right: 16px;
     margin-top: 4px;
     height: 3em;
-    // position: relative;
+    align-items: center;
 
     .post_textarea {
       background: 0 0;
       border: 0;
       color: #262626;
-
       display: flex;
       flex-grow: 1;
       font-size: inherit;
       height: 18px;
       max-height: 80px;
       outline: 0;
-      padding: 0;
+      padding: 0 25px;
       resize: none;
-      /* width: 0; */
+    }
+
+    svg {
+      fill: #423e3e;
+      font-size: 2rem;
     }
 
     .post_btn {

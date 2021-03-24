@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostUpload() {
+function PostUpload({isLiked}) {
   let user = firebase.auth().currentUser;
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -96,6 +96,8 @@ function PostUpload() {
               caption: caption,
               imageUrl: url,
               username: user.displayName,
+              likes: 0 
+              
             });
             setProgress(0);
             setCaption("");

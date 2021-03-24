@@ -1,40 +1,32 @@
 import React, { useState, useEffect, createRef } from "react";
-// import "./Post.css";
 import { Avatar } from "@material-ui/core";
 import { db } from "../firebase";
 import firebase from "firebase/app";
 import Comment from "../Comment/Comment";
-// import Picker from "emoji-picker-react";
 import styles from "./Post.module.scss";
-import EmojiPicker from "emoji-picker-react";
+import EmojiKeybord from "../EmojiKeybord";
+import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
+import PostMenu from "../PostMenu/PostMenu";
+import ReactTimeAgo from 'react-time-ago'
 
-function Post({ postId, username, caption, imageUrl }) {
+function Post({ postId, username, caption, imageUrl,likes,time }) {
   const inputRef = createRef();
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
-  const [chosenEmoji, setChosenEmoji] = useState(null);
-  const [cursorPosition, setCursorPosition] = useState();
+  const [showEmojis, setShowEmojis] = useState(false);
+  const [likedByNumber, setLikedByNumber] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
-  const onEmojiClick = (ev, emojiObject) => {
-    setChosenEmoji(emojiObject);
-    const ref = inputRef.current;
-    ref.focus();
-    const start = comment.substring(0, ref.selectionStart);
-    const end = comment.substring(ref.selectionStart);
-    const text = start + emojiObject.emoji + end;
-    setComment(text);
-    setCursorPosition(start.length + emojiObject.emoji.length);
+  const handleShowEmojis = () => {
+    inputRef.current.focus();
+    setShowEmojis(!showEmojis);
   };
 
   useEffect(() => {
-    inputRef.current.selectedEnd = cursorPosition;
-  },[inputRef,cursorPosition]);
-
-  useEffect(() => {
     let unsubscribe;
-    //if a post id was passed through access the post collection, go inside the comments collection,
+    //if a post id was passed through, access the post collection, go inside the comments collection,
     //  listen for the specific post and all the common changes within it
-
+    console.log(time)
     if (postId) {
       unsubscribe = db
         .collection("posts")
@@ -63,6 +55,7 @@ function Post({ postId, username, caption, imageUrl }) {
       comment: comment,
       username: user.displayName,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      
     });
     setComment("");
   };
@@ -79,6 +72,20 @@ function Post({ postId, username, caption, imageUrl }) {
       </div>
 
       <img className={styles.post_image} src={imageUrl} alt="post"></img>
+      <PostMenu
+        isLiked={isLiked}
+        setIsLiked={setIsLiked}
+        likedByNumber={likedByNumber}
+        setLikedByNumber={setLikedByNumber}
+        postId= {postId}
+      ></PostMenu>
+      <div className={styles.liked_by}>
+        
+          <span>
+            <strong>{likes}  </strong> likes
+          </span>
+       
+      </div>
       <h4 className={styles.post_description}>
         <strong> {username} </strong> {caption}
       </h4>
@@ -90,10 +97,21 @@ function Post({ postId, username, caption, imageUrl }) {
             text={comment.comment}
           ></Comment>
         ))}
-         <EmojiPicker onEmojiClick={onEmojiClick} />
+        {showEmojis ? (
+          <EmojiKeybord
+            comment={comment}
+            setComment={setComment}
+            inputRef={inputRef}
+          ></EmojiKeybord>
+        ) : null}
       </div>
-     
+      
+      {/* <ReactTimeAgo date={createdAt.toDate()} locale="en-US"/> */}
+
       <form className={styles.comments_form}>
+        <SentimentSatisfiedIcon
+          onClick={handleShowEmojis}
+        ></SentimentSatisfiedIcon>
         <textarea
           ref={inputRef}
           className={styles.post_textarea}
