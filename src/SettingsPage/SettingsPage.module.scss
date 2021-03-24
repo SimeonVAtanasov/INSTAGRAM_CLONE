@@ -1,0 +1,39 @@
+.mainContent {
+  padding: 0;
+  display: flex !important;
+  flex-flow: row-reverse !important;
+  justify-content: space-around;
+//   max-width: 75%;
+  border: 1px solid #cecece;
+
+  .settingsWrapper {
+    width: 450px;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    .headerSettings{
+        // display: flex;
+        // justify-content: space-between !important;
+
+        .nameWrapper{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+
+    .avatarSettings {
+      background-color: lightgrey;
+      width: 80px;
+      height: 80px;
+
+
+    }
+
+    .header {
+      display: flex;
+      flex-flow: column;
+    }
+  }
+}

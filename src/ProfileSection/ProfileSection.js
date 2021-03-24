@@ -12,20 +12,20 @@ export default function ProfileSection() {
     return (
       <div className="profile_section">
         <div className="profile_section_header">
-          <div className = "user_details">
+          <div className="user_details">
             <Avatar
-            className="profile_section_avatar"
-            alt={user.displayName.toUpperCase()}
-            src="/static/images/avatar/1.jpg"
-          ></Avatar>
-          <span> {user.displayName}</span>
+              className="profile_section_avatar"
+              alt={user.displayName}
+              src={user ? user.photoURL : "/static/images/avatar/1.jpg"}
+            ></Avatar>
+            <span> {user.displayName}</span>
           </div>
-          
-          <PostUpload></PostUpload>
+
+          <PostUpload text={"New Post"} isPost={true} />
         </div>
       </div>
     );
   } else {
-    return(<></>) 
+    return (<></>)
   }
 }

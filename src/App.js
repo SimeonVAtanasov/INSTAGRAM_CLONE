@@ -12,18 +12,21 @@ import { db, auth } from "./firebase";
 import Login from "./Login/Login.js";
 import Explore from "./Explore/Explore";
 import ProfilePage from "./ProfilePage/ProfilePage";
+import SettingsPage from "./SettingsPage/SettingsPage";
 
 function App() {
 
   const [isLoggedIn, setStatus] = useState(false); // should be false
   const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState({});
 
 
-  let changeStatusLoggedIn = () => { setStatus(prevstate =>   !prevstate) };
+  let changeStatusLoggedIn = () => { setStatus(prevState => !prevState) };
 
   auth.onAuthStateChanged(function (user) {
     if (user) {
       setStatus(true);
+      setUser(user);
     }
   });
 
@@ -36,7 +39,7 @@ function App() {
         }))
       );
     });
-  },[]);
+  }, []);
 
   return (
     <Router id="router">
@@ -61,8 +64,12 @@ function App() {
           <Notifications />
         </Route>
 
-        <Route path="/profile">
-          <ProfilePage/>
+        <Route  exact path={"/profile/" + user.displayName}>
+          <ProfilePage />
+        </Route>
+
+        <Route path={"/profile/" + user.displayName + "/settings"}>
+          <SettingsPage />
         </Route>
 
         <Route exact path="/login">

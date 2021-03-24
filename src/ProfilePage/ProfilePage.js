@@ -37,13 +37,18 @@ export default function ProfilePage() {
     return (
         <div>
             <header className={styles.profilePage_header}>
-                <div><Avatar className={styles.avatarProfile} alt={user.displayName}
-                    src={user.photoURL}></Avatar></div>
+                <div>
+                    <Avatar
+                    className={styles.avatarProfile}
+                    alt={user.displayName}
+                    src={user ? user.photoURL : "/static/images/avatar/1.jpg"}
+                />
+                </div>
                 <div className={styles.profileInfoWrapper}>
 
                     <h2>
                         {user.displayName}
-                        <Link to={"/"}>
+                        <Link to={"/profile/" + user.displayName + "/settings"}>
                             <SettingsIcon />
                         </Link>
                     </h2>

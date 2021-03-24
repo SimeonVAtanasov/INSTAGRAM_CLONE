@@ -13,13 +13,19 @@ import "./NavBar.scss"
 
 import { auth } from "../firebase";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 
 export default function NavBar({ onLogout }) {
+  const [user, setUser] = useState({});
 
-  let user = auth.currentUser;
+  useEffect(() => {
+    let user = auth.currentUser;
+    setUser(user)
+
+  }, [])
+
 
   const handleLogout = () => {
     auth.signOut()
@@ -63,26 +69,26 @@ export default function NavBar({ onLogout }) {
               <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link>
             </li>
             <li>
-              <div  className={"profile_nav"}>
+              <div className={"profile_nav"}>
                 <Avatar
                   id="nav_avatar"
                   alt={user.displayName}
-                  src="/static/images/avatar/1.jpg"
+                  src={user ? user.photoURL : "/static/images/avatar/1.jpg"}
                 ></Avatar>
               </div>
 
               <div className="options">
-                <Link to="/profile">
+                <Link to={"/profile/" + user.displayName}>
                   <p >Профил</p>
                 </Link>
 
-                <Link to="/">
+                <Link to={"/profile/" + user.displayName + "/settings"}>
                   <p >Настройки</p>
                 </Link>
 
                 <p onClick={handleLogout}>Изход</p>
               </div>
-                   
+
             </li>
           </ul>
         </nav>
