@@ -4,8 +4,9 @@ import { Avatar } from "@material-ui/core";
 import { db } from "../firebase";
 import firebase from "firebase/app";
 import Comment from "../Comment/Comment";
-import Picker from "emoji-picker-react";
+// import Picker from "emoji-picker-react";
 import styles from "./Post.module.scss";
+import EmojiPicker from "emoji-picker-react";
 
 function Post({ postId, username, caption, imageUrl }) {
   const inputRef = createRef();
@@ -89,7 +90,7 @@ function Post({ postId, username, caption, imageUrl }) {
             text={comment.comment}
           ></Comment>
         ))}
-         <Picker onEmojiClick={onEmojiClick} />
+         <EmojiPicker onEmojiClick={onEmojiClick} />
       </div>
      
       <form className={styles.comments_form}>
