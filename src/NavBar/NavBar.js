@@ -9,39 +9,25 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 
 import { Avatar } from "@material-ui/core";
-import "./NavBar.css"
+import "./NavBar.scss"
 
 import { auth } from "../firebase";
 
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 
 
-export default function NavBar({onLogout}) {
+export default function NavBar({ onLogout }) {
 
   let user = auth.currentUser;
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const handleLogout = () => {
-    handleClose();
     auth.signOut()
-    .then(()=>{
-      onLogout(false);
-      <Redirect to="/"/>
-    })
-    .catch((err)=> alert(err.message))
+      .then(() => {
+        onLogout(false);
+        <Redirect to="/" />
+      })
+      .catch((err) => alert(err.message))
   }
 
   return (
@@ -77,30 +63,26 @@ export default function NavBar({onLogout}) {
               <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link>
             </li>
             <li>
-
-              <div>
-                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                  <Avatar
-                    id="nav_avatar"
-                    alt={user.displayName}
-                    src="/static/images/avatar/1.jpg"
-                  ></Avatar>
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <Link to="profile">
-
-                    <MenuItem onClick={handleClose}>Профил</MenuItem>
-                  </Link>
-                  <MenuItem onClick={handleClose}>Настройки</MenuItem>
-                  <MenuItem onClick={handleLogout}>Изход</MenuItem>
-                </Menu>
+              <div  className={"profile_nav"}>
+                <Avatar
+                  id="nav_avatar"
+                  alt={user.displayName}
+                  src="/static/images/avatar/1.jpg"
+                ></Avatar>
               </div>
+
+              <div className="options">
+                <Link to="/profile">
+                  <p >Профил</p>
+                </Link>
+
+                <Link to="/">
+                  <p >Настройки</p>
+                </Link>
+
+                <p onClick={handleLogout}>Изход</p>
+              </div>
+                   
             </li>
           </ul>
         </nav>

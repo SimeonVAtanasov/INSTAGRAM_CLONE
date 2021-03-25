@@ -1,11 +1,11 @@
 import React, { useState, useEffect, createRef } from "react";
-import "./Post.css";
+// import "./Post.css";
 import { Avatar } from "@material-ui/core";
 import { db } from "../firebase";
 import firebase from "firebase/app";
 import Comment from "../Comment/Comment";
 import Picker from "emoji-picker-react";
-// import styles from "./Post.module.scss"
+import styles from "./Post.module.scss"
 
 function Post({ postId, username, caption, imageUrl }) {
   const inputRef = createRef();
