@@ -14,6 +14,8 @@ export default function Home({ posts }) {
             username={post.username}
             caption={post.caption}
             imageUrl={post.imageUrl}
+            likes = {post.likes}
+            time = {post.timestamp}
           ></Post>
         ))}
       </div>

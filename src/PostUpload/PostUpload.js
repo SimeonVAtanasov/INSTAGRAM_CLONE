@@ -40,7 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+<<<<<<< HEAD
 function PostUpload(props) {
+=======
+function PostUpload({isLiked}) {
+>>>>>>> c142b5c71cc7f0741f381e0c83f78e5ba2fcdac6
   let user = firebase.auth().currentUser;
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -92,6 +96,7 @@ function PostUpload(props) {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
+<<<<<<< HEAD
             if (props.isPost) {
               db.collection("posts").add({
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -122,6 +127,22 @@ function PostUpload(props) {
 
             }
 
+=======
+            db.collection("posts").add({
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              caption: caption,
+              imageUrl: url,
+              username: user.displayName,
+              likes: 0 
+              
+            });
+            setProgress(0);
+            setCaption("");
+            setImage(null);
+            handleClose();
+            setLabel("Choose a picture");
+            setFilie(null);
+>>>>>>> c142b5c71cc7f0741f381e0c83f78e5ba2fcdac6
           }
           );
       }
