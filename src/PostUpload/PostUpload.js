@@ -35,17 +35,13 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     outline: "none",
     justifyContent: "center",
-    fontFamily: 'Snell Roundhand, cursive',
+    fontFamily: 'Snell-Roundhand, Handlee-Regular',
     fontWeight: "600"
   },
 }));
 
-<<<<<<< HEAD
 function PostUpload(props) {
-=======
-function PostUpload({isLiked}) {
->>>>>>> c142b5c71cc7f0741f381e0c83f78e5ba2fcdac6
-  let user = firebase.auth().currentUser;
+
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
@@ -96,13 +92,16 @@ function PostUpload({isLiked}) {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-<<<<<<< HEAD
+
             if (props.isPost) {
               db.collection("posts").add({
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 caption: caption,
                 imageUrl: url,
-                username: user.displayName,
+                username: props.user.displayName,
+                userPhoto: props.user.photoUrl,
+                uid: props.user.uid,
+                likes: 0
               });
               setProgress(0);
               setCaption("");
@@ -112,8 +111,7 @@ function PostUpload({isLiked}) {
               setFilie(null);
             } else {
               let user = firebase.auth().currentUser;
-
-              user.updateProfile({ photoURL: url })
+              db.collection("users").doc(user.uid).update({ photoUrl: url })
                 .then(function () {
                   setProgress(0);
                   setCaption("");
@@ -127,22 +125,6 @@ function PostUpload({isLiked}) {
 
             }
 
-=======
-            db.collection("posts").add({
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              caption: caption,
-              imageUrl: url,
-              username: user.displayName,
-              likes: 0 
-              
-            });
-            setProgress(0);
-            setCaption("");
-            setImage(null);
-            handleClose();
-            setLabel("Choose a picture");
-            setFilie(null);
->>>>>>> c142b5c71cc7f0741f381e0c83f78e5ba2fcdac6
           }
           );
       }
@@ -160,20 +142,20 @@ function PostUpload({isLiked}) {
         <label htmlFor="file" className="upload_label">
           <ImageSearchIcon></ImageSearchIcon>{label}</label>
 
-        {props.isPost ? <Input
+        {props.isPost && <Input
           type="text"
           placeholder="Write a caption..."
           value={caption}
           onInput={(ev) => setCaption(ev.target.value)}
-        ></Input> : <></>}
+        ></Input> }
 
 
         <img src={file} alt={caption} />
         <Button variant="contained" color="primary" type="submit" onClick={() => {
           handleUpload();
         }}
-      >Upload photo</Button>
-    </div>
+        >Upload photo</Button>
+      </div>
 
     </div >
   );
@@ -182,7 +164,7 @@ function PostUpload({isLiked}) {
     <div>
       <button className="new_post_btn" type="button" onClick={handleOpen}>
         <div id="insideText">{props.text}</div>
-        <AddCircleOutlineIcon/>
+        <AddCircleOutlineIcon />
       </button>
       <Modal
         open={open}

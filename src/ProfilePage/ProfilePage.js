@@ -1,26 +1,41 @@
 import { Avatar } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 import SettingsIcon from '@material-ui/icons/Settings';
 
 import styles from "../ProfilePage/ProfilePage.module.scss"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ExplorePost from "../ExplorePost/ExplorePost.js";
 import style from "../Explore/Explore.module.scss"
 
 export default function ProfilePage() {
 
-    const [user, setUser] = useState({ displayName: "User", photoURL: "/static/images/avatar/1.jpg" })
+    const [user, setUser] = useState({
+        displayName: "",
+        photoUrl: "",
+        email: "",
+        following: 0,
+        followers: 0,
+        posts: [],
+        stories: [],
+        biography: "",
+        uid: ""
+    })
     const [posts, setPosts] = useState([]);
+
+    const { id } = useParams();
 
 
     useEffect(() => {
+        db.collection("users").doc(id).get()
+            .then((res) => {
+                let data = res.data();
+                setUser({ ...data });
+            })
+            .catch(err => console.log(err.message))
+    }, []);
 
-        let user = auth.currentUser;
-        if (user) {
-            setUser(user);
-
-        }
+    useEffect(() => {
 
         db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
             setPosts(
@@ -39,28 +54,28 @@ export default function ProfilePage() {
             <header className={styles.profilePage_header}>
                 <div>
                     <Avatar
-                    className={styles.avatarProfile}
-                    alt={user.displayName}
-                    src={user ? user.photoURL : "/static/images/avatar/1.jpg"}
-                />
+                        className={styles.avatarProfile}
+                        alt={user.displayName}
+                        src={user.photoUrl || "/static/images/avatar/1.jpg"}
+                    />
                 </div>
                 <div className={styles.profileInfoWrapper}>
 
                     <h2>
                         {user.displayName}
-                        <Link to={"/profile/" + user.displayName + "/settings"}>
+                        <Link to={"/profile/settings/" + user.uid}>
                             <SettingsIcon />
                         </Link>
                     </h2>
                     <ul >
-                        <li>423 публикации</li>
-                        <li>42342  последователи</li>
-                        <li>324  последвани</li>
+                        <li>{user.posts.length || 0} публикации</li>
+                        <li>{user.followers || 0}  последователи</li>
+                        <li>{user.following || 0}  последвани</li>
                     </ul>
 
                     <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                        </p>
+                        {user.biography}
+                    </p>
 
                 </div>
 

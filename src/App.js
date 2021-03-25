@@ -16,20 +16,27 @@ import SettingsPage from "./SettingsPage/SettingsPage";
 
 function App() {
 
-  const [isLoggedIn, setStatus] = useState(false); // should be false
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
 
 
-  let changeStatusLoggedIn = () => { setStatus(prevState => !prevState) };
+  let changeStatusLoggedIn = () => { setIsLoggedIn(prevState => !prevState) };
 
-  auth.onAuthStateChanged(function (user) {
-    if (user) {
-      setStatus(true);
-      setUser(user);
-    }
-  });
-
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        const id = user.uid
+        db.collection("users").doc(id).get()
+          .then((res) => {
+            let data = res.data();
+            setUser({...data});
+            setIsLoggedIn(true);
+          })
+      }
+    });
+  }, [])
+      
   useEffect(() => {
     db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
       setPosts(
@@ -45,38 +52,39 @@ function App() {
     <Router id="router">
 
       {isLoggedIn ? <>
-        <NavBar onLogout={changeStatusLoggedIn} />
+        <NavBar onLogout={changeStatusLoggedIn}  user={user} />
       </> : <Redirect to="/login" />}
+      <div>
+        <Switch>
+          <Route exact path="/">
+            {isLoggedIn ? <Home posts={posts} user={user} /> : <Login />}
+          </Route>
+          <Route path="/inbox">
+            <Inbox />
+          </Route>
 
-      <Switch>
-        <Route exact path="/">
-          {isLoggedIn ? <Home posts={posts} /> : <Login setStatus={changeStatusLoggedIn} />}
-        </Route>
-        <Route path="/inbox">
-          <Inbox />
-        </Route>
+          <Route path="/explore">
+            <Explore posts={posts} />
+          </Route>
 
-        <Route path="/explore">
-          <Explore posts={posts} />
-        </Route>
+          <Route path="/notifications">
+            <Notifications />
+          </Route>
 
-        <Route path="/notifications">
-          <Notifications />
-        </Route>
+          <Route exact path={`/profile/:id`}>
+            <ProfilePage />
+          </Route>
 
-        <Route  exact path={"/profile/" + user.displayName}>
-          <ProfilePage />
-        </Route>
+          <Route path={"/profile/settings/:id"}>
+            <SettingsPage userData={user} />
+          </Route>
 
-        <Route path={"/profile/" + user.displayName + "/settings"}>
-          <SettingsPage />
-        </Route>
+          <Route exact path="/login">
+            {isLoggedIn ? <Redirect to="/" /> : <Login />}
+          </Route>
 
-        <Route exact path="/login">
-          {isLoggedIn ? <Redirect to="/" /> : <Login />}
-        </Route>
-
-      </Switch>
+        </Switch>
+      </div>
     </Router>
   );
 }

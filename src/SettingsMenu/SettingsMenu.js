@@ -10,6 +10,7 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import CachedOutlinedIcon from '@material-ui/icons/CachedOutlined';
+import { Link } from 'react-router-dom';
 const StyledMenu = withStyles({
     paper: {
         border: '1px solid #d3d4d5',
@@ -73,7 +74,6 @@ export default function SettingsMenu() {
                 <StyledMenuItem>
                     <ListItemIcon>
                         <SettingsOutlinedIcon fontSize="small" />
-
                     </ListItemIcon>
                     <ListItemText primary="Change settings" />
                 </StyledMenuItem>

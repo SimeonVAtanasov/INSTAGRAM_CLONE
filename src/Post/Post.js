@@ -8,8 +8,9 @@ import EmojiKeybord from "../EmojiKeybord";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import PostMenu from "../PostMenu/PostMenu";
 import ReactTimeAgo from 'react-time-ago'
+import { Link } from "react-router-dom";
 
-function Post({ postId, username, caption, imageUrl,likes,time }) {
+function Post({ postId, username, caption, imageUrl, likes, time, userPhoto, uid }) {
   const inputRef = createRef();
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
@@ -26,7 +27,6 @@ function Post({ postId, username, caption, imageUrl,likes,time }) {
     let unsubscribe;
     //if a post id was passed through, access the post collection, go inside the comments collection,
     //  listen for the specific post and all the common changes within it
-    console.log(time)
     if (postId) {
       unsubscribe = db
         .collection("posts")
@@ -55,7 +55,7 @@ function Post({ postId, username, caption, imageUrl,likes,time }) {
       comment: comment,
       username: user.displayName,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      
+
     });
     setComment("");
   };
@@ -63,11 +63,15 @@ function Post({ postId, username, caption, imageUrl,likes,time }) {
   return (
     <div className={styles.post}>
       <div className={styles.post_header}>
-        <Avatar
-          className={styles.post_avatar}
-          alt={username}
-          src="/static/images/avatar/1.jpg"
-        ></Avatar>
+        <Link to={`/profile/${uid}`}>
+          <Avatar
+            className={styles.post_avatar}
+            alt={username}
+            src={userPhoto || "/static/images/avatar/1.jpg"}
+            // data-id={uid}
+          ></Avatar>
+        </Link>
+
         <h3>{username}</h3>
       </div>
 
@@ -77,14 +81,14 @@ function Post({ postId, username, caption, imageUrl,likes,time }) {
         setIsLiked={setIsLiked}
         likedByNumber={likedByNumber}
         setLikedByNumber={setLikedByNumber}
-        postId= {postId}
+        postId={postId}
       ></PostMenu>
       <div className={styles.liked_by}>
-        
-          <span>
-            <strong>{likes}  </strong> likes
+
+        <span>
+          <strong>{likes}  </strong> likes
           </span>
-       
+
       </div>
       <h4 className={styles.post_description}>
         <strong> {username} </strong> {caption}
@@ -105,7 +109,7 @@ function Post({ postId, username, caption, imageUrl,likes,time }) {
           ></EmojiKeybord>
         ) : null}
       </div>
-      
+
       {/* <ReactTimeAgo date={createdAt.toDate()} locale="en-US"/> */}
 
       <form className={styles.comments_form}>

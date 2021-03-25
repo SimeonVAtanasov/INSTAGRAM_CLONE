@@ -8,14 +8,15 @@
 
   .settingsWrapper {
     width: 450px;
-
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
-    .headerSettings{
-        // display: flex;
-        // justify-content: space-between !important;
 
+    .settingsWrapperDiv{
+      margin: 1em !important;
+    }
+    .headerSettings{
+        
         .nameWrapper{
             display: flex;
             flex-direction: row;
@@ -24,16 +25,18 @@
     }
 
     .avatarSettings {
+      justify-self: center;
       background-color: lightgrey;
       width: 80px;
       height: 80px;
-
-
+      margin: 0em 0 1em 8em;
     }
 
     .header {
       display: flex;
       flex-flow: column;
     }
+
   }
+
 }
