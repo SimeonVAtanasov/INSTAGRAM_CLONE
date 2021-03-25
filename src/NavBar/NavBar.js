@@ -82,7 +82,7 @@ export default function NavBar({ onLogout }) {
                   <p >Профил</p>
                 </Link>
 
-                <Link to={"/profile/" + user.displayName + "/settings"}>
+                <Link to={`/profile/${user.displayName}/settings`}>
                   <p >Настройки</p>
                 </Link>
 

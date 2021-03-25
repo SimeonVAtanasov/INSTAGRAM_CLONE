@@ -13,7 +13,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import DescriptionIcon from '@material-ui/icons/Description';
 import SettingsMenu from '../SettingsMenu/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
