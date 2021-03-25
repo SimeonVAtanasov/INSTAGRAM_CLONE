@@ -1,0 +1,54 @@
+import React, { useEffect } from "react";
+import styles from "../PostMenu/PostMenu.module.scss";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
+import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
+import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
+import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
+import { db } from "../firebase";
+import firebase from "firebase/app";
+
+function PostMenu({
+  isLiked,
+  setIsLiked,
+  likedByNumber,
+  setLikedByNumber,
+  postId,
+}) {
+  const handleLike = () => {
+    if (!isLiked) {
+      setLikedByNumber(++likedByNumber);
+    } else {
+      setLikedByNumber(--likedByNumber);
+    }
+
+    db.collection("posts").doc(postId).update({
+      likes: likedByNumber,
+    });
+    setIsLiked(!isLiked);
+  };
+
+  return (
+    <div className={styles.card_menu}>
+      <div className={styles.interactions}>
+        {isLiked ? (
+          <FavoriteOutlinedIcon
+            onClick={handleLike}
+            className={styles.icon}
+            style={{ fill: "rgb(237, 73, 86)" }}
+          />
+        ) : (
+          <FavoriteBorderIcon onClick={handleLike} className={styles.icon} />
+        )}
+
+        <ModeCommentOutlinedIcon
+          className={styles.icon}
+        ></ModeCommentOutlinedIcon>
+        <SendOutlinedIcon className={styles.icon}></SendOutlinedIcon>
+      </div>
+      <TurnedInNotIcon className={styles.icon}></TurnedInNotIcon>
+    </div>
+  );
+}
+
+export default PostMenu;
