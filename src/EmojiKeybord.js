@@ -3,12 +3,11 @@ import EmojiPicker from "emoji-picker-react";
 
 
 function EmojiKeybord({ comment, setComment, inputRef }) {
-  const [chosenEmoji, setChosenEmoji] = useState(null);
+
   const [cursorPosition, setCursorPosition] = useState();
  
 
   const onEmojiClick = (ev, emojiObject) => {
-    setChosenEmoji(emojiObject);
     const ref = inputRef.current;
     ref.focus();
     const start = comment.substring(0, ref.selectionStart);
