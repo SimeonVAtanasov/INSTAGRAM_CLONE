@@ -34,7 +34,8 @@ export default function Login() {
               followers: 0,
               posts: [],
               stories: [],
-              biography: ""
+              biography: "",
+              notifications: [{user:"Nevena", action: "liked   your photo",  timestamp:"hour ago"}]
             });
 
 
