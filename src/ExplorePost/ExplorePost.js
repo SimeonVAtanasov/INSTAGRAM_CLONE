@@ -23,7 +23,7 @@ export default function ExplorePost({post,  id}) {
                     <ImgExplore src={post.imageUrl} alt={post.caption} />
                 </div>
                 <div className={styles.aditives}>
-                    <p><FavoriteBorderOutlinedIcon />{(post.likes) ? post.likes : <></>}</p>
+                    <p><FavoriteBorderOutlinedIcon />{post.likes}</p>
                     <p><ChatBubbleOutlineOutlinedIcon />{commentsCount}</p>
                 </div>
                 {/* <a/> */}

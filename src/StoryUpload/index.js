@@ -41,9 +41,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function StoryUpload() {
-  let user = firebase.auth().currentUser;
-  const classes = useStyles();
+function StoryUpload(props) { 
+   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
@@ -127,9 +126,20 @@ function StoryUpload() {
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               caption: caption,
               imageUrl: url,
-              username: user.displayName,
-              likes: 0,
+              username: props.user.displayName,
+              userPhoto: props.user.photoUrl,
+              uid: props.user.uid,
+              likes: 0
             });
+            db.collection("users").doc(props.user.uid).update({posts:[{
+              
+              caption: caption,
+              imageUrl: url,
+              username: props.user.displayName,
+              userPhoto: props.user.photoUrl,
+              uid: props.user.uid,
+              likes: 0
+            }]})
             setProgress(0);
             setCaption("");
             setImage(null);
@@ -145,7 +155,7 @@ function StoryUpload() {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <div className={"modal"}>
-        <h1 className="new_post_header">New post</h1>
+        <h1 className="new_post_header">{props.text}</h1>
 
         <LinearProgress
           progress={progress}
@@ -168,12 +178,13 @@ function StoryUpload() {
 
         {isCameraOpen && <WebcamCapture></WebcamCapture>}
 
-        <Input
+        {props.isPost && <Input
           type="text"
           placeholder="Write a caption..."
           value={caption}
           onInput={(ev) => setCaption(ev.target.value)}
-        ></Input>
+        ></Input> }
+
 
         <img src={file} alt={caption} />
         <Button
@@ -184,7 +195,7 @@ function StoryUpload() {
             handleUpload();
           }}
         >
-          Upload post
+          Upload Photo
         </Button>
       </div>
     </div>

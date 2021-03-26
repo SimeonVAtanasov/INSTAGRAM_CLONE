@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import "./ProfileSection.css";
 import Avatar from '@material-ui/core/Avatar';
 
-import firebase from "firebase/app";
+// import firebase from "firebase/app";
 
 import StoryUpload from "../StoryUpload"
 
-import PostUpload from "../PostUpload/PostUpload";
+// import PostUpload from "../PostUpload/PostUpload";
 import { Link } from "react-router-dom";
 
 
@@ -32,7 +32,7 @@ export default function ProfileSection({ user }) {
 
           
           {/* <PostUpload></PostUpload>  TO DO  MERGE THE TWO COMPOMENTS*/}
-          <StoryUpload></StoryUpload>
+          <StoryUpload user={user} text={"Upload photo"} isPost={true} ></StoryUpload>
 
         </div>
       </div>
