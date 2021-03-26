@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { storage, db } from "../firebase";
 import firebase from "firebase/app";
 import Modal from "@material-ui/core/Modal";
@@ -7,11 +7,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import "../ProfileSection/ProfileSection.css";
 import { Input } from '@material-ui/core';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
-import LinearProgress from "../LinearProgress"
+import LinearProgress from "../LinearProgress";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 
 function getModalStyle() {
-  const top = 50 ;
+  const top = 50;
   const left = 50;
 
   return {
@@ -30,22 +31,23 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    display: "flex", 
+    display: "flex",
     flexDirection: "column",
     outline: "none",
     justifyContent: "center",
-    fontFamily: 'Snell Roundhand, cursive',
+    fontFamily: 'Snell-Roundhand, Handlee-Regular',
     fontWeight: "600"
   },
 }));
 
-function PostUpload() {
-  let user = firebase.auth().currentUser;
+
+function PostUpload(props) {
+
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
-  const [label,setLabel] = useState("Choose a picture");
+  const [label, setLabel] = useState("Choose a picture");
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -59,7 +61,7 @@ function PostUpload() {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
 
   const handleChange = (ev) => {
     if (ev.target.files[0]) {
@@ -91,20 +93,39 @@ function PostUpload() {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-            db.collection("posts").add({
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              caption: caption,
-              imageUrl: url,
-              username: user.displayName,
-              likes: 0 
-              
-            });
-            setProgress(0);
-            setCaption("");
-            setImage(null);
-            handleClose();
-            setLabel("Choose a picture");
-            setFilie(null);
+
+            if (props.isPost) {
+              db.collection("posts").add({
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                caption: caption,
+                imageUrl: url,
+                username: props.user.displayName,
+                userPhoto: props.user.photoUrl,
+                uid: props.user.uid,
+                likes: 0
+              });
+              setProgress(0);
+              setCaption("");
+              setImage(null);
+              handleClose();
+              setLabel("Choose a picture");
+              setFilie(null);
+            } else {
+              let user = firebase.auth().currentUser;
+              db.collection("users").doc(user.uid).update({ photoUrl: url })
+                .then(function () {
+                  setProgress(0);
+                  setCaption("");
+                  setImage(null);
+                  handleClose();
+                  setLabel("Choose a picture");
+                  setFilie(null);
+                }).catch(function (error) {
+                  alert(error.message);
+                });
+
+            }
+
           }
           );
       }
@@ -113,35 +134,40 @@ function PostUpload() {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <div className={"modal"}>
-        <h1 className="new_post_header">New post</h1>
-      {/* <progress className="progress" value={progress} max="100" /> */}
-      <LinearProgress progress = {progress} className="progress" value={progress} />
 
-      <input type="file" onChange={handleChange} id="file"></input>
-      <label htmlFor="file" className="upload_label">
-        <ImageSearchIcon></ImageSearchIcon>{label}</label>
-      <Input
-        type="text"
-        placeholder="Write a caption..."
-        value={caption}
-        onInput={(ev) => setCaption(ev.target.value)}
-      ></Input>
-   
-      <img src={file} alt={caption}/>
-      <Button  variant="contained" color="primary" type="submit" onClick={() => {
+      <div className="modal">
+        <h1 className="new_post_header">{props.text}</h1>
+        {/* <progress className="progress" value={progress} max="100" /> */}
+        <LinearProgress progress={progress} className="progress" value={progress} />
+
+        <input type="file" onChange={handleChange} id="file"></input>
+        <label htmlFor="file" className="upload_label">
+          <ImageSearchIcon></ImageSearchIcon>{label}</label>
+
+        {props.isPost && <Input
+          type="text"
+          placeholder="Write a caption..."
+          value={caption}
+          onInput={(ev) => setCaption(ev.target.value)}
+        ></Input> }
+
+
+        <img src={file} alt={caption} />
+        <Button variant="contained" color="primary" type="submit" onClick={() => {
+
           handleUpload();
-        
-      }}>Upload post</Button>
+        }}
+        >Upload photo</Button>
       </div>
-      
-    </div>
+
+    </div >
   );
 
   return (
     <div>
-      <button className = "new_post_btn" type="button" onClick={handleOpen}>
-       New post
+      <button className="new_post_btn" type="button" onClick={handleOpen}>
+        <div id="insideText">{props.text}</div>
+        <AddCircleOutlineIcon />
       </button>
       <Modal
         open={open}

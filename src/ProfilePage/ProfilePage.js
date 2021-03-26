@@ -1,14 +1,20 @@
 import { Avatar } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
+
 import { auth, db } from "../firebase";
 import SettingsIcon from "@material-ui/icons/Settings";
 
 import styles from "../ProfilePage/ProfilePage.module.scss";
-import { Link } from "react-router-dom";
+
+
+
+import { Link, useParams } from "react-router-dom";
+
 import ExplorePost from "../ExplorePost/ExplorePost.js";
 import style from "../Explore/Explore.module.scss";
 import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload"
+
 
 
 
@@ -30,6 +36,33 @@ export default function ProfilePage() {
     setIsStoryOpen(false);
   };
 
+    const [user, setUser] = useState({
+        displayName: "",
+        photoUrl: "",
+        email: "",
+        following: 0,
+        followers: 0,
+        posts: [],
+        stories: [],
+        biography: "",
+        uid: ""
+    })
+    const [posts, setPosts] = useState([]);
+
+    const { id } = useParams();
+
+
+    useEffect(() => {
+        db.collection("users").doc(id).get()
+            .then((res) => {
+                let data = res.data();
+                setUser({ ...data });
+            })
+            .catch(err => console.log(err.message))
+    }, []);
+
+    useEffect(() => {
+
   useEffect(() => {
     let user = auth.currentUser;
     if (user) {
@@ -50,40 +83,39 @@ export default function ProfilePage() {
 
  
 
-  return (
-    <div>
-      <header className={styles.profilePage_header}>
-        <div className= {styles.avatar_container}>
-          <Avatar
-            className={styles.avatarProfile}
-            alt={user.displayName}
-            src={user.photoURL}
-            onClick={handleOpen}
-          ></Avatar>
-          <StoryUpload></StoryUpload>
-        </div>
-        <div className={styles.profileInfoWrapper}>
-          <h2>
-            {user.displayName}
-            <Link to={"/"}>
-              <SettingsIcon />
-            </Link>
-          </h2>
-          <ul>
-            <li>423 публикации</li>
-            <li>42342 последователи</li>
-            <li>324 последвани</li>
-          </ul>
+    return (
+        <div>
+            <header className={styles.profilePage_header}>
+                <div>
+                    <Avatar
+                        className={styles.avatarProfile}
+                        alt={user.displayName}
+                        src={user.photoUrl || "/static/images/avatar/1.jpg"}
+                        onClick={handleOpen}
+                    />
+                 <StoryUpload></StoryUpload>
+                </div>
+                <div className={styles.profileInfoWrapper}>
 
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged.
-          </p>
-        </div>
+                    <h2>
+                        {user.displayName}
+                        <Link to={"/profile/settings/" + user.uid}>
+                            <SettingsIcon />
+                        </Link>
+                    </h2>
+                    <ul >
+                        <li>{user.posts.length || 0} публикации</li>
+                        <li>{user.followers || 0}  последователи</li>
+                        <li>{user.following || 0}  последвани</li>
+                    </ul>
+
+                    <p>
+                        {user.biography}
+                    </p>
+
+
+
+    </div>
       </header>
       {isStoryOpen && (
         <StoriesSection
@@ -94,12 +126,9 @@ export default function ProfilePage() {
       )}
 
       <main className={style.exploreProfileContainer}>
-        {posts.map(({ id, post }) => (
+        {user.posts.map(({ id, post }) => (
           <ExplorePost key={id} post={post} id={id} />
         ))}
       </main>
-
-
-    </div>
   );
 }

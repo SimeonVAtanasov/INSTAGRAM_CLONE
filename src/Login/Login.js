@@ -1,39 +1,53 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
 import Logo from "../Logo/Logo.js";
 import Input from "../Input/Input.js";
 // import { debounce } from "../utils/debounce.js"
 import './Login.css';
 import PasswordField from "../PasswordField/PasswordField.js";
-import { auth } from "../firebase.js";
+import { auth, db } from "../firebase.js";
 import styles from "../Logo/Logo.module.css";
 
 import Button from '@material-ui/core/Button';
 
-export default function Login(props) {
+export default function Login() {
 
-  const [registration, showReg] = useState(false);
+  const [isShowingReg, setIsShowingReg] = useState(false);
 
   const email = useFormInput("");
   const password = useFormInput("");
   const fullName = useFormInput("");
 
   let registerUser = (ev) => {
-    ev.preventDefault();
-    auth.createUserWithEmailAndPassword(email.value, password.value)
-      .then((userCredential) => {
-        // Signed in 
-        let user = userCredential.user;
-        // user.sendEmailVerification();
-        user.updateProfile({
-          displayName: fullName.value,
-        }).then(() => console.log(user.displayName))
 
-        showReg(false)
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    ev.preventDefault();
+    if (fullName.value !== "") {
+      auth.createUserWithEmailAndPassword(email.value, password.value)
+        .then((userCredential) => {
+          db.collection("users")
+            .doc(userCredential.user.uid)
+            .set({
+              uid: userCredential.user.uid,
+              displayName: fullName.value,
+              photoUrl: "/static/images/avatar/1.jpg",
+              email: email.value,
+              following: 0,
+              followers: 0,
+              posts: [],
+              stories: [],
+              biography: "",
+              notifications: [{user:"Nevena", action: "liked   your photo",  timestamp:"hour ago"}]
+            });
+
+
+          setIsShowingReg(false)
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    } else {
+      alert("Failed Fullname field is required")
+    }
+
 
   }
 
@@ -41,9 +55,7 @@ export default function Login(props) {
     ev.preventDefault();
     auth.signInWithEmailAndPassword(email.value, password.value)
       .then((userCredential) => {
-        // Signed in
-        // var user = userCredential.user;
-        // ...
+
       })
       .catch((error) => {
         alert(error.message);
@@ -53,11 +65,11 @@ export default function Login(props) {
 
   let changeView = (ev) => {
     ev.preventDefault()
-    if (registration) {
-      showReg(false);
+    if (isShowingReg) {
+      setIsShowingReg(false);
       return
     }
-    showReg(true);
+    setIsShowingReg(true);
   }
 
   return (
@@ -77,29 +89,27 @@ export default function Login(props) {
                 <Input type={"email"} text="Имейл" onInput={email.onchange} value={email.value} />
               </div>
 
-              {registration ? (
-                <>
-                  <div>
-                    <Input onInput={fullName.onchange} value={fullName.value} type={"text"} text="Пълно име" />
-                  </div>
+              {isShowingReg &&
 
+                <div>
+                  <Input required onInput={fullName.onchange} value={fullName.value} type={"text"} text="Пълно име" />
+                </div>
 
-                </>
-              ) : <></>}
+              }
 
               <div>
                 <PasswordField onInput={password.onchange} value={password.value} />
               </div>
 
 
-              {!registration ? 
+              {!isShowingReg ?
                 <Button variant="contained" color="primary" type="submit" onClick={(ev) => { logUser(ev); }}>Вход</Button>
                 :
-                <Button variant="contained" color="primary" type="submit" onClick={(ev) => { registerUser(ev) }}>Регистрирай ме!</Button>}
+                <Button variant="contained" color="primary" type="submit" onClick={(ev) => { registerUser(ev) }}>Регистрирай ме и влез!</Button>}
 
-              {!registration ? <p>Нямате акаунт?</p> : <p>Имате акаунт?</p>}
+              {!isShowingReg ? <p>Нямате акаунт?</p> : <p>Имате акаунт?</p>}
 
-              <Button variant="contained" color="primary" onClick={(ev) => { changeView(ev) }}>{registration ? "Вход" : "Регистрация"}</Button>
+              <Button variant="contained" color="primary" onClick={(ev) => { changeView(ev) }}>{isShowingReg ? "Вход" : "Регистрация"}</Button>
 
             </form>
           </div>

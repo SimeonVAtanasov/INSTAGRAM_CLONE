@@ -11,15 +11,13 @@ import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import { Avatar } from "@material-ui/core";
 import "./NavBar.scss"
 
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 
-export default function NavBar({ onLogout }) {
-
-  let user = auth.currentUser;
+export default function NavBar({ onLogout, user }) {
 
   const handleLogout = () => {
     auth.signOut()
@@ -63,26 +61,26 @@ export default function NavBar({ onLogout }) {
               <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link>
             </li>
             <li>
-              <div  className={"profile_nav"}>
+              <div className={"profile_nav"}>
                 <Avatar
                   id="nav_avatar"
                   alt={user.displayName}
-                  src="/static/images/avatar/1.jpg"
+                  src={user.photoUrl || "/static/images/avatar/1.jpg"}
                 ></Avatar>
               </div>
 
               <div className="options">
-                <Link to="/profile">
+                <Link to={`/profile/${auth.currentUser.uid}`}>
                   <p >Профил</p>
                 </Link>
 
-                <Link to="/">
+                <Link to={"/profile/settings/" + user.uid}>
                   <p >Настройки</p>
                 </Link>
 
                 <p onClick={handleLogout}>Изход</p>
               </div>
-                   
+
             </li>
           </ul>
         </nav>
