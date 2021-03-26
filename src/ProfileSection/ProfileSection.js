@@ -2,7 +2,8 @@ import React from "react";
 import "./ProfileSection.css";
 import Avatar from '@material-ui/core/Avatar';
 import firebase from "firebase/app";
-import PostUpload from "../PostUpload/PostUpload";
+// import PostUpload from "../PostUpload/PostUpload";
+import StoryUpload from "../StoryUpload"
 
 
 export default function ProfileSection() {
@@ -21,7 +22,8 @@ export default function ProfileSection() {
           <span> {user.displayName}</span>
           </div>
           
-          <PostUpload></PostUpload>
+          {/* <PostUpload></PostUpload> */}
+          <StoryUpload></StoryUpload>
         </div>
       </div>
     );

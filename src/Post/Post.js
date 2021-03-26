@@ -22,11 +22,12 @@ function Post({ postId, username, caption, imageUrl,likes,time }) {
     setShowEmojis(!showEmojis);
   };
 
+  
+
   useEffect(() => {
     let unsubscribe;
     //if a post id was passed through, access the post collection, go inside the comments collection,
     //  listen for the specific post and all the common changes within it
-    console.log(time)
     if (postId) {
       unsubscribe = db
         .collection("posts")
@@ -70,7 +71,7 @@ function Post({ postId, username, caption, imageUrl,likes,time }) {
         ></Avatar>
         <h3>{username}</h3>
       </div>
-
+      
       <img className={styles.post_image} src={imageUrl} alt="post"></img>
       <PostMenu
         isLiked={isLiked}
@@ -105,8 +106,11 @@ function Post({ postId, username, caption, imageUrl,likes,time }) {
           ></EmojiKeybord>
         ) : null}
       </div>
-      
-      {/* <ReactTimeAgo date={createdAt.toDate()} locale="en-US"/> */}
+
+      {
+        time &&  <ReactTimeAgo  className={styles.time} date={time.toDate()} locale="en-US"/>
+      }
+     
 
       <form className={styles.comments_form}>
         <SentimentSatisfiedIcon
