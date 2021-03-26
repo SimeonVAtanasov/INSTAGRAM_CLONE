@@ -23,6 +23,8 @@ function Post({ postId, username, caption, imageUrl, likes, time, userPhoto, uid
     setShowEmojis(!showEmojis);
   };
 
+  
+
   useEffect(() => {
     let unsubscribe;
     //if a post id was passed through, access the post collection, go inside the comments collection,
@@ -74,7 +76,7 @@ function Post({ postId, username, caption, imageUrl, likes, time, userPhoto, uid
 
         <h3>{username}</h3>
       </div>
-
+      
       <img className={styles.post_image} src={imageUrl} alt="post"></img>
       <PostMenu
         isLiked={isLiked}
@@ -110,7 +112,12 @@ function Post({ postId, username, caption, imageUrl, likes, time, userPhoto, uid
         ) : null}
       </div>
 
-      {/* <ReactTimeAgo date={createdAt.toDate()} locale="en-US"/> */}
+
+      {
+        time &&  <ReactTimeAgo  className={styles.time} date={time.toDate()} locale="en-US"/>
+      }
+     
+
 
       <form className={styles.comments_form}>
         <SentimentSatisfiedIcon

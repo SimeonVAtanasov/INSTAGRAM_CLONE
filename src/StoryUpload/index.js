@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState,useCallback } from "react";
 import { Button } from "@material-ui/core";
 import { storage, db } from "../firebase";
 import firebase from "firebase/app";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import "../ProfileSection/ProfileSection.css";
-import { Input } from '@material-ui/core';
-import ImageSearchIcon from '@material-ui/icons/ImageSearch';
+import { Input } from "@material-ui/core";
+import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import LinearProgress from "../LinearProgress";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import { v4 as uuidv4 } from 'uuid';
 
+import Webcam from "react-webcam";
 
 function getModalStyle() {
   const top = 50;
@@ -26,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
     width: 400,
-    maxHeight: 600,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -35,14 +36,13 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     outline: "none",
     justifyContent: "center",
-    fontFamily: 'Snell-Roundhand, Handlee-Regular',
-    fontWeight: "600"
+    fontFamily: "Snell Roundhand, cursive",
+    fontWeight: "600",
   },
 }));
 
-
-function PostUpload(props) {
-
+function StoryUpload() {
+  let user = firebase.auth().currentUser;
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
@@ -52,23 +52,53 @@ function PostUpload(props) {
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
   const [file, setFilie] = useState(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+
+  const WebcamCapture = () => {
+    const webcamRef = React.useRef(null);
+
+    const capture = useCallback(
+        async () => {
+          const imageSrc = webcamRef.current.getScreenshot();
+          const blob = await fetch(imageSrc).then((res) => res.blob());
+          blob.name = uuidv4();
+
+        setImage(blob);
+        setFilie(imageSrc);
+        setIsCameraOpen(false);
+
+        },
+        [webcamRef]
+      )
+    return (
+      <>
+        <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
+        <button onClick={capture}>Capture photo</button>
+      </>
+    );
+  };
 
   const handleOpen = () => {
     setOpen(true);
-
   };
 
   const handleClose = () => {
     setOpen(false);
+    setIsCameraOpen(false);
   };
-
 
   const handleChange = (ev) => {
     if (ev.target.files[0]) {
       setImage(ev.target.files[0]);
+     console.log(image);
       setLabel("Change picture");
-      setFilie(URL.createObjectURL(ev.target.files[0]))
+      setFilie(URL.createObjectURL(ev.target.files[0]));
     }
+  };
+
+  const handleCameraOpen = () => {
+    setFilie(null);
+    setIsCameraOpen(!isCameraOpen);
   };
 
   const handleUpload = () => {
@@ -93,81 +123,77 @@ function PostUpload(props) {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-
-            if (props.isPost) {
-              db.collection("posts").add({
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                caption: caption,
-                imageUrl: url,
-                username: props.user.displayName,
-                userPhoto: props.user.photoUrl,
-                uid: props.user.uid,
-                likes: 0
-              });
-              setProgress(0);
-              setCaption("");
-              setImage(null);
-              handleClose();
-              setLabel("Choose a picture");
-              setFilie(null);
-            } else {
-              let user = firebase.auth().currentUser;
-              db.collection("users").doc(user.uid).update({ photoUrl: url })
-                .then(function () {
-                  setProgress(0);
-                  setCaption("");
-                  setImage(null);
-                  handleClose();
-                  setLabel("Choose a picture");
-                  setFilie(null);
-                }).catch(function (error) {
-                  alert(error.message);
-                });
-
-            }
-
-          }
-          );
+            db.collection("posts").add({
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              caption: caption,
+              imageUrl: url,
+              username: user.displayName,
+              likes: 0,
+            });
+            setProgress(0);
+            setCaption("");
+            setImage(null);
+            handleClose();
+            setLabel("Choose a picture");
+            setFilie(null);
+            setIsCameraOpen(false);
+          });
       }
     );
   };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
+      <div className={"modal"}>
+        <h1 className="new_post_header">New post</h1>
 
-      <div className="modal">
-        <h1 className="new_post_header">{props.text}</h1>
-        {/* <progress className="progress" value={progress} max="100" /> */}
-        <LinearProgress progress={progress} className="progress" value={progress} />
+        <LinearProgress
+          progress={progress}
+          className="progress"
+          value={progress}
+        />
 
         <input type="file" onChange={handleChange} id="file"></input>
         <label htmlFor="file" className="upload_label">
-          <ImageSearchIcon></ImageSearchIcon>{label}</label>
+          <ImageSearchIcon></ImageSearchIcon>
+          {label}
+        </label>
 
-        {props.isPost && <Input
+        <h2 className="new_post_header">Or</h2>
+
+        <button className="upload_label" onClick={handleCameraOpen}>
+          <CameraAltIcon></CameraAltIcon>
+          Take a picture
+        </button>
+
+        {isCameraOpen && <WebcamCapture></WebcamCapture>}
+
+        <Input
           type="text"
           placeholder="Write a caption..."
           value={caption}
           onInput={(ev) => setCaption(ev.target.value)}
-        ></Input> }
-
+        ></Input>
 
         <img src={file} alt={caption} />
-        <Button variant="contained" color="primary" type="submit" onClick={() => {
-
-          handleUpload();
-        }}
-        >Upload photo</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={() => {
+            handleUpload();
+          }}
+        >
+          Upload post
+        </Button>
       </div>
-
-    </div >
+    </div>
   );
 
   return (
     <div>
       <button className="new_post_btn" type="button" onClick={handleOpen}>
-        <div id="insideText">{props.text}</div>
-        <AddCircleOutlineIcon />
+        Upload Story
       </button>
       <Modal
         open={open}
@@ -181,4 +207,4 @@ function PostUpload(props) {
   );
 }
 
-export default PostUpload;
+export default StoryUpload;
