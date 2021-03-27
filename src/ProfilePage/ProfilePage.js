@@ -45,9 +45,9 @@ export default function ProfilePage() {
     uid: "",
     notifications: []
   })
-  // const [posts, setPosts] = useState([]);
-
   const { id } = useParams();
+  // const [id, setId] = useState("");
+
 
 
   useEffect(() => {
@@ -77,16 +77,16 @@ export default function ProfilePage() {
 
 
   return (
-    <div>
+    <>
       <header className={styles.profilePage_header}>
-        <div width={150} heigth={150}className={styles.avatarContainer}>
+        <div  className={styles.avatar_container}>
           <Avatar
             className={styles.avatarProfile}
             alt={user.displayName}
             src={user.photoUrl || "/static/images/avatar/1.jpg"}
             onClick={handleOpen}
           />
-          <StoryUpload></StoryUpload>
+          <StoryUpload ></StoryUpload>
         </div>
         <div className={styles.profileInfoWrapper}>
 
@@ -125,7 +125,7 @@ export default function ProfilePage() {
           <ExplorePost key={v4()} post={post} id={id} />
         ))}
       </main>
-    </div>
+    </>
 
   );
 }

@@ -8,12 +8,13 @@ import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 
-import { Avatar } from "@material-ui/core";
+import { Avatar, Tooltip } from "@material-ui/core";
 import "./NavBar.scss"
 
 import { auth, db } from "../firebase";
 
 import React, { useState, useEffect } from 'react';
+import NotificationsPop from "../NotificationsPop/NotificationsPop.js";
 
 
 
@@ -49,16 +50,33 @@ export default function NavBar({ onLogout, user }) {
           <ul id="linkNav">
 
             <li>
-              <Link to="/"><HomeOutlinedIcon style={{ fontSize: 32 }} /></Link>
+              <Link to="/">
+                <Tooltip disableFocusListener disableTouchListener title="Home" arrow>
+                  <HomeOutlinedIcon style={{ fontSize: 32 }} />
+                </Tooltip>
+
+              </Link>
             </li>
             <li>
-              <Link to="/inbox"><SendOutlinedIcon style={{ fontSize: 26 }} /></Link>
+              <Link to="/inbox">
+                <Tooltip disableFocusListener disableTouchListener title="Inbox" arrow>
+                  <SendOutlinedIcon style={{ fontSize: 26 }} />
+                </Tooltip>
+
+              </Link>
             </li>
             <li>
-              <Link to="/explore"><ExploreOutlinedIcon style={{ fontSize: 26 }} /></Link>
+              <Link to="/explore">
+                <Tooltip disableFocusListener disableTouchListener title="Explore" arrow>
+                  <ExploreOutlinedIcon style={{ fontSize: 26 }} />
+                </Tooltip>
+              </Link>
             </li>
             <li>
-              <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link>
+              {/* <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link> */}
+              <Link>
+                  <NotificationsPop {...user} />
+              </Link>
             </li>
             <li>
               <div className={"profile_nav"}>

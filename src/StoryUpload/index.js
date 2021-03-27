@@ -204,7 +204,7 @@ function StoryUpload(props) {
   return (
     <div>
       <button className="new_post_btn" type="button" onClick={handleOpen}>
-        Upload Story
+        Upload 
       </button>
       <Modal
         open={open}

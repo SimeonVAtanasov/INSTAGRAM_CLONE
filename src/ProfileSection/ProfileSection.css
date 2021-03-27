@@ -24,14 +24,20 @@
 
 .new_post_btn {
   display: flex;
+  padding: 8px;
   cursor: pointer;
   align-items: center;
-  border: none;
+  border: 1px solid rgba(var(--d69, 0, 149, 246), 1);
+  border-radius: 50px;
   background: transparent;
   color: rgba(var(--d69, 0, 149, 246), 1);
   font-size: 15px;
   font-weight: 600;
   outline: none;
+}
+
+.new_post_btn:hover {
+  box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(var(--d69, 0, 149, 246), 1);
 }
 #insideText {
   margin-right: 8px;
@@ -48,7 +54,7 @@
 }
 
 h2 {
-  margin: 0 !important;
+  margin: 0;
 }
 
 input[type="file"] {
@@ -71,10 +77,9 @@ input[type="file"] {
   border: none;
   font-family: inherit;
   font-weight: 600;
-
 }
 
-.new_post_header {
+.new_post_headerah {
   text-align: center;
 }
 
@@ -87,8 +92,6 @@ input[type="file"] {
   margin: 10px 0 15px 0;
 }
 
-
 .modal img {
   max-height: 250px;
 }
-

@@ -27,10 +27,10 @@ export default function ProfileSection({ user }) {
               ></Avatar>
             </Link>
             <span> {user.displayName}</span>
-            
+
           </div>
 
-          
+
           {/* <PostUpload></PostUpload>  TO DO  MERGE THE TWO COMPOMENTS*/}
           <StoryUpload user={user} text={"Upload photo"} isPost={true} ></StoryUpload>
 
