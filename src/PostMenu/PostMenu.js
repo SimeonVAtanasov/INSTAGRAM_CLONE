@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../PostMenu/PostMenu.module.scss";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
@@ -7,6 +7,7 @@ import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import { db } from "../firebase";
 import firebase from "firebase/app";
+import PostModal from "../PostModal"
 
 function PostMenu({
   isLiked,
@@ -14,7 +15,18 @@ function PostMenu({
   likedByNumber,
   setLikedByNumber,
   postId,
+  openModal,
+  setOpenModal
 }) {
+
+
+
+
+  const handleOpen = () => {
+    setOpenModal(true);
+  };
+
+
   const handleLike = () => {
     if (!isLiked) {
       setLikedByNumber(++likedByNumber);
@@ -27,6 +39,8 @@ function PostMenu({
     });
     setIsLiked(!isLiked);
   };
+
+
 
   return (
     <div className={styles.card_menu}>
@@ -43,10 +57,13 @@ function PostMenu({
 
         <ModeCommentOutlinedIcon
           className={styles.icon}
+          onClick={handleOpen}
         ></ModeCommentOutlinedIcon>
         <SendOutlinedIcon className={styles.icon}></SendOutlinedIcon>
       </div>
       <TurnedInNotIcon className={styles.icon}></TurnedInNotIcon>
+
+      
     </div>
   );
 }
