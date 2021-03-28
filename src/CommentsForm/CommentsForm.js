@@ -6,14 +6,15 @@ import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import firebase from "firebase/app";
 import { db } from "../firebase";
 import ReactTimeAgo from "react-time-ago";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-function CommentsForm({ postId, time, username }) {
+function CommentsForm({ postId, time, uid }) {
   const inputRef = createRef();
   const [showEmojis, setShowEmojis] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState({});
+  const [showAllComments, setShowAllComments]=useState(false);
 
   const handleShowEmojis = () => {
     inputRef.current.focus();
@@ -28,6 +29,7 @@ function CommentsForm({ postId, time, username }) {
       .get()
       .then((userData) => {
         setUser(userData.data());
+
         db.collection("comments").add({
           forPost: postId,
           fromUser: {
@@ -44,18 +46,17 @@ function CommentsForm({ postId, time, username }) {
   useEffect(() => {
     //if a post id was passed through, access the post collection, go inside the comments collection,
     //  listen for the specific post and all the common changes within it
+
     if (postId) {
       db.collection("comments")
         .where("forPost", "==", postId)
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          let commentsArr= [];
+          let commentsArr = [];
           snapshot.forEach((doc) => {
             commentsArr.push(doc.data());
-          })
+          });
           setComments(commentsArr);
-          console.log(commentsArr);
-
         });
     }
   }, [postId]);
@@ -63,12 +64,16 @@ function CommentsForm({ postId, time, username }) {
   return (
     <React.Fragment>
       <div className={styles.post_comments}>
+     
         {comments.map( comment  => 
+
           <Comment
             key={uuidv4()}
             comment = {comment.comment}
             username = {comment.fromUser.username}
-            // userPhoto = {comment.fromuser.userPhoto}
+            userPhoto = {comment.fromUser.userPhoto}
+            time = {comment.timestamp}
+            uid = {uid}
           ></Comment>
         )}
         {showEmojis ? (

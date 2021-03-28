@@ -19,19 +19,28 @@ export default function NotificationsPop({ uid }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
     setIsLoading(true);
-    db.collection("users").doc(uid).get()
-      .then(user => console.log(user.posts))
-      .then(() => setIsLoading(false))
+
+    let notificationsQuerry = [];
+
+    db.collection("notifications").where('to', "==", uid)
+      .onSnapshot(notifications => {
+        notifications.forEach((noti) => {
+          notificationsQuerry.push(noti.data())
+        });
+        setNotifications(notificationsQuerry);
+        console.log(notificationsQuerry);
+        setIsLoading(false);
+      }
+      )
+      
 
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
 
   return (
     <div>
@@ -55,7 +64,7 @@ export default function NotificationsPop({ uid }) {
           },
         }}>
         <div className={classes.paper}>
-          {isLoading ? <CircularProgress /> : notifications.length ? notifications.map(noti => <h4>ku4e</h4>) : <h4>Нямате известия</h4>}
+          {isLoading ? <CircularProgress /> : notifications.length ? <ul>notifications.map(noti => <h4>ku4e</h4>)</ul> : <h4>Нямате известия</h4>}
         </div>
       </Popper>
     </div>

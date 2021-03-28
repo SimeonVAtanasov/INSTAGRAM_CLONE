@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState} from "react";
 import { Avatar } from "@material-ui/core";
 import styles from "./Post.module.scss";
 import PostMenu from "../PostMenu/PostMenu";
@@ -28,7 +28,6 @@ function Post({
             className={styles.post_avatar}
             alt={username}
             src={userPhoto || "/static/images/avatar/1.jpg"}
-            // data-id={uid}
           ></Avatar>
         </Link>
 
@@ -54,7 +53,7 @@ function Post({
         <strong> {username} </strong> {caption}
       </h4>
 
-      <CommentsForm postId={postId} time={time}></CommentsForm>
+      <CommentsForm postId={postId} time={time} uid={uid}></CommentsForm>
 
       <PostModal
         openModal={openModal}
@@ -64,6 +63,7 @@ function Post({
         userPhoto={userPhoto}
         caption={caption}
         time = {time}
+        postId = {postId}
       ></PostModal>
     </div>
   );

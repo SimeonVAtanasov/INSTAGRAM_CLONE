@@ -21,9 +21,46 @@ import StoryUpload from "../StoryUpload"
 
 export default function ProfilePage() {
 
-  //   const [stories, setStories] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [isStoryOpen, setIsStoryOpen] = useState(false);
+  const [user, setUser] = useState({
+    displayName: "",
+    photoUrl: "",
+    email: "",
+    following: [],
+    followers: [],
+    biography: "",
+    uid: "",
+    notifications: []
+  })
+  const { id } = useParams();
 
+  useEffect(() => {
+    db.collection("users").doc(id).get()
+      .then((res) => {
+        let data = res.data();
+        setUser({ ...data });
+
+        db.collection("posts").where("createdBy", "==", data.uid)
+          .onSnapshot((querySnapshot) => {
+            let posts = [];
+
+            querySnapshot.forEach((doc) => {
+              posts.push(doc.data())
+            });
+
+            setPosts(posts);
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+
+
+      })
+      .catch(err => console.log(err.message))
+
+
+  }, [id]);
 
   const handleOpen = () => {
     setIsStoryOpen(true);
@@ -33,53 +70,10 @@ export default function ProfilePage() {
     setIsStoryOpen(false);
   };
 
-  const [user, setUser] = useState({
-    displayName: "",
-    photoUrl: "",
-    email: "",
-    following: 0,
-    followers: 0,
-    posts: [],
-    stories: [],
-    biography: "",
-    uid: "",
-    notifications: []
-  })
-  const { id } = useParams();
-  // const [id, setId] = useState("");
-
-
-
-  useEffect(() => {
-    db.collection("users").doc(id).get()
-      .then((res) => {
-        let data = res.data();
-        setUser({ ...data });
-      })
-      .catch(err => console.log(err.message))
-  }, []);
-
-
-  // useEffect(() => {
-
-  //   db.collection("posts")
-  //     .orderBy("timestamp", "desc")
-  //     .onSnapshot((snapshot) => {
-  //       setPosts(
-  //         snapshot.docs.map((doc) => ({
-  //           id: doc.id,
-  //           post: doc.data(),
-  //         }))
-  //       );
-  //     });
-  // }, []);
-
-
-
   return (
     <>
       <header className={styles.profilePage_header}>
-        <div  className={styles.avatar_container}>
+        <div className={styles.avatar_container}>
           <Avatar
             className={styles.avatarProfile}
             alt={user.displayName}
@@ -97,9 +91,9 @@ export default function ProfilePage() {
             </Link>
           </h2>
           <ul >
-            <li>{user.posts.length || 0} публикации</li>
-            <li>{user.followers || 0}  последователи</li>
-            <li>{user.following || 0}  последвани</li>
+            <li>{posts.length || 0} публикации</li>
+            <li>{user.followers.length || 0}  последователи</li>
+            <li>{user.following.length || 0}  последвани</li>
           </ul>
 
           <p>
@@ -119,10 +113,10 @@ export default function ProfilePage() {
       )}
 
       <main className={style.exploreProfileContainer}>
-        {user.posts.map(post => (
-        
-       
-          <ExplorePost key={v4()} post={post} id={id} />
+        {posts.map(post => (
+
+
+          <ExplorePost key={v4()} post={post} />
         ))}
       </main>
     </>

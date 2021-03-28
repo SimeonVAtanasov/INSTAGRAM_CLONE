@@ -1,10 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-import styles from "./PostModal.module.scss";
 import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import CommentsForm from "../CommentsForm/CommentsForm";
+import styles from "../Post/Post.module.scss";
 
 function getModalStyle() {
   const top = 50;
@@ -20,7 +20,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: "65%",
+    width: "70%",
     backgroundColor: theme.palette.background.paper,
     border: "1px solid #dbdbdb",
     outline: "none",
@@ -61,14 +61,13 @@ export default function PostModal({
               className={styles.modal_avatar}
               alt={username}
               src={userPhoto || "/static/images/avatar/1.jpg"}
-              // data-id={uid}
             ></Avatar>
           </Link>
 
           <h3>{username}</h3>
         </div>
         <div className={styles.post_modal_description_container}>
-        <Link to={`/profile/${uid}`}>
+          <Link to={`/profile/${uid}`}>
             <Avatar
               className={styles.modal_avatar}
               alt={username}
@@ -77,11 +76,15 @@ export default function PostModal({
             ></Avatar>
           </Link>
           <h3 className={styles.post_modal_description}>
-            <strong> {username} </strong> {caption}
+            <strong className={styles.username}> {username} </strong> {caption}
           </h3>
         </div>
-
-        <CommentsForm postId={postId} time={time}></CommentsForm>
+        <div className={styles.modal_comments_form}>
+          <CommentsForm
+            postId={postId}
+            time={time}
+          ></CommentsForm>
+        </div>
       </aside>
     </div>
   );
