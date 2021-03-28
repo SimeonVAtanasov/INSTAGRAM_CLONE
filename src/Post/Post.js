@@ -22,7 +22,7 @@ function Post({
 }) {
   const [likedByNumber, setLikedByNumber] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <div className={styles.post}>
@@ -57,7 +57,7 @@ function Post({
         <strong> {username} </strong> {caption}
       </h4>
 
-      <CommentsForm postId={postId} time={time} uid={uid}></CommentsForm>
+      <CommentsForm postId={postId} time={time} uid={uid} openModal = {openModal} setOpenModal={setOpenModal}></CommentsForm>
 
       <PostModal
         openModal={openModal}

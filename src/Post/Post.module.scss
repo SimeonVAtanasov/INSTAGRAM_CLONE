@@ -25,6 +25,7 @@
   .post_description {
     font-weight: normal;
     padding: 0 20px;
+    margin: 20px 0 0;
   }
 
   .post_avatar {
@@ -34,10 +35,14 @@
   }
 
   .post_comments {
-    padding: 20px;
+    padding: 0 20px 20px;
     position: relative;
     overflow: auto;
     max-height: 285px;
+
+    .view_comments_text {
+      color: grey;
+    }
   }
 
   .time {
@@ -102,6 +107,7 @@
   .modal_image_container {
     margin: 0;
     object-fit: contain;
+    display: flex;
 
     .modal_image {
       object-fit: contain;
@@ -150,11 +156,12 @@
 
     .modal_comments_form {
       padding: 15px 0 15px 1.1em;
+      
       .post_comments {
         margin-bottom: 20px;
         position: relative;
         overflow: auto;
-        max-height: 285px;
+        height: 285px;
       }
       .time {
         padding: 20px;

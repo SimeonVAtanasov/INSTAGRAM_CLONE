@@ -83,6 +83,8 @@ export default function PostModal({
           <CommentsForm
             postId={postId}
             time={time}
+            openModal={openModal}
+            setOpenModal={setOpenModal}
           ></CommentsForm>
         </div>
       </aside>

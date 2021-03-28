@@ -6,14 +6,14 @@ import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import { db } from "../../firebase";
 import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
-import firebase from "firebase"
-function CommentsForm({ postId, time, uid }) {
+import firebase from "firebase";
+function CommentsForm({ postId, time, uid, openModal, setOpenModal }) {
   const inputRef = createRef();
   const [showEmojis, setShowEmojis] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState({});
-  const [showAllComments, setShowAllComments]=useState(false);
+  const [isPost, setIsPost] = useState(true);
 
   const handleShowEmojis = () => {
     inputRef.current.focus();
@@ -27,7 +27,8 @@ function CommentsForm({ postId, time, uid }) {
       .doc(userCredential.uid)
       .get()
       .then((userData) => {
-        setUser(userData.data());
+        let currentUser = userData.data();
+        setUser(currentUser);
 
         db.collection("comments").add({
           forPost: postId,
@@ -40,6 +41,10 @@ function CommentsForm({ postId, time, uid }) {
         });
         setComment("");
       });
+  };
+
+  const handleShowComments = () => {
+    setOpenModal(true);
   };
 
   useEffect(() => {
@@ -63,20 +68,45 @@ function CommentsForm({ postId, time, uid }) {
   return (
     <React.Fragment>
       <div className={styles.post_comments}>
-       
-     
-        {comments.map( comment  => 
-
-          <Comment
-            key={uuidv4()}
-            comment = {comment.comment}
-            username = {comment.fromUser.username}
-            userPhoto = {comment.fromUser.userPhoto}
-            time = {comment.timestamp}
-            uid = {uid}
-          ></Comment>
+        {comments.length === 1 && !openModal && (
+          <p className={styles.view_comments_text} onClick={handleShowComments}>
+            {" "}
+            View {comments.length} comment{" "}
+          </p>
         )}
-       
+        {comments.length > 0 && !openModal && comments.length !== 1 && (
+          <p className={styles.view_comments_text} onClick={handleShowComments}>
+            {" "}
+            View all {comments.length} comments{" "}
+          </p>
+        )}
+
+        {!openModal &&
+          isPost &&
+          comments
+            .slice(0, 3)
+            .map((comment) => (
+              <Comment
+                key={uuidv4()}
+                comment={comment.comment}
+                username={comment.fromUser.username}
+                userPhoto={comment.fromUser.userPhoto}
+                time={comment.timestamp}
+                uid={uid}
+              ></Comment>
+            ))}
+
+        {openModal &&
+          comments.map((comment) => (
+            <Comment
+              key={uuidv4()}
+              comment={comment.comment}
+              username={comment.fromUser.username}
+              userPhoto={comment.fromUser.userPhoto}
+              time={comment.timestamp}
+              uid={uid}
+            ></Comment>
+          ))}
       </div>
 
       {time && (
@@ -88,7 +118,7 @@ function CommentsForm({ postId, time, uid }) {
       )}
 
       <form className={styles.comments_form}>
-      {showEmojis ? (
+        {showEmojis ? (
           <EmojiKeybord
             comment={comment}
             setComment={setComment}
