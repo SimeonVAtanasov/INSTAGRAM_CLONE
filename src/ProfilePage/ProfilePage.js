@@ -31,7 +31,6 @@ export default function ProfilePage() {
     followers: [],
     biography: "",
     uid: "",
-    notifications: []
   })
   const { id } = useParams();
 

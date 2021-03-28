@@ -74,9 +74,9 @@ export default function NavBar({ onLogout, user }) {
             </li>
             <li>
               {/* <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link> */}
-              <Link>
+              <a href="#notifications">
                   <NotificationsPop {...user} />
-              </Link>
+              </a>
             </li>
             <li>
               <div className={"profile_nav"}>
@@ -89,7 +89,7 @@ export default function NavBar({ onLogout, user }) {
 
               <div className="options">
                 <Link to={`/profile/${auth.currentUser.uid}`}>
-                  <p >Профил</p>
+                  <p>Профил</p>
                 </Link>
 
                 <Link to={"/profile/settings/" + user.uid}>
