@@ -28,14 +28,11 @@ export default function Login() {
             .set({
               uid: userCredential.user.uid,
               displayName: fullName.value,
-              photoUrl: "/static/images/avatar/1.jpg",
+              photoUrl: userCredential.user.photoUrl || "/static/images/avatar/1.jpg",
               email: email.value,
-              following: 0,
-              followers: 0,
-              posts: [],
-              stories: [],
+              following: [],
+              followers: [],
               biography: "",
-              notifications: [{user:"Nevena", action: "liked   your photo",  timestamp:"hour ago"}]
             });
 
 

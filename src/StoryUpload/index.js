@@ -127,19 +127,21 @@ function StoryUpload(props) {
               caption: caption,
               imageUrl: url,
               username: props.user.displayName,
+              createdBy: props.user.uid,
               userPhoto: props.user.photoUrl,
               uid: props.user.uid,
               likes: 0
             });
-            db.collection("users").doc(props.user.uid).update({posts:[{
+            // This  line should adds to  a collection in current user's doc
+            // db.collection("users").doc(props.user.uid).update({posts:[{
               
-              caption: caption,
-              imageUrl: url,
-              username: props.user.displayName,
-              userPhoto: props.user.photoUrl,
-              uid: props.user.uid,
-              likes: 0
-            }]})
+            //   caption: caption,
+            //   imageUrl: url,
+            //   username: props.user.displayName,
+            //   userPhoto: props.user.photoUrl,
+            //   uid: props.user.uid,
+            //   likes: 0
+            // }]})
             setProgress(0);
             setCaption("");
             setImage(null);
