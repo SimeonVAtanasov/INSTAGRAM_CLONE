@@ -64,6 +64,7 @@ function CommentsForm({ postId, time, uid }) {
   return (
     <React.Fragment>
       <div className={styles.post_comments}>
+       
      
         {comments.map( comment  => 
 
@@ -76,13 +77,7 @@ function CommentsForm({ postId, time, uid }) {
             uid = {uid}
           ></Comment>
         )}
-        {showEmojis ? (
-          <EmojiKeybord
-            comment={comment}
-            setComment={setComment}
-            inputRef={inputRef}
-          ></EmojiKeybord>
-        ) : null}
+       
       </div>
 
       {time && (
@@ -94,6 +89,13 @@ function CommentsForm({ postId, time, uid }) {
       )}
 
       <form className={styles.comments_form}>
+      {showEmojis ? (
+          <EmojiKeybord
+            comment={comment}
+            setComment={setComment}
+            inputRef={inputRef}
+          ></EmojiKeybord>
+        ) : null}
         <SentimentSatisfiedIcon
           onClick={handleShowEmojis}
         ></SentimentSatisfiedIcon>

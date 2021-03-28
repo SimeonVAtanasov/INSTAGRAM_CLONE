@@ -7,7 +7,7 @@ import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import { db } from "../../firebase";
 import firebase from "firebase/app";
-import PostModal from "../PostModal"
+// import PostModal from "./Post/PostModal"
 
 function PostMenu({
   isLiked,

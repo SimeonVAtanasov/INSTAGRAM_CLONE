@@ -38,12 +38,6 @@
     position: relative;
     overflow: auto;
     max-height: 285px;
-
-    aside {
-      z-index: 1;
-      top: 19px;
-      left: -17px;
-    }
   }
 
   .time {
@@ -60,6 +54,13 @@
     margin-top: 4px;
     height: 3em;
     align-items: center;
+
+    aside {
+      z-index: 1;
+      top: 60%;
+      left: 8px;
+      position: absolute;
+    }
 
     .post_textarea {
       background: 0 0;
@@ -169,6 +170,13 @@
         margin-top: 4px;
         height: 3em;
         align-items: center;
+
+        aside {
+          z-index: 1;
+          top: 28%;
+          left: 66%;
+          position: absolute;
+        }
 
         .post_textarea {
           background: 0 0;
