@@ -5,15 +5,16 @@ import Comment from "../Comment/Comment";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import firebase from "firebase/app";
 import { db } from "../firebase";
-import ReactTimeAgo from 'react-time-ago'
+import ReactTimeAgo from "react-time-ago";
+import { v4 as uuidv4 } from 'uuid';
 
-function CommentsForm({postId, time, username}) {
+function CommentsForm({ postId, time, username }) {
   const inputRef = createRef();
   const [showEmojis, setShowEmojis] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
- 
- 
+  const [user, setUser] = useState({});
+
   const handleShowEmojis = () => {
     inputRef.current.focus();
     setShowEmojis(!showEmojis);
@@ -21,52 +22,55 @@ function CommentsForm({postId, time, username}) {
 
   const postComment = (ev) => {
     ev.preventDefault();
-    let user = firebase.auth().currentUser;
-    console.log(user.displayName)
-    db.collection("posts").doc(postId).collection("comments").add({
-      comment: comment,
-      username: user.displayName,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-
-    });
-    setComment("");
+    let userCredential = firebase.auth().currentUser;
+    db.collection("users")
+      .doc(userCredential.uid)
+      .get()
+      .then((userData) => {
+        setUser(userData.data());
+        db.collection("comments").add({
+          forPost: postId,
+          fromUser: {
+            username: user.displayName,
+            userPhoto: user.photoUrl,
+          },
+          comment: comment,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+        setComment("");
+      });
   };
 
   useEffect(() => {
-    let unsubscribe;
     //if a post id was passed through, access the post collection, go inside the comments collection,
     //  listen for the specific post and all the common changes within it
     if (postId) {
-      unsubscribe = db
-        .collection("posts")
-        .doc(postId)
-        .collection("comments")
+      db.collection("comments")
+        .where("forPost", "==", postId)
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          setComments(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              comment: doc.data(),
-            }))
-          );
+          let commentsArr= [];
+          snapshot.forEach((doc) => {
+            commentsArr.push(doc.data());
+          })
+          setComments(commentsArr);
+          console.log(commentsArr);
+
         });
     }
-
-    return () => {
-      unsubscribe();
-    };
   }, [postId]);
 
   return (
     <React.Fragment>
-          <div className={styles.post_comments}>
-        {comments.map(({ id, comment }) => (
+      <div className={styles.post_comments}>
+        {comments.map( comment  => 
           <Comment
-            key={id}
-            username={comment.username}
-            text={comment.comment}
+            key={uuidv4()}
+            comment = {comment.comment}
+            username = {comment.fromUser.username}
+            // userPhoto = {comment.fromuser.userPhoto}
           ></Comment>
-        ))}
+        )}
         {showEmojis ? (
           <EmojiKeybord
             comment={comment}
@@ -76,9 +80,13 @@ function CommentsForm({postId, time, username}) {
         ) : null}
       </div>
 
-      {
-        time &&  <ReactTimeAgo  className={styles.time} date={time.toDate()} locale="en-US"/>
-      }
+      {time && (
+        <ReactTimeAgo
+          className={styles.time}
+          date={time.toDate()}
+          locale="en-US"
+        />
+      )}
 
       <form className={styles.comments_form}>
         <SentimentSatisfiedIcon

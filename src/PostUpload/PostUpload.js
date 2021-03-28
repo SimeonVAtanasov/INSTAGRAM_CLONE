@@ -101,7 +101,8 @@ function PostUpload(props) {
                 username: props.user.displayName,
                 userPhoto: props.user.photoUrl,
                 uid: props.user.uid,
-                likes: 0
+                likes: 0,
+  
               });
               setProgress(0);
               setCaption("");
