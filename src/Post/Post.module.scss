@@ -36,6 +36,8 @@
   .post_comments {
     padding: 20px;
     position: relative;
+    overflow: auto;
+    max-height: 285px;
 
     aside {
       z-index: 1;
@@ -85,6 +87,117 @@
       font-size: 17px;
       font-weight: 600;
       outline: none;
+    }
+  }
+}
+
+.modal {
+  background-color: white;
+
+  > div:first-child {
+    background-color: #fafafa !important;
+  }
+
+  .modal_image_container {
+    margin: 0;
+    object-fit: contain;
+
+    .modal_image {
+      object-fit: contain;
+      width: 600px;
+      padding: 16px 24px 16px 24px;
+    }
+  }
+
+  aside {
+    border-left: 1px solid lightgrey;
+    width: 100%;
+    .modal_header {
+      display: flex;
+      align-items: center;
+      padding: 12px 0 12px 1.1em;
+      border-bottom: 1px solid lightgrey;
+      font-size: 12px;
+
+      .modal_avatar {
+        margin-right: 10px;
+        height: 36px !important;
+        width: 36px !important;
+      }
+    }
+
+    .post_modal_description_container {
+      display: flex;
+      align-items: center;
+      padding: 15px 0 15px 1.1em;
+      font-size: 12px;
+
+      .post_modal_description {
+        font-weight: normal;
+        padding: 0 10px;
+      }
+
+      .modal_avatar {
+        height: 36px !important;
+        width: 36px !important;
+      }
+
+      .username {
+        margin-right: 7px;
+      }
+    }
+
+    .modal_comments_form {
+      padding: 15px 0 15px 1.1em;
+      .post_comments {
+        margin-bottom: 20px;
+        position: relative;
+        overflow: auto;
+        max-height: 285px;
+      }
+      .time {
+        padding: 20px;
+        font-size: 14px;
+        color: grey;
+      }
+
+      .comments_form {
+        display: flex;
+        border-top: 1px solid lightgrey;
+        padding-left: 16px;
+        padding-right: 16px;
+        margin-top: 4px;
+        height: 3em;
+        align-items: center;
+
+        .post_textarea {
+          background: 0 0;
+          border: 0;
+          color: #262626;
+          display: flex;
+          flex-grow: 1;
+          font-size: inherit;
+          height: 18px;
+          max-height: 80px;
+          outline: 0;
+          padding: 0 25px;
+          resize: none;
+        }
+
+        svg {
+          fill: #423e3e;
+          font-size: 2rem;
+        }
+
+        .post_btn {
+          border: none;
+          background: transparent;
+          color: rgba(var(--d69, 0, 149, 246), 1);
+          font-size: 17px;
+          font-weight: 600;
+          outline: none;
+        }
+      }
     }
   }
 }

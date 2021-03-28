@@ -25,7 +25,6 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: 400,
     maxHeight: 600,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
@@ -102,7 +101,8 @@ function PostUpload(props) {
                 username: props.user.displayName,
                 userPhoto: props.user.photoUrl,
                 uid: props.user.uid,
-                likes: 0
+                likes: 0,
+  
               });
               setProgress(0);
               setCaption("");
