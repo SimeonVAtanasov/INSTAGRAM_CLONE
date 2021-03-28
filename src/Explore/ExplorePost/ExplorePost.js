@@ -1,9 +1,9 @@
-import ImgExplore from "../ImgExplore/ImgExplore";
+import ImgExplore from "../../ImgExplore/ImgExplore";
 import styles from "./ExplorePost.module.css";
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 export default function ExplorePost({post,  id}) {
 
     const [commentsCount, setCommentsCount] = useState(0);

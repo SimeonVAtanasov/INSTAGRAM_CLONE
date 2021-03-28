@@ -6,7 +6,7 @@ import Comment from "../Comment/Comment";
 import styles from "./Post.module.scss";
 import EmojiKeybord from "../EmojiKeybord";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
-import PostMenu from "../PostMenu/PostMenu";
+import PostMenu from "./PostMenu/PostMenu";
 import ReactTimeAgo from 'react-time-ago'
 import { Link } from "react-router-dom";
 

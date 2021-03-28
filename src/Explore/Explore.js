@@ -1,4 +1,4 @@
-import ExplorePost from "../ExplorePost/ExplorePost";
+import ExplorePost from "./ExplorePost/ExplorePost.js";
 import styles  from  "./Explore.module.scss"
 
 

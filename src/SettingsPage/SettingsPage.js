@@ -13,7 +13,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import SettingsMenu from '../SettingsMenu/SettingsMenu';
+import SettingsMenu from './SettingsMenu/SettingsMenu';
 import { useParams } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({

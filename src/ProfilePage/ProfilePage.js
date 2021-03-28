@@ -11,7 +11,7 @@ import { v4 as uuidv4, v4 } from 'uuid';
 
 import { Link, useParams } from "react-router-dom";
 
-import ExplorePost from "../ExplorePost/ExplorePost.js";
+import ExplorePost from "../Explore/ExplorePost/ExplorePost.js";
 import style from "../Explore/Explore.module.scss";
 import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload"

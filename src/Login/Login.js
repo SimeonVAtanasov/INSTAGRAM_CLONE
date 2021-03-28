@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Logo from "../Logo/Logo.js";
-import Input from "../Input/Input.js";
+import Logo from "../NavBar/Logo/Logo.js";
+import Input from "./Input/Input.js";
 // import { debounce } from "../utils/debounce.js"
 import './Login.css';
-import PasswordField from "../PasswordField/PasswordField.js";
+import PasswordField from "./PasswordField/PasswordField.js";
 import { auth, db } from "../firebase.js";
-import styles from "../Logo/Logo.module.css";
+import styles from "../NavBar/Logo/Logo.module.scss";
 
 import Button from '@material-ui/core/Button';
 

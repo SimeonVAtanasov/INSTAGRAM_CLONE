@@ -1,7 +1,7 @@
 import { Link, Redirect } from "react-router-dom";
-import Logo from "../Logo/Logo.js";
-import Input from "../Input/Input.js";
-import styles from "../Input/Input.module.css";
+import Logo from "./Logo/Logo.js";
+import Input from "../Login/Input/Input.js";
+import styles from "../Login//Input/Input.module.css";
 
 import ExploreOutlinedIcon from '@material-ui/icons/ExploreOutlined';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
