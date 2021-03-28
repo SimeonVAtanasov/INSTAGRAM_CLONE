@@ -7,13 +7,13 @@ import { db } from "../../firebase";
 import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase"
-function CommentsForm({ postId, time, uid }) {
+function CommentsForm({ postId, time, uid, buttonText, isComment }) {
   const inputRef = createRef();
   const [showEmojis, setShowEmojis] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState({});
-  const [showAllComments, setShowAllComments]=useState(false);
+  const [showAllComments, setShowAllComments] = useState(false);
 
   const handleShowEmojis = () => {
     inputRef.current.focus();
@@ -22,27 +22,31 @@ function CommentsForm({ postId, time, uid }) {
 
   const postComment = (ev) => {
     ev.preventDefault();
+
+    db.collection("comments").add({
+      forPost: postId,
+      fromUser: {
+        username: user.displayName,
+        userPhoto: user.photoUrl,
+      },
+      comment: comment,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setComment("");
+
+  };
+
+  useEffect(() => {
+
     let userCredential = firebase.auth().currentUser;
     db.collection("users")
       .doc(userCredential.uid)
       .get()
       .then((userData) => {
-        setUser(userData.data());
-
-        db.collection("comments").add({
-          forPost: postId,
-          fromUser: {
-            username: user.displayName,
-            userPhoto: user.photoUrl,
-          },
-          comment: comment,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        });
-        setComment("");
+        let currentUser = userData.data()
+        setUser(currentUser);
       });
-  };
 
-  useEffect(() => {
     //if a post id was passed through, access the post collection, go inside the comments collection,
     //  listen for the specific post and all the common changes within it
 
@@ -63,20 +67,20 @@ function CommentsForm({ postId, time, uid }) {
   return (
     <React.Fragment>
       <div className={styles.post_comments}>
-       
-     
-        {comments.map( comment  => 
+
+
+        {comments.map(comment =>
 
           <Comment
             key={uuidv4()}
-            comment = {comment.comment}
-            username = {comment.fromUser.username}
-            userPhoto = {comment.fromUser.userPhoto}
-            time = {comment.timestamp}
-            uid = {uid}
+            comment={comment.comment}
+            username={comment.fromUser.username}
+            userPhoto={comment.fromUser.userPhoto}
+            time={comment.timestamp}
+            uid={uid}
           ></Comment>
         )}
-       
+
       </div>
 
       {time && (
@@ -88,13 +92,13 @@ function CommentsForm({ postId, time, uid }) {
       )}
 
       <form className={styles.comments_form}>
-      {showEmojis ? (
+        {showEmojis &&
           <EmojiKeybord
             comment={comment}
             setComment={setComment}
             inputRef={inputRef}
           ></EmojiKeybord>
-        ) : null}
+        }
         <SentimentSatisfiedIcon
           onClick={handleShowEmojis}
         ></SentimentSatisfiedIcon>
@@ -112,7 +116,7 @@ function CommentsForm({ postId, time, uid }) {
           type="submit"
           onClick={postComment}
         >
-          Post
+          {buttonText}
         </button>
       </form>
     </React.Fragment>

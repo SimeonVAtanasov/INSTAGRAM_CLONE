@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ReactTimeAgo from 'react-time-ago'
 import styles from "./NotificationBar.module.scss"
 export default function NofificationBar(props) {
-    console.log(styles);
     return (
         <li className={styles.notificationWrapper}>
             <div className={styles.blockNotification}>

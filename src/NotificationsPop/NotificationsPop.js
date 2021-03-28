@@ -26,7 +26,7 @@ export default function NotificationsPop({ uid }) {
 
     let notificationsQuerry = [];
 
-    db.collection("notifications").where('to', "==", uid)
+    db.collection("notifications").where('to', "==", uid).orderBy("timestamp", "desc")
       .onSnapshot(notifications => {
         notifications.forEach((noti) => {
           notificationsQuerry.push(noti.data())
@@ -67,7 +67,7 @@ export default function NotificationsPop({ uid }) {
       >
         <Typography className={classes.typography}>
           <div className={classes.paper}>
-            {isLoading ? <CircularProgress /> : notifications ? <ul style={{ maxHeight: "364px" }} >{notifications.map((noti) => <NotificationBar action={noti.action} when={noti.when} uid={noti.from.userId} from={noti.from}  targetPhoto={noti.targetPhoto} />)}</ul> : <h4>Нямате известия</h4>}
+            {isLoading ? <CircularProgress /> : notifications ? <ul style={{ maxHeight: "364px" }} >{notifications.map((noti) => <NotificationBar action={noti.action} when={noti.timestamp} uid={noti.from.userId} from={noti.from}  targetPhoto={noti.targetPhoto} />)}</ul> : <h4>Нямате известия</h4>}
           </div>
         </Typography>
       </Popover>
