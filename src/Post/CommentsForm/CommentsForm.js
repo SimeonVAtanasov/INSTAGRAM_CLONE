@@ -1,13 +1,12 @@
 import React, { useState, useEffect, createRef } from "react";
-import styles from "../Post/Post.module.scss";
-import EmojiKeybord from "../EmojiKeybord";
+import styles from "../../Post/Post.module.scss";
+import EmojiKeybord from "../../../src/EmojiKeybord";
 import Comment from "../Comment/Comment";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
-import firebase from "firebase/app";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
-
+import firebase from "firebase"
 function CommentsForm({ postId, time, uid }) {
   const inputRef = createRef();
   const [showEmojis, setShowEmojis] = useState(false);

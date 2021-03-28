@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import CommentsForm from "../CommentsForm/CommentsForm";
-import styles from "../Post/Post.module.scss";
+import CommentsForm from "../CommentsForm/CommentsForm.js";
+import styles from "../Post.module.scss";
 
 function getModalStyle() {
   const top = 50;

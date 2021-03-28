@@ -3,11 +3,12 @@ import { Avatar } from "@material-ui/core";
 import styles from "./Post.module.scss";
 import EmojiKeybord from "../EmojiKeybord";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
-import PostMenu from "./PostMenu/PostMenu";
+
 import ReactTimeAgo from 'react-time-ago'
+import PostMenu from "../Post/PostMenu/PostMenu.js";
 import { Link } from "react-router-dom";
-import PostModal from "../PostModal";
-import CommentsForm from "../CommentsForm/CommentsForm";
+import CommentsForm from "../Post/CommentsForm/CommentsForm.js";
+import PostModal from "./PostModal";
 
 function Post({
   postId,
