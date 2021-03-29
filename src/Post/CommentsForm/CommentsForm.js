@@ -1,26 +1,19 @@
 import React, { useState, useEffect, createRef } from "react";
 import styles from "../../Post/Post.module.scss";
-import EmojiKeybord from "../../../src/EmojiKeybord";
 import Comment from "../Comment/Comment";
-import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import { db } from "../../firebase";
 import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase"
+import TextInput from "../../TextInput/TextInput";
 
-export default function CommentsForm({ postId, time, uid, openModal, setOpenModal, buttonText, isComment }) {
-  const inputRef = createRef();
-  const [showEmojis, setShowEmojis] = useState(false);
+export default function CommentsForm({ postId, time, uid, openModal, setOpenModal, buttonText }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState({});
   const [showAllComments, setShowAllComments] = useState(false);
   const [isPost, setIsPost] = useState(true);
 
-  const handleShowEmojis = () => {
-    inputRef.current.focus();
-    setShowEmojis(!showEmojis);
-  };
 
   const postComment = (ev) => {
     ev.preventDefault();
@@ -121,34 +114,13 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
         />
       )}
 
-      <form className={styles.comments_form}>
-        {showEmojis &&
-          <EmojiKeybord
-            comment={comment}
-            setComment={setComment}
-            inputRef={inputRef}
-          ></EmojiKeybord>
-        }
-        <SentimentSatisfiedIcon
-          onClick={handleShowEmojis}
-        ></SentimentSatisfiedIcon>
-        <textarea
-          ref={inputRef}
-          className={styles.post_textarea}
-          type="text"
-          placeholder="Add a comment..."
-          value={comment}
-          onChange={(ev) => setComment(ev.target.value)}
-        ></textarea>
-        <button
-          className={styles.post_btn}
-          disabled={!comment}
-          type="submit"
-          onClick={postComment}
-        >
-          {buttonText}
-        </button>
-      </form>
+      <TextInput
+        placeholder={"Add comment ..."}
+        buttonText={buttonText}
+        buttonOnClick={postComment}
+        text={comment}
+        setText={setComment}
+      />
     </React.Fragment>
   );
 }

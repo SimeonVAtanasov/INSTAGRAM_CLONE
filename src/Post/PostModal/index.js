@@ -85,6 +85,7 @@ export default function PostModal({
             time={time}
             openModal={openModal}
             setOpenModal={setOpenModal}
+            buttonText={"Публикуване"}
           ></CommentsForm>
         </div>
       </aside>

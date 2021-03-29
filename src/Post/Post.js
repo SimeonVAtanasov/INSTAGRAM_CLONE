@@ -58,7 +58,7 @@ function Post({
         <strong> {username} </strong> {caption}
       </h4>
 
-      <CommentsForm postId={postId} time={time} uid={uid} buttonText={"Публикуване"} isComment={true} openModal={openModal} setOpenModal={setOpenModal}></CommentsForm>
+      <CommentsForm postId={postId} time={time} uid={uid} buttonText={"Публикуване"} openModal={openModal} setOpenModal={setOpenModal}></CommentsForm>
 
       <PostModal
         openModal={openModal}
