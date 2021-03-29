@@ -10,37 +10,54 @@ import firebase from "firebase/app";
 // import PostModal from "./Post/PostModal"
 
 function PostMenu({
-  isLiked,
-  setIsLiked,
   likedByNumber,
   setLikedByNumber,
   postId,
   openModal,
-  setOpenModal
+  setOpenModal,
 }) {
+  const [likedBy, setLikedBy] = useState([]);
 
+  const [isLiked, setIsLiked] = useState(false);
 
+  const userCredential = firebase.auth().currentUser;
 
+  useEffect(() => {
+    if (postId) {
+      db.collection("posts")
+        .doc(postId)
+        .onSnapshot((snap) => {
+          let likesArr = snap.data().likedBy;
+          setLikedByNumber(likesArr.length);
+          let isLikedByUser = likesArr.some((id) => id === userCredential.uid);
+          if (isLikedByUser) {
+            setIsLiked(true);
+          }
+        });
+    }
+  }, [postId]);
 
   const handleOpen = () => {
     setOpenModal(true);
   };
 
-
   const handleLike = () => {
+    let likedByArr = [];
+    console.log(isLiked);
     if (!isLiked) {
-      setLikedByNumber(++likedByNumber);
+      likedByArr.push(userCredential.uid);
+      setLikedBy(likedByArr);
     } else {
-      setLikedByNumber(--likedByNumber);
+      let index = likedByArr.indexOf(userCredential.uid);
+      likedBy.splice(index, 1);
+      setLikedBy(likedByArr);
     }
 
     db.collection("posts").doc(postId).update({
-      likes: likedByNumber,
+      likedBy: likedByArr,
     });
     setIsLiked(!isLiked);
   };
-
-
 
   return (
     <div className={styles.card_menu}>
@@ -62,8 +79,6 @@ function PostMenu({
         <SendOutlinedIcon className={styles.icon}></SendOutlinedIcon>
       </div>
       <TurnedInNotIcon className={styles.icon}></TurnedInNotIcon>
-
-      
     </div>
   );
 }

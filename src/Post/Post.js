@@ -21,8 +21,9 @@ function Post({
   uid,
 }) {
   let likesCount = likedBy.length;
+
   const [likedByNumber, setLikedByNumber] = useState(likesCount);
-  const [isLiked, setIsLiked] = useState(false);
+
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -41,8 +42,7 @@ function Post({
 
       <img className={styles.post_image} src={imageUrl} alt="post"></img>
       <PostMenu
-        isLiked={isLiked}
-        setIsLiked={setIsLiked}
+
         likedByNumber={likedByNumber}
         setLikedByNumber={setLikedByNumber}
         postId={postId}
