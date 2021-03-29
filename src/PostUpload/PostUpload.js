@@ -101,7 +101,7 @@ function PostUpload(props) {
                 username: props.user.displayName,
                 userPhoto: props.user.photoUrl,
                 uid: props.user.uid,
-                likes: 0,
+                likedBy: [],
   
               });
               setProgress(0);
