@@ -1,0 +1,33 @@
+.chatRoom {
+    border-radius: 3px;
+  width: 960px;
+  margin: 0 auto;
+  display: flex;
+  background-color: white;
+  height: 600px;
+  .convoBox {
+    border-right: 1px solid lightgray;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 600px;
+    .searchInput{
+        width: 100%;
+    }
+  }
+  .contentBox {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .messages {
+      flex-grow: 1;
+    }
+
+    .messageInput{
+        border-top: 1px solid  lightgray;
+        width: 100%;
+    }
+  }
+}

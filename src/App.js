@@ -13,13 +13,14 @@ import Login from "./Login/Login.js";
 import Explore from "./Explore/Explore";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import SettingsPage from "./SettingsPage/SettingsPage";
+import ChatRoom from "./ChatRoom/ChatRoom";
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
-
+  const [isLoading, setIsLoading] = useState(true);
 
   let changeStatusLoggedIn = () => { setIsLoggedIn(prevState => !prevState) };
 
@@ -30,13 +31,18 @@ function App() {
         db.collection("users").doc(id).get()
           .then((res) => {
             let data = res.data();
-            setUser({...data});
+            setUser({ ...data });
             setIsLoggedIn(true);
+            setIsLoading(false);
           })
+      }
+      else {
+        <Redirect to="/login" />
+        setIsLoading(false)
       }
     });
   }, [])
-      
+
   useEffect(() => {
     db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
       setPosts(
@@ -48,55 +54,54 @@ function App() {
     });
   }, []);
 
-  return (
-    <Router id="router">
+  if (isLoading) {
 
-      {isLoggedIn ? <>
-        <NavBar onLogout={changeStatusLoggedIn}  user={user} />
-      </> : <Redirect to="/login" />}
-      <div>
-        <Switch>
-          <Route exact path="/">
-            {isLoggedIn ? <Home posts={posts} user={user} /> : <Login />}
-          </Route>
-          <Route path="/inbox">
-            <Inbox />
-          </Route>
+    return (<img src={"./LoadingIMG.png"} style={{ marginLeft: "25%" }} alt={"logo"} />)
+  } else {
+    return (
 
-          <Route path="/explore">
-            <Explore posts={posts} />
-          </Route>
 
-          <Route path="/notifications">
-            <Notifications />
-          </Route>
+      (<Router id="router">
 
-          <Route exact path={`/profile/:id`}>
-            <ProfilePage />
-          </Route>
+        {isLoggedIn && <>
+          <NavBar onLogout={changeStatusLoggedIn} user={user} />
+        </>}
+        <div>
+          <Switch>
+            <Route exact path="/">
+              {isLoggedIn ? <Home posts={posts} user={user} /> : <Login />}
+            </Route>
+            <Route path="/inbox">
+              <ChatRoom />
+            </Route>
 
-          <Route path={"/profile/settings/:id"}>
-            <SettingsPage userData={user} />
-          </Route>
+            <Route path="/explore">
+              <Explore posts={posts} />
+            </Route>
 
-          <Route exact path="/login">
-            {isLoggedIn ? <Redirect to="/" /> : <Login />}
-          </Route>
+            <Route exact path={`/profile/:id`}>
+              <ProfilePage />
+            </Route>
 
-        </Switch>
-      </div>
-    </Router>
-  );
-}
+            <Route path={"/profile/settings/:id"}>
+              <SettingsPage userData={user} />
+            </Route>
 
-function Inbox() {
-  return <h2>Inbox</h2>;
-}
+            <Route exact path="/login">
+              {!isLoggedIn && <Login />}
+            </Route>
+
+          </Switch>
+        </div>
+      </Router>)
 
 
 
-function Notifications() {
-  return <h2>Notifications</h2>;
+
+    );
+  }
+
+
 }
 
 export default App;

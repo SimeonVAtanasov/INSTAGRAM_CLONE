@@ -18,7 +18,7 @@ import NotificationsPop from "../NotificationsPop/NotificationsPop.js";
 
 
 
-export default function NavBar({ onLogout, user }) {
+export default React.memo(function NavBar({ onLogout, user }) {
 
   const handleLogout = () => {
     auth.signOut()
@@ -75,7 +75,7 @@ export default function NavBar({ onLogout, user }) {
             <li>
               {/* <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link> */}
               <a href="#notifications">
-                  <NotificationsPop {...user} />
+                <NotificationsPop {...user} />
               </a>
             </li>
             <li>
@@ -106,3 +106,4 @@ export default function NavBar({ onLogout, user }) {
     </>
   );
 }
+)

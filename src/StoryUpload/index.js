@@ -130,7 +130,7 @@ function StoryUpload(props) {
               createdBy: props.user.uid,
               userPhoto: props.user.photoUrl,
               uid: props.user.uid,
-              likes: 0
+              likedBy: []
             });
             // This  line should adds to  a collection in current user's doc
             // db.collection("users").doc(props.user.uid).update({posts:[{

@@ -1,4 +1,6 @@
-export default function Logo(props) {
+import React from "react"
+
+function Logo(props) {
     return (
         <img
             className={props.className}
@@ -8,3 +10,5 @@ export default function Logo(props) {
         />
     )
 }
+
+export default Logo

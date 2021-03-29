@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Avatar } from "@material-ui/core";
 import styles from "./Post.module.scss";
 import EmojiKeybord from "../EmojiKeybord";
@@ -15,14 +15,15 @@ function Post({
   username,
   caption,
   imageUrl,
-  likes,
+  likedBy,
   time,
   userPhoto,
   uid,
 }) {
-  const [likedByNumber, setLikedByNumber] = useState(0);
+  let likesCount = likedBy.length;
+  const [likedByNumber, setLikedByNumber] = useState(likesCount);
   const [isLiked, setIsLiked] = useState(false);
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <div className={styles.post}>
@@ -50,14 +51,14 @@ function Post({
       ></PostMenu>
       <div className={styles.liked_by}>
         <span>
-          <strong>{likes} </strong> likes
+          <strong>{likedByNumber} </strong> likes
         </span>
       </div>
       <h4 className={styles.post_description}>
         <strong> {username} </strong> {caption}
       </h4>
 
-      <CommentsForm postId={postId} time={time} uid={uid} buttonText={"Публикуване"} isComment={true}></CommentsForm>
+      <CommentsForm postId={postId} time={time} uid={uid} buttonText={"Публикуване"} isComment={true} openModal={openModal} setOpenModal={setOpenModal}></CommentsForm>
 
       <PostModal
         openModal={openModal}
@@ -66,8 +67,8 @@ function Post({
         username={username}
         userPhoto={userPhoto}
         caption={caption}
-        time = {time}
-        postId = {postId}
+        time={time}
+        postId={postId}
       ></PostModal>
     </div>
   );
