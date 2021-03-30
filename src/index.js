@@ -9,15 +9,20 @@ import ru from 'javascript-time-ago/locale/ru'
 
 import "./Fonts/Snell-Roundhand-Script.ttf"
 import "./Fonts/Handlee-Regular.ttf"
+import { Provider } from 'react-redux';
+
+import store from './redux/store';
 
 
 TimeAgo.addDefaultLocale(en)
 TimeAgo.addLocale(ru)
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
