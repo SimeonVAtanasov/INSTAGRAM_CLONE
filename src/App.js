@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -14,11 +15,15 @@ import Explore from "./Explore/Explore";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import SettingsPage from "./SettingsPage/SettingsPage";
 import ChatRoom from "./ChatRoom/ChatRoom";
+import {fetchPosts} from "./Post/Posts.actions"
 
 function App() {
 
+  const dispatch = useDispatch();
+  const posts = useSelector(state => state.posts.posts);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false
-  const [posts, setPosts] = useState([]);
+  
   const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -44,14 +49,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
-      setPosts(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          post: doc.data(),
-        }))
-      );
-    });
+    dispatch(fetchPosts());
   }, []);
 
   if (isLoading) {
