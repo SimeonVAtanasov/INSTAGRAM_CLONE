@@ -4,6 +4,7 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import { CircularProgress, Popover, Tooltip, Typography } from '@material-ui/core';
 import { db } from '../firebase';
 import NotificationBar from "./NotificationBar/NotificationBar.js"
+import { v4 } from 'uuid';
 const useStyles = makeStyles((theme) => ({
   paper: {
     border: 'none',
@@ -67,7 +68,7 @@ export default function NotificationsPop({ uid }) {
       >
         <Typography className={classes.typography}>
           <div className={classes.paper}>
-            {isLoading ? <CircularProgress /> : notifications ? <ul style={{ maxHeight: "364px" }} >{notifications.map((noti) => <NotificationBar action={noti.action} when={noti.timestamp} uid={noti.from.userId} from={noti.from}  targetPhoto={noti.targetPhoto} />)}</ul> : <h4>Нямате известия</h4>}
+            {isLoading ? <CircularProgress /> : notifications ? <ul style={{ maxHeight: "364px" }} >{notifications.map((noti) => <NotificationBar action={noti.action} when={noti.timestamp} uid={noti.from.userId} from={noti.from}  targetPhoto={noti.targetPhoto} key={v4()} />)}</ul> : <h4>Нямате известия</h4>}
           </div>
         </Typography>
       </Popover>

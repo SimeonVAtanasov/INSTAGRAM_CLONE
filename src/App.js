@@ -19,7 +19,7 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false
   const [posts, setPosts] = useState([]);
-  const [user, setUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   let changeStatusLoggedIn = () => { setIsLoggedIn(prevState => !prevState) };
@@ -31,7 +31,7 @@ function App() {
         db.collection("users").doc(id).get()
           .then((res) => {
             let data = res.data();
-            setUser({ ...data });
+            setCurrentUser({ ...data });
             setIsLoggedIn(true);
             setIsLoading(false);
           })
@@ -64,15 +64,15 @@ function App() {
       (<Router id="router">
 
         {isLoggedIn && <>
-          <NavBar onLogout={changeStatusLoggedIn} user={user} />
+          <NavBar onLogout={changeStatusLoggedIn} currentUser={currentUser} />
         </>}
         <div>
           <Switch>
             <Route exact path="/">
-              {isLoggedIn ? <Home posts={posts} user={user} /> : <Login />}
+              {isLoggedIn ? <Home posts={posts} currentUser={currentUser} /> : <Login />}
             </Route>
             <Route path="/inbox">
-              <ChatRoom />
+              <ChatRoom currentUser={currentUser}/>
             </Route>
 
             <Route path="/explore">
@@ -84,7 +84,7 @@ function App() {
             </Route>
 
             <Route path={"/profile/settings/:id"}>
-              <SettingsPage userData={user} />
+              <SettingsPage currentUser={currentUser} />
             </Route>
 
             <Route exact path="/login">

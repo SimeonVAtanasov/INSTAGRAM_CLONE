@@ -11,28 +11,28 @@ import { Link } from "react-router-dom";
 
 
 
-export default function ProfileSection({ user }) {
+export default function ProfileSection({ currentUser }) {
 
-  if (user) {
+  if (currentUser) {
     return (
       <div className="profile_section">
         <div className="profile_section_header">
           <div className="user_details">
 
-            <Link to={`/profile/${user.uid}`}>
+            <Link to={`/profile/${currentUser.uid}`}>
               <Avatar
                 className="profile_section_avatar"
-                alt={user.displayName}
-                src={user.photoUrl || "/static/images/avatar/1.jpg"}
+                alt={currentUser.displayName}
+                src={currentUser.photoUrl || "/static/images/avatar/1.jpg"}
               ></Avatar>
             </Link>
-            <span> {user.displayName}</span>
+            <span> {currentUser.displayName}</span>
 
           </div>
 
 
           {/* <PostUpload></PostUpload>  TO DO  MERGE THE TWO COMPOMENTS*/}
-          <StoryUpload user={user} text={"Upload photo"} isPost={true} ></StoryUpload>
+          <StoryUpload user={currentUser} text={"Upload photo"} isPost={true} />
 
         </div>
       </div>

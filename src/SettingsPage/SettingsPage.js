@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SettingsPage({ userData }) {
+export default function SettingsPage({ currentUser }) {
 
     const classes = useStyles();
 
-    const [user, setUser] = useState(userData);
+    const [user, setUser] = useState(currentUser);
 
     const [displayNameText, setDisplayNameText] = useState(user.displayName);
     const [biography, setBiography] = useState(user.biography);

@@ -1,22 +1,42 @@
 .chatRoom {
-    border-radius: 3px;
+  border-radius: 3px;
   width: 960px;
   margin: 0 auto;
   display: flex;
   background-color: white;
   height: 600px;
   .convoBox {
+    position: relative;
     border-right: 1px solid lightgray;
     width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 600px;
-    .searchInput{
-        width: 100%;
+    .searchInput {
+      width: 100%;
+    }
+    .suggestions {
+      padding-left: 6px;
+      cursor: pointer;
+      border-radius: 3px;
+      border: 1px solid lightgray;
+      border-top: none;
+      background-color: rgb(250, 250, 250);
+      display: flex;
+      flex-flow: column;
+      position: absolute;
+      top: 56px;
+      z-index: 3;
+      width: 97%;
+
+      > div:first-child {
+        margin-top: 6px;
+      }
     }
   }
   .contentBox {
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -25,9 +45,9 @@
       flex-grow: 1;
     }
 
-    .messageInput{
-        border-top: 1px solid  lightgray;
-        width: 100%;
+    .messageInput {
+      border-top: 1px solid lightgray;
+      width: 100%;
     }
   }
 }

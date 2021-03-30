@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createRef, useRef } from "react";
 import stylesB from "./MessageForm.module.scss";
-import styles from "../../Post/Post.module.scss";
+import stylesC  from "../../TextInput/TextInput.module.scss";
 
 import Comment from "../../Post/Comment/Comment";
 import { db } from "../../firebase";
@@ -94,6 +94,7 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
                 buttonOnClick={sendMessage}
                 text={message}
                 setText={setMessage}
+                styles={stylesC}
             />
         </React.Fragment>
     );

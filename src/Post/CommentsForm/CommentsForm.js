@@ -6,6 +6,8 @@ import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase"
 import TextInput from "../../TextInput/TextInput";
+import stylesB  from "../../TextInput/postTextInputStyles.module.scss";
+
 
 export default function CommentsForm({ postId, time, uid, openModal, setOpenModal, buttonText }) {
   const [comment, setComment] = useState("");
@@ -119,6 +121,8 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
         buttonOnClick={postComment}
         text={comment}
         setText={setComment}
+        styles={stylesB}
+
       />
     </React.Fragment>
   );

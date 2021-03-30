@@ -18,7 +18,7 @@ import NotificationsPop from "../NotificationsPop/NotificationsPop.js";
 
 
 
-export default React.memo(function NavBar({ onLogout, user }) {
+export default React.memo(function NavBar({ onLogout, currentUser }) {
 
   const handleLogout = () => {
     auth.signOut()
@@ -75,15 +75,15 @@ export default React.memo(function NavBar({ onLogout, user }) {
             <li>
               {/* <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link> */}
               <a href="#notifications">
-                <NotificationsPop {...user} />
+                <NotificationsPop {...currentUser} />
               </a>
             </li>
             <li>
               <div className={"profile_nav"}>
                 <Avatar
                   id="nav_avatar"
-                  alt={user.displayName}
-                  src={user.photoUrl || "/static/images/avatar/1.jpg"}
+                  alt={currentUser.displayName}
+                  src={currentUser.photoUrl || "/static/images/avatar/1.jpg"}
                 ></Avatar>
               </div>
 
@@ -92,7 +92,7 @@ export default React.memo(function NavBar({ onLogout, user }) {
                   <p>Профил</p>
                 </Link>
 
-                <Link to={"/profile/settings/" + user.uid}>
+                <Link to={"/profile/settings/" + currentUser.uid}>
                   <p >Настройки</p>
                 </Link>
 

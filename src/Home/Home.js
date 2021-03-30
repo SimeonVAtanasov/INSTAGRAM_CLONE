@@ -3,7 +3,7 @@ import ProfileSection from "../ProfileSection/ProfileSection";
 
 import styles from "./Home.module.css";
 
-export default function Home({ posts, user }) {
+export default function Home({ posts, currentUser }) {
   return (
     <div className={styles.home_page}>
       <div className={styles.home_posts}>
@@ -22,7 +22,7 @@ export default function Home({ posts, user }) {
         ))}
       </div>
 
-      <ProfileSection user={user} ></ProfileSection>
+      <ProfileSection currentUser={currentUser} ></ProfileSection>
 
     </div>
   );
