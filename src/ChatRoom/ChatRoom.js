@@ -56,7 +56,7 @@ export default function ChatRoom(props) {
             {
                 convoName: `${currentUser.displayName.split(' ')[0]} & ${receiver.displayName.split(' ')[0]}`,
                 convoId: id,
-                users: [currentUser.uid, id]
+                users: [currentUser.uid, receiver.uid],
             })
     }
     return (
