@@ -2,6 +2,7 @@ import EmojiKeybord from "../EmojiKeybord";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import React, { useState, useEffect, createRef } from "react";
 import styles from "./TextInput.module.scss";
+// import styles from "../Post/Post.module.scss"
 
 export default function TextInput(props) {
     const inputRef = createRef();
@@ -10,7 +11,7 @@ export default function TextInput(props) {
 
     const handleShowEmojis = () => {
         inputRef.current.focus();
-        setShowEmojis(prevState => !prevState);
+        setShowEmojis(!showEmojis);
     };
 
     return (

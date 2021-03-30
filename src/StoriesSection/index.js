@@ -30,15 +30,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function StoriesSection({ isStoryOpen, handleClose, user }) {
+function StoriesSection({ isStoryOpen, handleClose, user, stories, setStories }) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
-  const isTrue = true;
-  const stories = [
-    "https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=900.0&fit=crop",
-    "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*",
-    "https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=900.0&fit=crop",
-  ];
+ 
+
+  // const stories = [
+  //   "https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=900.0&fit=crop",
+  //   "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*",
+  //   "https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=900.0&fit=crop",
+  // ];
+
+
+ 
 
   const Close = () => {
     handleClose();
@@ -54,12 +58,15 @@ function StoriesSection({ isStoryOpen, handleClose, user }) {
         ></Avatar>
         <span>{user.displayName}</span>
       </div>
+
       <Stories
-        stories={stories}
-        defaultInterval={3500}
-        width={432}
-        height={768}
-      />
+          // key={id}
+          stories = {stories}
+          defaultInterval={3500}
+          width={432}
+          height={768}
+        />
+      
     </div>
   );
 

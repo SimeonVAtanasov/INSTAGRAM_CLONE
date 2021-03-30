@@ -89,7 +89,6 @@ function StoryUpload(props) {
   const handleChange = (ev) => {
     if (ev.target.files[0]) {
       setImage(ev.target.files[0]);
-     console.log(image);
       setLabel("Change picture");
       setFilie(URL.createObjectURL(ev.target.files[0]));
     }
@@ -122,16 +121,28 @@ function StoryUpload(props) {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-            db.collection("posts").add({
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              caption: caption,
-              imageUrl: url,
-              username: props.user.displayName,
-              createdBy: props.user.uid,
-              userPhoto: props.user.photoUrl,
-              uid: props.user.uid,
-              likedBy: []
-            });
+            if(props.isPost){
+              db.collection("posts").add({
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                caption: caption,
+                imageUrl: url,
+                username: props.user.displayName,
+                createdBy: props.user.uid,
+                userPhoto: props.user.photoUrl,
+                uid: props.user.uid,
+                likedBy: []
+              });
+            } else { 
+              db.collection("stories").add({
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                imageUrl: url,
+                username: props.user.displayName,
+                createdBy: props.user.uid,
+                userPhoto: props.user.photoUrl,
+                uid: props.user.uid,
+              });
+            }
+           
             // This  line should adds to  a collection in current user's doc
             // db.collection("users").doc(props.user.uid).update({posts:[{
               

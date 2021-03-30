@@ -10,15 +10,18 @@ import firebase from "firebase/app";
 // import PostModal from "./Post/PostModal"
 
 function PostMenu({
-  likedByNumber,
   setLikedByNumber,
   postId,
-  openModal,
   setOpenModal,
+  isLiked,
+  setIsLiked,
+  likedByUsers,
+  setLikedByUsers,
+  setShowHeart
 }) {
-  const [likedBy, setLikedBy] = useState([]);
+  // const [likedBy, setLikedBy] = useState([]);
 
-  const [isLiked, setIsLiked] = useState(false);
+  // const [isLiked, setIsLiked] = useState(false);
 
   const userCredential = firebase.auth().currentUser;
 
@@ -31,7 +34,7 @@ function PostMenu({
           setLikedByNumber(likesArr.length);
           let isLikedByUser = likesArr.some((id) => id === userCredential.uid);
           if (isLikedByUser) {
-            setIsLiked(true);
+            setIsLiked(true)
           }
         });
     }
@@ -43,20 +46,20 @@ function PostMenu({
 
   const handleLike = () => {
     let likedByArr = [];
-    console.log(isLiked);
     if (!isLiked) {
       likedByArr.push(userCredential.uid);
-      setLikedBy(likedByArr);
+      setLikedByUsers(likedByArr);
     } else {
       let index = likedByArr.indexOf(userCredential.uid);
-      likedBy.splice(index, 1);
-      setLikedBy(likedByArr);
+      likedByUsers.splice(index, 1);
+      setLikedByUsers(likedByArr);
     }
 
     db.collection("posts").doc(postId).update({
       likedBy: likedByArr,
     });
     setIsLiked(!isLiked);
+    setShowHeart(false);
   };
 
   return (

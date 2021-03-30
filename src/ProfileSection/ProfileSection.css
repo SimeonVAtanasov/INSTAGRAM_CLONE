@@ -79,14 +79,13 @@ input[type="file"] {
   font-weight: 600;
 }
 
-.new_post_headerah {
+.new_post_header {
   text-align: center;
 }
 
 .modal {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .modal > * {

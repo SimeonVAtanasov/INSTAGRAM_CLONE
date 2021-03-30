@@ -11,7 +11,6 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState({});
-  const [showAllComments, setShowAllComments] = useState(false);
   const [isPost, setIsPost] = useState(true);
 
 
