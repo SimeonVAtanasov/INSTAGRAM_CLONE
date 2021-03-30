@@ -59,7 +59,6 @@ export default function ProfilePage() {
             let storiesArr = [];
 
             querySnapshot.forEach((doc) => {
-              console.log(doc.data().imageUrl);
               storiesArr.push(doc.data().imageUrl);
             });
 

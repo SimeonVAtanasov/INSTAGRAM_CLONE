@@ -100,7 +100,7 @@ function StoryUpload(props) {
   };
 
   const handleUpload = () => {
-    const uploadImage = storage.ref(`images/${image.name}`).put(image);
+    const uploadImage = storage.ref(`images/${image.name + Date.now()}`).put(image);
 
     uploadImage.on(
       "state_changed",
