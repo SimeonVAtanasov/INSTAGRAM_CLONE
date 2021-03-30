@@ -54,7 +54,7 @@ export default function ChatRoom(props) {
         let id = v4();
         db.collection("chatRooms").doc(id).set(
             {
-                convoName: `${currentUser.displayName.split(' ')[0]} & ${receiver.displayName.split(' ')[0]}` ,
+                convoName: `${currentUser.displayName.split(' ')[0]} & ${receiver.displayName.split(' ')[0]}`,
                 convoId: id,
                 users: [currentUser.uid, id]
             })
@@ -73,7 +73,7 @@ export default function ChatRoom(props) {
                     />
 
                     <div className={stylesB.suggestions}>
-                        {filteredUsers.map(user => <Comment username={user.displayName} userPhoto={user.photoUrl} key={v4()} onClick={() => { createNewChatRoom(user) }}>{}</Comment>)}
+                        {filteredUsers.map(user => <Comment username={user.displayName} userPhoto={user.photoUrl} key={v4()} onClick={() => {createNewChatRoom(user) }}>{ }</Comment>)}
                     </div>
 
                     {/* <Autocomplete
@@ -85,7 +85,12 @@ export default function ChatRoom(props) {
                     /> */}
                 </form>
                 <div className={stylesB.convoBox}>
-                    {conversations.map(convo => <h3 key={v4()} onClick={() => { setConvoId(convo.convoId) }}>{convo.convoName}</h3>)}
+                    {conversations.map(convo =>
+                        <h3
+                            key={v4()}
+                            onClick={() => { setConvoId(convo.convoId) }}>
+                            {convo.convoName}
+                        </h3>)}
                 </div>
             </div>
 
