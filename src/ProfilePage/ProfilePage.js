@@ -100,6 +100,13 @@ export default function ProfilePage() {
             });
 
             setStories(storiesArr);
+
+            if(!storiesArr.length){
+              setHasStories(false);
+            }else{
+              setHasStories(true);
+            }
+
           });
 
         db.collection("users")
@@ -125,11 +132,6 @@ export default function ProfilePage() {
       setIsCurrentUser(true);
     } else {
       setIsCurrentUser(false);
-    }
-    if(!stories.length){
-      setHasStories(false);
-    }else{
-      setHasStories(true);
     }
     
   }, [user.uid, currentUser]);
@@ -186,7 +188,7 @@ export default function ProfilePage() {
           <p>{user.biography}</p>
         </div>
       </header>
-      {isStoryOpen && hasStories && (
+      {hasStories && (
         <StoriesSection
           user={user}
           isStoryOpen={isStoryOpen}
