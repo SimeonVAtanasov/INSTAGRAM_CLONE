@@ -4,8 +4,8 @@ import { v4 } from 'uuid';
 import { auth, db } from '../firebase';
 import stylesB from "./ChatRoom.module.scss"
 import MessageForm from "./MessageForm/MessageForm"
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Comment from '../Post/Comment/Comment';
+import QuestionAnswerOutlinedIcon from '@material-ui/icons/QuestionAnswerOutlined';
 
 export default function ChatRoom(props) {
     const [currentUser, setCurrentUser] = useState(props.currentUser);
@@ -22,7 +22,7 @@ export default function ChatRoom(props) {
                 let conversations = [];
                 snap.forEach(conversation => conversations.push(conversation.data()));
                 setConversations(conversations)
-
+                setConvoId(conversations[0].convoId)
             })
         db.collection("users")
             .get()
@@ -51,13 +51,22 @@ export default function ChatRoom(props) {
     }
 
     const createNewChatRoom = (receiver) => {
-        let id = v4();
-        db.collection("chatRooms").doc(id).set(
-            {
-                convoName: `${currentUser.displayName.split(' ')[0]} & ${receiver.displayName.split(' ')[0]}`,
-                convoId: id,
-                users: [currentUser.uid, receiver.uid],
-            })
+        let convoQuerry = conversations.filter(convo => convo.users.includes(receiver.uid));
+        let isCreated = Boolean(convoQuerry.length);
+        // console.log("🚀 ~ file: ChatRoom.js ~ line 55 ~ createNewChatRoom ~ isCreated", isCreated)
+
+        if (isCreated) {
+            setConvoId(convoQuerry[0].convoId)
+        } else {
+            let id = v4();
+            db.collection("chatRooms").doc(id).set(
+                {
+                    convoName: `${currentUser.displayName.split(' ')[0]} & ${receiver.displayName.split(' ')[0]}`,
+                    convoId: id,
+                    users: [currentUser.uid, receiver.uid],
+                })
+        }
+
     }
     return (
         <section className={stylesB.chatRoom}>
@@ -73,24 +82,33 @@ export default function ChatRoom(props) {
                     />
 
                     <div className={stylesB.suggestions}>
-                        {filteredUsers.map(user => <Comment username={user.displayName} userPhoto={user.photoUrl} key={v4()} onClick={() => {createNewChatRoom(user) }}>{ }</Comment>)}
+                        {filteredUsers.map(user => 
+                            <Comment
+                                username={user.displayName}
+                                userPhoto={user.photoUrl}
+                                key={v4()}
+                                onClick={() => { createNewChatRoom(user) }}
+                            />
+                        )
+                        }
+                            
                     </div>
 
-                    {/* <Autocomplete
-                        id="searchUsers"
-                        options={users}
-                        getOptionLabel={(user) => user.displayName}
-                        style={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} onChange={(ev) => { handleInput(ev) }} label="До:" variant="outlined" />}
-                    /> */}
                 </form>
-                <div className={stylesB.convoBox}>
+                <div className={stylesB.convoBoxBottom}>
                     {conversations.map(convo =>
-                        <h3
-                            key={v4()}
-                            onClick={() => { setConvoId(convo.convoId) }}>
-                            {convo.convoName}
-                        </h3>)}
+                        <div className={stylesB.singleConvo}>
+                            <QuestionAnswerOutlinedIcon />
+                            <h3
+                                className={stylesB.convoName}
+                                key={v4()}
+                                onClick={() => {
+                                    setConvoId(convo.convoId);
+                                    setSearchInput("");
+                                }}>
+                                {convo.convoName}
+                            </h3>
+                        </div>)}
                 </div>
             </div>
 

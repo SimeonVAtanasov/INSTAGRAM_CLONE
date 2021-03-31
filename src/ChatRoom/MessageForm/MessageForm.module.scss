@@ -1,4 +1,7 @@
-.messageWrapper{
-    overflow-y:scroll ;
-    height: 550px;
+.messageWrapper {
+  padding-top: 1em;
+
+  padding-left: 12px;
+  overflow-y: auto;
+  height: 550px;
 }

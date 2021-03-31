@@ -5,14 +5,14 @@
   margin: 0 auto;
   padding: 0px 20px;
   max-height: 200px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
   .avatar_container {
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 
     .avatarProfile {
       margin: 0 0 0 3.5em;
@@ -28,7 +28,7 @@
       font-size: 18px;
       font-weight: 600;
       outline: none;
-      margin: 1em 0 0 3.5em;
+      margin: 1em 0 0 4em;
       text-align: center;
       &:hover {
         box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(var(--d69, 0, 149, 246), 1);
@@ -42,26 +42,64 @@
 
     h2 {
       margin-top: 1em;
-      margin-left: 3%;
+      margin-left: 6%;
       display: flex;
       justify-content: space-between;
+      font-family: inherit;
+      font-weight: 400;
+      font-size: 21px;
       a {
         color: black;
-        margin-right: 1em;
+        margin-right: 3.5em;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+
+        span {
+          border-radius: 4px;
+          border: 1px solid #dbdbdb;
+          padding: 2px 4px 3px 9px;
+          font-family: inherit;
+          font-size: 15px;
+          margin-right: 11px;
+        }
+      }
+
+      .follow_button {
+        color: rgba(var(--d69, 0, 149, 246), 1);
+        font-size: 18px;
+        font-weight: 600;
+        outline: none;
+        border: none;
+        background: none;
+        text-align: center;
+        margin-right: 4em;
       }
     }
 
     ul {
       padding-top: 1em;
-      margin-left: -3%;
-
+      margin-left: -10%;
       display: flex;
       justify-content: space-evenly;
+      font-family: inherit;
+      font-weight: 400;
+      font-size: 14px;
+
+      li {
+        :first-child {
+          font-weight: bold;
+          padding-bottom: 4px;
+        }
+      }
     }
 
     p {
       margin-top: 2em;
-      margin-left: 3%;
+      margin-left: 7%;
+      margin-right: 15%;
+      font-size: 12px;
+      text-align: left;
     }
   }
 }
