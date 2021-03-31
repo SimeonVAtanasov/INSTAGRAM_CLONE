@@ -6,7 +6,7 @@ import styles from "./Home.module.css";
 
 export default function Home({ currentUser }) {
   const posts = useSelector((state) => state.posts.posts);
-  const filteredPosts= posts.filter(({post}) => currentUser.following.includes(post.createdBy));
+  const filteredPosts= posts.filter(({post}) => currentUser.following.includes(post.createdBy) || post.createdBy === currentUser.uid);
 
 
   return (

@@ -11,10 +11,10 @@ import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload";
 import firebase from "firebase/app";
 
+// TO DO REFACTOR AGAIN WORK FLOW INTETUPTED
+export default function ProfilePage(props) {
 
-export default function ProfilePage() {
-
-  const currentUser = firebase.auth().currentUser;
+  // const browsingUser = firebase.auth().currentUser;
 
   const [user, setUser] = useState({
     displayName: "",
@@ -26,46 +26,22 @@ export default function ProfilePage() {
     uid: "",
   });
 
-  let followingCount = user.following.length;
-  let followersCount = user.followers.length;
-
+  // let followingCount = user.following.length;
+  // let followersCount = user.followers.length;
+  const [currentUser, setCurrentUser] = useState(props.currentUser)
   const [posts, setPosts] = useState([]);
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
+
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [followedByNumber, setFollowedByNumber] = useState(followersCount);
-  const [followingNumber, setFollowingNumber] = useState(followingCount);
+
+  // const [followedByNumber, setFollowedByNumber] = useState(followersCount);
+  // const [followingNumber, setFollowingNumber] = useState(followingCount);
+
   const [hasStories, setHasStories] = useState(false);
+
   const { id } = useParams();
-
-
-  
-
-  const handleFollow = () => {
-    let followersArr = [];
-    let followingArr = [];
-    if (!isFollowing) {
-      followersArr.push(currentUser.uid);
-      followingArr.push(user.uid);
-    } else {
-      let followerIndex = followersArr.indexOf(currentUser.uid);
-      let followingIndex = followingArr.indexOf(user.uid);
-
-      followersArr.splice(followerIndex, 1);
-      followingArr.splice(followingIndex, 1);
-    }
-
-    db.collection("users").doc(id).update({
-      followers: followersArr,
-    });
-
-    db.collection("users").doc(currentUser.uid).update({
-      following: followingArr,
-    });
-
-    setIsFollowing(!isFollowing);
-  };
 
   useEffect(() => {
     db.collection("users")
@@ -73,7 +49,20 @@ export default function ProfilePage() {
       .get()
       .then((res) => {
         let data = res.data();
-        setUser({ ...data });
+        // setUser({ ...data });
+        setUser(data);
+
+        if (user.uid === currentUser.uid) {
+          setIsCurrentUser(true);
+        } else {
+          setIsCurrentUser(false);
+        }
+        let isFollowedByUser = data.followers.some(
+          (id) => id === currentUser.uid
+        );
+        if (isFollowedByUser) {
+          setIsFollowing(true);
+        }
 
         db.collection("posts")
           .where("createdBy", "==", data.uid)
@@ -101,40 +90,71 @@ export default function ProfilePage() {
 
             setStories(storiesArr);
 
-            if(!storiesArr.length){
+            if (!storiesArr.length) {
               setHasStories(false);
-            }else{
+            } else {
               setHasStories(true);
             }
 
           });
 
-        db.collection("users")
-          .doc(id)
-          .onSnapshot((snap) => {
-            let followers = snap.data().followers;
-            let following = snap.data().following
-            setFollowedByNumber(followers.length);
-            setFollowingNumber(following.length);
-            let isFollowedByUser = followers.some(
-              (id) => id === currentUser.uid
-            );
-            if (isFollowedByUser) {
-              setIsFollowing(true);
-            }
-          });
+        // db.collection("users")
+        //   .doc(id)
+        //   .onSnapshot((snap) => {
+        //     let followers = snap.data().followers;
+        //     let following = snap.data().following
+        // setFollowedByNumber(followers.length);
+        // setFollowingNumber(following.length);
+
+        // });
       })
       .catch((err) => console.log(err.message));
   }, [id]);
 
   useEffect(() => {
-    if (user.uid === currentUser.uid) {
-      setIsCurrentUser(true);
-    } else {
-      setIsCurrentUser(false);
-    }
-    
+    db.collection("users")
+      .doc(id)
+      .onSnapshot(user => {
+        setCurrentUser(user.data())
+
+        
+      })
   }, [user.uid, currentUser]);
+
+  const handleFollow = () => {
+    let userFollowersArr = [...user.followers];
+    let clientFollowingArr = [...currentUser.following];
+    if (!isFollowing) {
+
+      userFollowersArr.push(currentUser.uid);
+      clientFollowingArr.push(user.uid);
+
+      setUser(prevState => ({ ...prevState, followers: userFollowersArr }))
+
+    } else {
+
+      let followerIndex = userFollowersArr.indexOf(currentUser.uid);
+      let followingIndex = clientFollowingArr.indexOf(user.uid);
+
+      userFollowersArr.splice(followerIndex, 1);
+      clientFollowingArr.splice(followingIndex, 1);
+
+    }
+    // this is not the personal profile
+    db.collection("users").doc(id).update({
+      followers: userFollowersArr,
+    });
+    //  this is the personal profile
+    db.collection("users").doc(currentUser.uid).update({
+      following: clientFollowingArr,
+    });
+
+    setIsFollowing(!isFollowing);
+  };
+
+
+
+
 
   const handleOpen = () => {
     setIsStoryOpen(true);
@@ -148,16 +168,16 @@ export default function ProfilePage() {
     <>
       <header className={styles.profilePage_header}>
         <div className={styles.avatar_container}>
-        
+
           <Avatar
-            style = {hasStories ? {background:"linear-gradient(to right, #f9c83f, #b31bb5)"} : {background:"none"}}
+            style={hasStories ? { background: "linear-gradient(to right, #f9c83f, #b31bb5)" } : { background: "none" }}
             className={styles.avatarProfile}
             alt={user.displayName}
             src={user.photoUrl || "/static/images/avatar/1.jpg"}
             onClick={handleOpen}
           />
-  
-         
+
+
           <StoryUpload
             user={user}
             text={"Upload story"}
@@ -181,8 +201,8 @@ export default function ProfilePage() {
           </h2>
           <ul>
             <li><span>{posts.length || 0}</span>  <span>Posts</span></li>
-            <li><span>{followedByNumber || 0}</span> <span>Followers</span></li>
-            <li><span>{followingNumber || 0} </span> <span>Following</span></li>
+            <li><span>{user.followers.length || 0}</span> <span>Followers</span></li>
+            <li><span>{user.following.length || 0} </span> <span>Following</span></li>
           </ul>
 
           <p>{user.biography}</p>

@@ -114,15 +114,12 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
           locale="en-US"
         />
       )}
-
+ 
       <TextInput
         placeholder={"Add comment ..."}
         buttonText={buttonText}
-        buttonOnClick={postComment}
-        text={comment}
-        setText={setComment}
+        send={postComment}
         styles={stylesB}
-
       />
     </React.Fragment>
   );

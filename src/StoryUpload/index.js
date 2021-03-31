@@ -88,7 +88,6 @@ function StoryUpload(props) {
 
   const handleChange = (ev) => {
     if (ev.target.files[0]) {
-      // setImage({ ...ev.target.files[0], name: v4() });
       setImage(ev.target.files[0]);
       setLabel("Change picture");
       setFilie(URL.createObjectURL(ev.target.files[0]));

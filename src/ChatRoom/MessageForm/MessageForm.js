@@ -11,7 +11,6 @@ import TextInput from "../../TextInput/TextInput";
 
 export default function CommentsForm({ convoId, time, uid, buttonText }) {
 
-    const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [user, setUser] = useState({});
 
@@ -22,8 +21,7 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
 
-    const sendMessage = (ev) => {
-        ev.preventDefault();
+    const sendMessage = (str) => {
 
         db.collection("messages").add({
             forConvo: convoId,
@@ -31,10 +29,9 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
                 username: user.displayName,
                 userPhoto: user.photoUrl,
             },
-            text: message,
+            text: str,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         });
-        setMessage("");
 
     };
 
@@ -91,9 +88,7 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
             <TextInput
                 placeholder={"Write message ..."}
                 buttonText={buttonText}
-                buttonOnClick={sendMessage}
-                text={message}
-                setText={setMessage}
+                send={sendMessage}
                 styles={stylesC}
             />
         </React.Fragment>

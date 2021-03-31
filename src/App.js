@@ -78,7 +78,7 @@ function App() {
             </Route>
 
             <Route exact path={`/profile/:id`}>
-              <ProfilePage />
+              <ProfilePage currentUser={currentUser} />
             </Route>
 
             <Route path={"/profile/settings/:id"}>

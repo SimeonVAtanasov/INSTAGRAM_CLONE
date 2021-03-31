@@ -117,8 +117,8 @@ export default function SettingsPage({ currentUser }) {
                         <TextareaAutosize
                             cols={50}
                             rowsMax={4}
-                            aria-label="maximum height"
-                            placeholder="Maximum 4 rows"
+                            aria-label="user biography"
+                            placeholder="Write your  biography"
                             value={biography}
                             onInput={handleBiographyChange}
                         />
