@@ -10,10 +10,12 @@ import style from "../Explore/Explore.module.scss";
 import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload";
 import firebase from "firebase/app";
-import userEvent from "@testing-library/user-event";
+
 
 export default function ProfilePage() {
+
   const currentUser = firebase.auth().currentUser;
+
   const [user, setUser] = useState({
     displayName: "",
     photoUrl: "",
@@ -23,8 +25,10 @@ export default function ProfilePage() {
     biography: "",
     uid: "",
   });
+
   let followingCount = user.following.length;
   let followersCount = user.followers.length;
+
   const [posts, setPosts] = useState([]);
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
@@ -32,7 +36,7 @@ export default function ProfilePage() {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followedByNumber, setFollowedByNumber] = useState(followersCount);
   const [followingNumber, setFollowingNumber] = useState(followingCount);
-
+  const [hasStories, setHasStories] = useState(false);
   const { id } = useParams();
 
 
@@ -122,6 +126,12 @@ export default function ProfilePage() {
     } else {
       setIsCurrentUser(false);
     }
+    if(!stories.length){
+      setHasStories(false);
+    }else{
+      setHasStories(true);
+    }
+    
   }, [user.uid, currentUser]);
 
   const handleOpen = () => {
@@ -136,12 +146,16 @@ export default function ProfilePage() {
     <>
       <header className={styles.profilePage_header}>
         <div className={styles.avatar_container}>
+        
           <Avatar
+            style = {hasStories ? {background:"linear-gradient(to right, #f9c83f, #b31bb5)"} : {background:"none"}}
             className={styles.avatarProfile}
             alt={user.displayName}
             src={user.photoUrl || "/static/images/avatar/1.jpg"}
             onClick={handleOpen}
           />
+  
+         
           <StoryUpload
             user={user}
             text={"Upload story"}
@@ -172,7 +186,7 @@ export default function ProfilePage() {
           <p>{user.biography}</p>
         </div>
       </header>
-      {isStoryOpen && (
+      {isStoryOpen && hasStories && (
         <StoriesSection
           user={user}
           isStoryOpen={isStoryOpen}

@@ -13,13 +13,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     .avatarProfile {
       margin: 0 0 0 3.5em;
       width: 150px;
       height: 150px;
-    }
+      // background: linear-gradient(to right, #f9c83f, #b31bb5);
+      padding: 5px;
 
+      img {
+        border-radius: 50%;
+      }
+    }
+  
     button {
       border: 2px solid rgba(var(--d69, 0, 149, 246), 1);
       border-radius: 50px;
