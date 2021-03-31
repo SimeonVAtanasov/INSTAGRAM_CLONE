@@ -6,16 +6,36 @@
   background-color: white;
   height: 600px;
   .convoBox {
+    
+    cursor: pointer;
+    border-radius: 3px;
     position: relative;
     border-right: 1px solid lightgray;
-    width: 300px;
+    width: 300px ;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 600px;
+
     .searchInput {
       width: 100%;
     }
+
+    .singleConvo {
+      display: flex;
+      align-items: center;
+      height: 56px;
+      border-bottom: 1px solid lightgray;
+      padding-left: 6px;
+      &:hover {
+        background-color: lightgray;
+      }
+      .convoName {
+        margin-bottom: 0;
+        margin-top: 12px;
+        margin-left: 12px;
+      }
+    }
+
     .suggestions {
       padding-left: 6px;
       cursor: pointer;
@@ -33,6 +53,12 @@
       > div:first-child {
         margin-top: 6px;
       }
+    }
+
+    .convoBoxBottom{
+      max-height: 542px !important;
+      width: 300px !important;
+      overflow-y: auto;
     }
   }
   .contentBox {

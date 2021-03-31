@@ -1,4 +1,4 @@
-import React, { useState,useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { Button } from "@material-ui/core";
 import { storage, db } from "../firebase";
 import firebase from "firebase/app";
@@ -9,7 +9,7 @@ import { Input } from "@material-ui/core";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import LinearProgress from "../LinearProgress";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4, v4 } from 'uuid';
 
 import Webcam from "react-webcam";
 
@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function StoryUpload(props) { 
-   const classes = useStyles();
+function StoryUpload(props) {
+  const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
@@ -57,18 +57,18 @@ function StoryUpload(props) {
     const webcamRef = React.useRef(null);
 
     const capture = useCallback(
-        async () => {
-          const imageSrc = webcamRef.current.getScreenshot();
-          const blob = await fetch(imageSrc).then((res) => res.blob());
-          blob.name = uuidv4();
+      async () => {
+        const imageSrc = webcamRef.current.getScreenshot();
+        const blob = await fetch(imageSrc).then((res) => res.blob());
+        blob.name = v4();
 
         setImage(blob);
         setFilie(imageSrc);
         setIsCameraOpen(false);
 
-        },
-        [webcamRef]
-      )
+      },
+      [webcamRef]
+    )
     return (
       <>
         <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
@@ -88,7 +88,7 @@ function StoryUpload(props) {
 
   const handleChange = (ev) => {
     if (ev.target.files[0]) {
-      setImage(ev.target.files[0]);
+      setImage({ ...ev.target.files[0], name: v4() });
       setLabel("Change picture");
       setFilie(URL.createObjectURL(ev.target.files[0]));
     }
@@ -100,7 +100,7 @@ function StoryUpload(props) {
   };
 
   const handleUpload = () => {
-    const uploadImage = storage.ref(`images/${image.name + Date.now()}`).put(image);
+    const uploadImage = storage.ref(`images/${image.name}`).put(image);
 
     uploadImage.on(
       "state_changed",
@@ -121,7 +121,7 @@ function StoryUpload(props) {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-            if(props.isPost){
+            if (props.isPost) {
               db.collection("posts").add({
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 caption: caption,
@@ -132,7 +132,7 @@ function StoryUpload(props) {
                 uid: props.user.uid,
                 likedBy: []
               });
-            } else { 
+            } else {
               db.collection("stories").add({
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 imageUrl: url,
@@ -142,10 +142,10 @@ function StoryUpload(props) {
                 uid: props.user.uid,
               });
             }
-           
+
             // This  line should adds to  a collection in current user's doc
             // db.collection("users").doc(props.user.uid).update({posts:[{
-              
+
             //   caption: caption,
             //   imageUrl: url,
             //   username: props.user.displayName,
@@ -196,7 +196,7 @@ function StoryUpload(props) {
           placeholder="Write a caption..."
           value={caption}
           onInput={(ev) => setCaption(ev.target.value)}
-        ></Input> }
+        ></Input>}
 
 
         <img src={file} alt={caption} />
@@ -217,7 +217,7 @@ function StoryUpload(props) {
   return (
     <div>
       <button className="new_post_btn" type="button" onClick={handleOpen}>
-        Upload 
+        Upload
       </button>
       <Modal
         open={open}
