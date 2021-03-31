@@ -6,11 +6,13 @@ import styles from "./Home.module.css";
 
 export default function Home({ currentUser }) {
   const posts = useSelector((state) => state.posts.posts);
+  const filteredPosts= posts.filter(({post}) => currentUser.following.includes(post.createdBy));
+
 
   return (
     <div className={styles.home_page}>
       <div className={styles.home_posts}>
-        {posts.map(({ id, post }) => (
+        {filteredPosts.map(({ id, post }) => (
           <Post
             key={id}
             postId={id}
