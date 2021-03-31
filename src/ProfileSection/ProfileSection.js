@@ -32,7 +32,7 @@ export default function ProfileSection({ currentUser }) {
 
 
           {/* <PostUpload></PostUpload>  TO DO  MERGE THE TWO COMPOMENTS*/}
-          <StoryUpload user={currentUser} text={"Upload photo"} isPost={true} />
+          <StoryUpload user={currentUser} text={"Upload photo"} isPost={true} buttonText = {"Upload post"} />
 
         </div>
       </div>

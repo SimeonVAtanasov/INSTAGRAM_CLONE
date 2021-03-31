@@ -100,7 +100,7 @@ function StoryUpload(props) {
   };
 
   const handleUpload = () => {
-    const uploadImage = storage.ref(`images/${image.name + Date.now()}`).put(image);
+    const uploadImage = storage.ref(`images/${image.name}`).put(image);
 
     uploadImage.on(
       "state_changed",
@@ -217,7 +217,7 @@ function StoryUpload(props) {
   return (
     <div>
       <button className="new_post_btn" type="button" onClick={handleOpen}>
-        Upload 
+        {props.buttonText}
       </button>
       <Modal
         open={open}

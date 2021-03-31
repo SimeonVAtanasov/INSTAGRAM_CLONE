@@ -90,6 +90,7 @@ export default function ProfilePage() {
             user={user}
             text={"Upload story"}
             isPost={false}
+            buttonText={"Upload story"}
           ></StoryUpload>
         </div>
         <div className={styles.profileInfoWrapper}>

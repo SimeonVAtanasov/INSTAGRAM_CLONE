@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Avatar } from "@material-ui/core";
 import styles from "./Post.module.scss";
-import EmojiKeybord from "../EmojiKeybord";
-import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
-
-import ReactTimeAgo from "react-time-ago";
 import PostMenu from "../Post/PostMenu/PostMenu.js";
 import { Link } from "react-router-dom";
 import CommentsForm from "../Post/CommentsForm/CommentsForm.js";
@@ -113,8 +109,7 @@ function Post({
         userPhoto={userPhoto}
         caption={caption}
         time={time}
-        postId={postId}
-        
+        postId={postId}   
       ></PostModal>
     </div>
   );

@@ -7,7 +7,7 @@ import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import { db } from "../../firebase";
 import firebase from "firebase/app";
-// import PostModal from "./Post/PostModal"
+
 
 function PostMenu({
   setLikedByNumber,
@@ -19,9 +19,6 @@ function PostMenu({
   setLikedByUsers,
   setShowHeart
 }) {
-  // const [likedBy, setLikedBy] = useState([]);
-
-  // const [isLiked, setIsLiked] = useState(false);
 
   const userCredential = firebase.auth().currentUser;
 
