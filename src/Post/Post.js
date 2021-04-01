@@ -96,7 +96,7 @@ function Post({
         postId={postId}
         time={time}
         uid={uid}
-        buttonText={"Публикуване"}
+        buttonText={"Post"}
         openModal={openModal}
         setOpenModal={setOpenModal}
       ></CommentsForm>

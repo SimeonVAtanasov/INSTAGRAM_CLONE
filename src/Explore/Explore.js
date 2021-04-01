@@ -1,8 +1,10 @@
 import ExplorePost from "./ExplorePost/ExplorePost.js";
 import styles from "./Explore.module.scss";
+import {useSelector} from "react-redux";
 
 
-export default function Explore({ posts }) {
+export default function Explore() {
+  const posts = useSelector(state => state.posts.posts);
   return (
     <>
       <div className={styles.exploreContainer}>

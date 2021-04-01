@@ -19,7 +19,6 @@
       margin: 0 0 0 3.5em;
       width: 150px;
       height: 150px;
-      // background: linear-gradient(to right, #f9c83f, #b31bb5);
       padding: 5px;
 
       img {
@@ -55,9 +54,11 @@
       font-family: inherit;
       font-weight: 400;
       font-size: 21px;
+      width: 400px;
+      
       a {
         color: black;
-        margin-right: 3.5em;
+        margin-right: 4.3em;
         text-decoration: none;
         display: flex;
         align-items: center;

@@ -9,7 +9,7 @@ import { Input } from "@material-ui/core";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import LinearProgress from "../LinearProgress";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { v4 as uuidv4, v4 } from 'uuid';
+import { v4 as uuidv4, v4 } from "uuid";
 
 import Webcam from "react-webcam";
 
@@ -56,19 +56,15 @@ function StoryUpload(props) {
   const WebcamCapture = () => {
     const webcamRef = React.useRef(null);
 
-    const capture = useCallback(
-      async () => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        const blob = await fetch(imageSrc).then((res) => res.blob());
-        blob.name = v4();
+    const capture = useCallback(async () => {
+      const imageSrc = webcamRef.current.getScreenshot();
+      const blob = await fetch(imageSrc).then((res) => res.blob());
+      blob.name = v4();
 
-        setImage(blob);
-        setFilie(imageSrc);
-        setIsCameraOpen(false);
-
-      },
-      [webcamRef]
-    )
+      setImage(blob);
+      setFilie(imageSrc);
+      setIsCameraOpen(false);
+    }, [webcamRef]);
     return (
       <>
         <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
@@ -100,7 +96,7 @@ function StoryUpload(props) {
   };
 
   const handleUpload = () => {
-    const uploadImage = storage.ref(`images/${image.name}`).put(image);
+    const uploadImage = storage.ref(`images/${Date.now()}`).put(image);
 
     uploadImage.on(
       "state_changed",
@@ -116,51 +112,45 @@ function StoryUpload(props) {
       },
       () => {
         //complete
-        storage
-          .ref("images")
-          .child(image.name)
-          .getDownloadURL()
-          .then((url) => {
-            if (props.isPost) {
-              db.collection("posts").add({
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                caption: caption,
-                imageUrl: url,
-                username: props.user.displayName,
-                createdBy: props.user.uid,
-                userPhoto: props.user.photoUrl,
-                uid: props.user.uid,
-                likedBy: []
-              });
-            } else {
-              db.collection("stories").add({
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                imageUrl: url,
-                username: props.user.displayName,
-                createdBy: props.user.uid,
-                userPhoto: props.user.photoUrl,
-                uid: props.user.uid,
-              });
-            }
+        uploadImage.snapshot.ref.getDownloadURL().then((url) => {
+          if (props.isPost) {
+            db.collection("posts").add({
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              caption: caption,
+              imageUrl: url,
+              username: props.user.displayName,
+              createdBy: props.user.uid,
+              userPhoto: props.user.photoUrl,
+              likedBy: [],
+            });
+          } else {
+            db.collection("stories").add({
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              imageUrl: url,
+              username: props.user.displayName,
+              createdBy: props.user.uid,
+              userPhoto: props.user.photoUrl,
+            });
+          }
 
-            // This  line should adds to  a collection in current user's doc
-            // db.collection("users").doc(props.user.uid).update({posts:[{
+          // This  line should adds to  a collection in current user's doc
+          // db.collection("users").doc(props.user.uid).update({posts:[{
 
-            //   caption: caption,
-            //   imageUrl: url,
-            //   username: props.user.displayName,
-            //   userPhoto: props.user.photoUrl,
-            //   uid: props.user.uid,
-            //   likes: 0
-            // }]})
-            setProgress(0);
-            setCaption("");
-            setImage(null);
-            handleClose();
-            setLabel("Choose a picture");
-            setFilie(null);
-            setIsCameraOpen(false);
-          });
+          //   caption: caption,
+          //   imageUrl: url,
+          //   username: props.user.displayName,
+          //   userPhoto: props.user.photoUrl,
+          //   uid: props.user.uid,
+          //   likes: 0
+          // }]})
+          setProgress(0);
+          setCaption("");
+          setImage(null);
+          handleClose();
+          setLabel("Choose a picture");
+          setFilie(null);
+          setIsCameraOpen(false);
+        });
       }
     );
   };
@@ -191,13 +181,14 @@ function StoryUpload(props) {
 
         {isCameraOpen && <WebcamCapture></WebcamCapture>}
 
-        {props.isPost && <Input
-          type="text"
-          placeholder="Write a caption..."
-          value={caption}
-          onInput={(ev) => setCaption(ev.target.value)}
-        ></Input>}
-
+        {props.isPost && (
+          <Input
+            type="text"
+            placeholder="Write a caption..."
+            value={caption}
+            onInput={(ev) => setCaption(ev.target.value)}
+          ></Input>
+        )}
 
         <img src={file} alt={caption} />
         <Button

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { Avatar, Box, Button, OutlinedInput, TextareaAutosize, TextField } from '@material-ui/core';
@@ -15,6 +15,8 @@ import FormControl from '@material-ui/core/FormControl';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SettingsMenu from './SettingsMenu/SettingsMenu';
 import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrentUserUpdated } from '../CurrentUser.actions';
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -23,33 +25,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SettingsPage({ currentUser }) {
-
+export default function SettingsPage() {
+    const dispatch = useDispatch();
     const classes = useStyles();
 
-    const [user, setUser] = useState(currentUser);
-
-    const [displayNameText, setDisplayNameText] = useState(user.displayName);
-    const [biography, setBiography] = useState(user.biography);
-
-    let { id } = useParams();
+    const currentUser = useSelector(state => state.currentUser.user)
 
 
-    useEffect(() => {
-        if (displayNameText) {
-            db.collection("users").doc(id).update({ ...user })
+    const prevDisplayName = useRef();
+    const prevBiography = useRef();
+    const [displayNameText, setDisplayNameText] = useState("");
+    const [biography, setBiography] = useState("");
 
-            console.log("hi");
-        }
-    }, [user.displayName])
+
+    // let { id } = useParams();
 
     useEffect(() => {
-        if (biography) {
-            db.collection("users").doc(id).update({ ...user }).then(() => console.log("yes"))
+        setDisplayNameText(currentUser.displayName)
+        setBiography(currentUser.biography)
+        prevDisplayName.current = currentUser.displayName;
+        prevBiography.current = currentUser.biography;
 
-            console.log("hi");
+    }, [currentUser])
+
+    useEffect(() => {
+        if (displayNameText !== prevDisplayName.current && currentUser.id ) {
+            db.collection("users").doc(currentUser.id).update({ ...currentUser })
+
         }
-    }, [user.biography])
+        
+        if (biography !== prevBiography.current && currentUser.id) {
+            db.collection("users").doc(currentUser.id).update({ ...currentUser }).then(() => console.log("yes"))
+
+        }
+    }, [currentUser])
+
 
     const handleDisplayNameChange = (e) => {
         setDisplayNameText(e.target.value)
@@ -60,10 +70,7 @@ export default function SettingsPage({ currentUser }) {
     }
 
     const handleSaveChanges = () => {
-        setUser({ displayName: displayNameText, biography: biography })
-
-
-        // db.collection("users").doc(id).update({biography}).then(()=> console.log("yes"))
+        dispatch(fetchCurrentUserUpdated({ ...currentUser, displayName: displayNameText, biography: biography }))
     }
 
 
@@ -79,12 +86,12 @@ export default function SettingsPage({ currentUser }) {
                     <Box className={`${styles.headerSettings} ${styles.settingsWrapperDiv}`}>
                         <Avatar
                             className={styles.avatarSettings}
-                            alt={user.displayName}
-                            src={user.photoUrl || "/static/images/avatar/1.jpg"}
+                            alt={currentUser.displayName}
+                            src={currentUser.photoUrl || "/static/images/avatar/1.jpg"}
                         />
                         <Box className={styles.header}>
                             <Box className={styles.nameWrapper}>
-                                <h2>{user.displayName}</h2>
+                                <h2>{currentUser.displayName}</h2>
                                 <SettingsMenu />
                             </Box>
 

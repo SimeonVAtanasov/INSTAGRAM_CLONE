@@ -1,20 +1,19 @@
 import { Avatar } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 import SettingsIcon from "@material-ui/icons/Settings";
 import styles from "../ProfilePage/ProfilePage.module.scss";
-import { v4 as uuidv4, v4 } from "uuid";
+import { v4 } from "uuid";
 import { Link, useParams } from "react-router-dom";
 import ExplorePost from "../Explore/ExplorePost/ExplorePost.js";
 import style from "../Explore/Explore.module.scss";
 import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload";
-import firebase from "firebase/app";
+import { useSelector } from "react-redux";
 
-// TO DO REFACTOR AGAIN WORK FLOW INTETUPTED
+
 export default function ProfilePage(props) {
-
-  // const browsingUser = firebase.auth().currentUser;
+  
 
   const [user, setUser] = useState({
     displayName: "",
@@ -26,19 +25,14 @@ export default function ProfilePage(props) {
     uid: "",
   });
 
-  // let followingCount = user.following.length;
-  // let followersCount = user.followers.length;
-  const currentUser = props.currentUser;
+  const currentUser = useSelector(state => state.currentUser.user)
+
   const [posts, setPosts] = useState([]);
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
 
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-
-  // const [followedByNumber, setFollowedByNumber] = useState(followersCount);
-  // const [followingNumber, setFollowingNumber] = useState(followingCount);
-
   const [hasStories, setHasStories] = useState(false);
 
   const { id } = useParams();
@@ -55,7 +49,7 @@ export default function ProfilePage(props) {
           setUser(currentUser)
         } else {
           setIsCurrentUser(false);
-          setUser(data);
+          setUser({...data});
         }
         // db.collection("posts")
         //   .where("uid", "==", data.uid)
@@ -69,11 +63,29 @@ export default function ProfilePage(props) {
         //     setPosts(posts);
         //   })
 
-        let isFollowedByUser = data.followers.some((element) => element === currentUser.uid);
+        let isFollowedByUser = data.followers.some(
+          (id) => id === currentUser.uid
+        );
         if (isFollowedByUser) {
           setIsFollowing(true);
         }
-         
+
+        db.collection("posts")
+          .where("createdBy", "==", data.uid)
+          .onSnapshot((querySnapshot) => {
+            let posts = [];
+
+            querySnapshot.forEach((doc) => {
+              let post = doc.data();
+              posts.push({ ...post, id: doc.id });
+            });
+
+            setPosts(posts);
+          });
+        // .catch((error) => {
+        //   console.log("Error getting documents: ", error);
+        // });
+
         db.collection("stories")
           .where("createdBy", "==", data.uid)
           .onSnapshot((querySnapshot) => {
@@ -93,42 +105,23 @@ export default function ProfilePage(props) {
           });
       })
       .catch((err) => console.log(err.message));
-  }, [id]);
-
-  // useEffect(()=>{
-  //   db.collection("posts")
-  //   .where("createdBy", "==", id)
-  //   .onSnapshot((querySnapshot) => {
-  //     let posts = [];
-
-  //     querySnapshot.forEach((doc) => {
-  //       posts.push(doc.data());
-  //     });
-
-  //     setPosts(posts);
-  //   })
-
-  // },[id])
+  }, [id,  currentUser]);
 
   const handleFollow = () => {
     let userFollowersArr = [...user.followers];
     let clientFollowingArr = [...currentUser.following];
     if (!isFollowing) {
-
       userFollowersArr.push(currentUser.uid);
       clientFollowingArr.push(id);
 
-      setUser(prevState => ({ ...prevState, followers: userFollowersArr }))
-
+      setUser((prevState) => ({ ...prevState, followers: userFollowersArr }));
     } else {
-
       let followerIndex = userFollowersArr.indexOf(currentUser.uid);
       let followingIndex = clientFollowingArr.indexOf(user.uid);
 
       userFollowersArr.splice(followerIndex, 1);
       clientFollowingArr.splice(followingIndex, 1);
-      setUser(prevState => ({ ...prevState, followers: userFollowersArr }))
-
+      setUser((prevState) => ({ ...prevState, followers: userFollowersArr }));
     }
     // this is not the personal profile
     db.collection("users").doc(id).update({
@@ -142,10 +135,6 @@ export default function ProfilePage(props) {
     setIsFollowing(!isFollowing);
   };
 
-
-
-
-
   const handleOpen = () => {
     setIsStoryOpen(true);
   };
@@ -158,22 +147,27 @@ export default function ProfilePage(props) {
     <>
       <header className={styles.profilePage_header}>
         <div className={styles.avatar_container}>
-
           <Avatar
-            style={hasStories ? { background: "linear-gradient(to right, #f9c83f, #b31bb5)" } : { background: "#bdbdbd" }}
+            style={
+              hasStories
+                ? { background: "linear-gradient(to right, #f9c83f, #b31bb5)" }
+                : { background: "#bdbdbd" }
+            }
             className={styles.avatarProfile}
-            alt={user.displayName}
+            alt={user.displayName || "User"}
             src={user.photoUrl || "/static/images/avatar/1.jpg"}
             onClick={handleOpen}
           />
 
-
-          <StoryUpload
-            user={user}
-            text={"Upload story"}
-            isPost={false}
-            buttonText={"Upload story"}
-          ></StoryUpload>
+          {isCurrentUser && (
+            <StoryUpload
+              user={user}
+              text={"Upload story"}
+              isPost={false}
+              buttonText={"Upload story"}
+            ></StoryUpload>
+          )}
+          
         </div>
         <div className={styles.profileInfoWrapper}>
           <h2>
@@ -190,9 +184,15 @@ export default function ProfilePage(props) {
             )}
           </h2>
           <ul>
-            <li><span>{posts.length || 0}</span>  <span>Posts</span></li>
-            <li><span>{user.followers.length || 0}</span> <span>Followers</span></li>
-            <li><span>{user.following.length || 0} </span> <span>Following</span></li>
+            <li>
+              <span>{posts.length || 0}</span> <span>Posts</span>
+            </li>
+            <li>
+              <span>{user.followers.length || 0}</span> <span>Followers</span>
+            </li>
+            <li>
+              <span>{user.following.length || 0} </span> <span>Following</span>
+            </li>
           </ul>
 
           <p>{user.biography}</p>
@@ -210,7 +210,7 @@ export default function ProfilePage(props) {
 
       <main className={style.exploreProfileContainer}>
         {posts.map((post) => (
-          <ExplorePost key={v4()} post={post}/>
+          <ExplorePost key={v4()} post={post} id={post.id} />
         ))}
       </main>
     </>

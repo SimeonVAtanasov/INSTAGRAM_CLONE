@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import {
@@ -15,33 +15,28 @@ import Explore from "./Explore/Explore";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import SettingsPage from "./SettingsPage/SettingsPage";
 import ChatRoom from "./ChatRoom/ChatRoom";
-import {fetchPosts} from "./Post/Posts.actions"
+import { subscribeToRealTimeEvents } from "./Post/Posts.actions"
+import { getCurrentUser } from "./CurrentUser.actions";
 
 function App() {
 
   const dispatch = useDispatch();
-  const posts = useSelector(state => state.posts.posts);
-
+  // const posts = useSelector(state => state.posts.posts);
+  const currentUser = useSelector(state => state.currentUser)
   const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false
-  
-  const [currentUser, setCurrentUser] = useState({});
+
   const [isLoading, setIsLoading] = useState(true);
 
   let changeStatusLoggedIn = () => { setIsLoggedIn(prevState => !prevState) };
 
   useEffect(() => {
+    setIsLoading(true);
     auth.onAuthStateChanged((user) => {
       if (user) {
-        const id = user.uid
-        db.collection("users").doc(id).get()
-          .then((res) => {
-            let data = res.data();
-            setCurrentUser({ ...data });
-            setIsLoggedIn(true);
-            setIsLoading(false);
-          })
-      }
-      else {
+        dispatch(getCurrentUser(user));
+        setIsLoggedIn(true)
+        setIsLoading(false)
+      } else {
         <Redirect to="/login" />
         setIsLoading(false)
       }
@@ -49,7 +44,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(subscribeToRealTimeEvents());
   }, []);
 
   if (isLoading) {
@@ -62,23 +57,23 @@ function App() {
       (<Router id="router">
 
         {isLoggedIn && <>
-          <NavBar onLogout={changeStatusLoggedIn} currentUser={currentUser} />
+          <NavBar onLogout={changeStatusLoggedIn}  />
         </>}
         <div>
           <Switch>
             <Route exact path="/">
-              {isLoggedIn ? <Home posts={posts} currentUser={currentUser} /> : <Login />}
+              {isLoggedIn ? <Home  /> : <Login />}
             </Route>
             <Route path="/inbox">
-              <ChatRoom currentUser={currentUser}/>
+              <ChatRoom  />
             </Route>
 
             <Route path="/explore">
-              <Explore posts={posts} />
+              <Explore />
             </Route>
 
             <Route exact path={`/profile/:id`}>
-              <ProfilePage currentUser={currentUser} />
+              <ProfilePage  />
             </Route>
 
             <Route path={"/profile/settings/:id"}>

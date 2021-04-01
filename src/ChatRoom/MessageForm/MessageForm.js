@@ -52,7 +52,8 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
         if (convoId) {
             db.collection("messages")
                 .where("forConvo", "==", convoId)
-                .orderBy("timestamp", "asc")
+                .orderBy("timestamp", "desc")
+                .limit(15)
                 .onSnapshot((snapshot) => {
                     let messagesArr = [];
                     snapshot.forEach((doc) => {

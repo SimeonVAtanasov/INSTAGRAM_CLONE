@@ -1,7 +1,7 @@
 import {
   FETCH_POSTS_FAILED,
   FETCH_POSTS_REQUESTED,
-  FETCH_POSTS_SUCCEEDED,
+  FETCH_POSTS_UPDATED,
   FETCH_POSTS_ADDED,
 } from "./Posts.actions";
 
@@ -19,7 +19,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         isLoading: true,
       };
 
-    case FETCH_POSTS_SUCCEEDED:
+    case FETCH_POSTS_UPDATED:
       return {
         ...state,
         posts: action.payload,

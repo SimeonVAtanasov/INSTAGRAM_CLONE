@@ -1,11 +1,11 @@
 import { db } from "../firebase";
-export const FETCH_POSTS_SUCCEEDED = "FETCH_POSTS_SUCCEEDED";
+export const FETCH_POSTS_UPDATED = "FETCH_POSTS_UPDATED";
 export const FETCH_POSTS_FAILED = "FETCH_POSTS_FAILED";
 export const FETCH_POSTS_REQUESTED = "FETCH_POSTS_REQUESTED";
 export const FETCH_POSTS_ADDED = "FETCH_POSTS_ADDED";
 
-export const fetchPostsSucceded = (posts) => ({
-  type: FETCH_POSTS_SUCCEEDED,
+export const fetchPostsUpdated = (posts) => ({
+  type: FETCH_POSTS_UPDATED,
   payload: posts,
 });
 
@@ -23,7 +23,9 @@ export const fetchPostAdded = (post) => ({
   payload: post,
 });
 
-export const fetchPosts = () => {
+
+
+export const subscribeToRealTimeEvents = () => {
   return function (dispatch) {
 
       dispatch(fetchPostsRequested());
@@ -31,7 +33,7 @@ export const fetchPosts = () => {
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
           dispatch(
-            fetchPostsSucceded(
+            fetchPostsUpdated(
               snapshot.docs.map((doc) => ({
                 id: doc.id,
                 post: doc.data(),
@@ -41,3 +43,4 @@ export const fetchPosts = () => {
         });
     }
 };
+

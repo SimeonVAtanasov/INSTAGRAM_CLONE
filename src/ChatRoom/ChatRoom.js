@@ -6,9 +6,11 @@ import stylesB from "./ChatRoom.module.scss"
 import MessageForm from "./MessageForm/MessageForm"
 import Comment from '../Post/Comment/Comment';
 import QuestionAnswerOutlinedIcon from '@material-ui/icons/QuestionAnswerOutlined';
+import { useSelector } from 'react-redux';
 
-export default function ChatRoom(props) {
-    const [currentUser, setCurrentUser] = useState(props.currentUser);
+export default function ChatRoom() {
+    const currentUser = useSelector(state => state.currentUser.user)
+
     const [conversations, setConversations] = useState([]);
     const [convoId, setConvoId] = useState('');
     const [users, setUsers] = useState([]);
@@ -22,25 +24,28 @@ export default function ChatRoom(props) {
                 let conversations = [];
                 snap.forEach(conversation => conversations.push(conversation.data()));
                 setConversations(conversations)
-                setConvoId(conversations[0].convoId)
+                if (conversations.length) {
+                    setConvoId(conversations[0].convoId)
+                }
+
             })
-        
+
+
+    }, [currentUser])
+
+    useEffect(() => {
+        db.collection("users")
+            .get()
+            .then((querySnapshot) => {
+                let fetchedUsers = [];
+                querySnapshot.forEach((doc) => {
+                    fetchedUsers.push(doc.data());
+                    setUsers(fetchedUsers)
+                });
+
+            })
 
     }, [])
-
-    useEffect(()=>{
-        db.collection("users")
-        .get()
-        .then((querySnapshot) => {
-            let fetchedUsers = [];
-            querySnapshot.forEach((doc) => {
-                fetchedUsers.push(doc.data());
-                setUsers(fetchedUsers)
-            });
-
-        })
-
-    },[])
 
     const handleInput = (ev) => {
         ev.preventDefault();
@@ -57,10 +62,12 @@ export default function ChatRoom(props) {
     const createNewChatRoom = (receiver) => {
         let convoQuerry = conversations.filter(convo => convo.users.includes(receiver.uid));
         let isCreated = Boolean(convoQuerry.length);
-        // console.log("🚀 ~ file: ChatRoom.js ~ line 55 ~ createNewChatRoom ~ isCreated", isCreated)
 
         if (isCreated) {
-            setConvoId(convoQuerry[0].convoId)
+            setConvoId(convoQuerry[0].convoId);
+            setSearchInput("");
+            setFilteredUsers([]);
+
         } else {
             let id = v4();
             db.collection("chatRooms").doc(id).set(
@@ -68,7 +75,11 @@ export default function ChatRoom(props) {
                     convoName: `${currentUser.displayName.split(' ')[0]} & ${receiver.displayName.split(' ')[0]}`,
                     convoId: id,
                     users: [currentUser.uid, receiver.uid],
-                })
+                });
+            setSearchInput("");
+            setFilteredUsers([]);
+
+
         }
 
     }
@@ -86,7 +97,7 @@ export default function ChatRoom(props) {
                     />
 
                     <div className={stylesB.suggestions}>
-                        {filteredUsers.map(user => 
+                        {filteredUsers.map(user =>
                             <Comment
                                 username={user.displayName}
                                 userPhoto={user.photoUrl}
@@ -95,7 +106,7 @@ export default function ChatRoom(props) {
                             />
                         )
                         }
-                            
+
                     </div>
 
                 </form>
@@ -108,7 +119,6 @@ export default function ChatRoom(props) {
                                 key={v4()}
                                 onClick={() => {
                                     setConvoId(convo.convoId);
-                                    setSearchInput("");
                                 }}>
                                 {convo.convoName}
                             </h3>
