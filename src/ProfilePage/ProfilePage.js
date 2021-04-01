@@ -28,7 +28,7 @@ export default function ProfilePage(props) {
 
   // let followingCount = user.following.length;
   // let followersCount = user.followers.length;
-  const [currentUser, setCurrentUser] = useState(props.currentUser)
+  const currentUser = props.currentUser;
   const [posts, setPosts] = useState([]);
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
@@ -49,34 +49,31 @@ export default function ProfilePage(props) {
       .get()
       .then((res) => {
         let data = res.data();
-        setUser(data);
 
-        if (data.uid === currentUser.uid) {
+        if (id === currentUser.uid) {
           setIsCurrentUser(true);
+          setUser(currentUser)
         } else {
           setIsCurrentUser(false);
+          setUser(data);
         }
+        // db.collection("posts")
+        //   .where("uid", "==", data.uid)
+        //   .onSnapshot((querySnapshot) => {
+        //     let posts = [];
+      
+        //     querySnapshot.forEach((doc) => {
+        //       posts.push(doc.data());
+        //     });
+      
+        //     setPosts(posts);
+        //   })
 
-        let isFollowedByUser = data.followers.some((id) => id === currentUser.uid);
+        let isFollowedByUser = data.followers.some((element) => element === currentUser.uid);
         if (isFollowedByUser) {
           setIsFollowing(true);
         }
-
-        db.collection("posts")
-          .where("createdBy", "==",  data.uid)
-          .onSnapshot((querySnapshot) => {
-            let posts = [];
-
-            querySnapshot.forEach((doc) => {
-              posts.push(doc.data());
-            });
-
-            setPosts(posts);
-          });
-        // .catch((error) => {
-        //   console.log("Error getting documents: ", error);
-        // });
-
+         
         db.collection("stories")
           .where("createdBy", "==", data.uid)
           .onSnapshot((querySnapshot) => {
@@ -93,15 +90,25 @@ export default function ProfilePage(props) {
             } else {
               setHasStories(true);
             }
-
           });
-
-      
       })
       .catch((err) => console.log(err.message));
   }, [id]);
 
-  
+  // useEffect(()=>{
+  //   db.collection("posts")
+  //   .where("createdBy", "==", id)
+  //   .onSnapshot((querySnapshot) => {
+  //     let posts = [];
+
+  //     querySnapshot.forEach((doc) => {
+  //       posts.push(doc.data());
+  //     });
+
+  //     setPosts(posts);
+  //   })
+
+  // },[id])
 
   const handleFollow = () => {
     let userFollowersArr = [...user.followers];
@@ -127,7 +134,7 @@ export default function ProfilePage(props) {
     db.collection("users").doc(id).update({
       followers: userFollowersArr,
     });
-     // this is the personal profile
+    // this is the personal profile
     db.collection("users").doc(currentUser.uid).update({
       following: clientFollowingArr,
     });
@@ -203,7 +210,7 @@ export default function ProfilePage(props) {
 
       <main className={style.exploreProfileContainer}>
         {posts.map((post) => (
-          <ExplorePost key={v4()} post={post} />
+          <ExplorePost key={v4()} post={post}/>
         ))}
       </main>
     </>
