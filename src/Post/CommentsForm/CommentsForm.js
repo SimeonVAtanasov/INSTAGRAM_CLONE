@@ -23,6 +23,7 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
       fromUser: {
         username: user.displayName,
         userPhoto: user.photoUrl,
+        uid:user.uid,
       },
       comment: str,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -89,7 +90,7 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
                 username={comment.fromUser.username}
                 userPhoto={comment.fromUser.userPhoto}
                 time={comment.timestamp}
-                uid={uid}
+                uid={comment.fromUser.uid}
               ></Comment>
             ))}
 
@@ -101,7 +102,7 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
               username={comment.fromUser.username}
               userPhoto={comment.fromUser.userPhoto}
               time={comment.timestamp}
-              uid={uid}
+              uid={comment.fromUser.uid}
             ></Comment>
           ))}
       </div>

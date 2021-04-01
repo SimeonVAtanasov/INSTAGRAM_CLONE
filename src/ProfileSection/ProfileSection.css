@@ -22,6 +22,13 @@
   align-items: center;
 }
 
+.user_details a{ 
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+
 .new_post_btn {
   display: flex;
   padding: 8px;

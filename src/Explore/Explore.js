@@ -5,11 +5,12 @@ import {useSelector} from "react-redux";
 
 export default function Explore() {
   const posts = useSelector(state => state.posts.posts);
+  console.log(posts);
   return (
     <>
       <div className={styles.exploreContainer}>
         {posts.map(({ id, post }) => (
-          <ExplorePost key={id} post={post} id={id} />
+          <ExplorePost key={id} post={post} id={id} uid ={post.createdBy}/>
         ))}
 
         

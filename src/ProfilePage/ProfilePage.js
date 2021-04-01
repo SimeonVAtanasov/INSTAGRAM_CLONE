@@ -9,10 +9,12 @@ import ExplorePost from "../Explore/ExplorePost/ExplorePost.js";
 import style from "../Explore/Explore.module.scss";
 import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload";
+import { useSelector } from "react-redux";
 
 // TO DO REFACTOR AGAIN WORK FLOW INTETUPTED
 export default function ProfilePage(props) {
   // const browsingUser = firebase.auth().currentUser;
+
 
   const [user, setUser] = useState({
     displayName: "",
@@ -24,8 +26,12 @@ export default function ProfilePage(props) {
     uid: "",
   });
 
+  const posts = useSelector((state) => state.posts.posts);
+  const filteredPosts = posts.filter(({post}) => post.createdBy === user.uid);
+
+
   const [currentUser, setCurrentUser] = useState(props.currentUser);
-  const [posts, setPosts] = useState([]);
+
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
 
@@ -55,22 +61,6 @@ export default function ProfilePage(props) {
         if (isFollowedByUser) {
           setIsFollowing(true);
         }
-
-        db.collection("posts")
-          .where("createdBy", "==", data.uid)
-          .onSnapshot((querySnapshot) => {
-            let posts = [];
-
-            querySnapshot.forEach((doc) => {
-              let post = doc.data();
-              posts.push({ ...post, id: doc.id });
-            });
-
-            setPosts(posts);
-          });
-        // .catch((error) => {
-        //   console.log("Error getting documents: ", error);
-        // });
 
         db.collection("stories")
           .where("createdBy", "==", data.uid)
@@ -153,7 +143,7 @@ export default function ProfilePage(props) {
               buttonText={"Upload story"}
             ></StoryUpload>
           )}
-          
+
         </div>
         <div className={styles.profileInfoWrapper}>
           <h2>
@@ -171,7 +161,7 @@ export default function ProfilePage(props) {
           </h2>
           <ul>
             <li>
-              <span>{posts.length || 0}</span> <span>Posts</span>
+              <span>{filteredPosts.length || 0}</span> <span>Posts</span>
             </li>
             <li>
               <span>{user.followers.length || 0}</span> <span>Followers</span>
@@ -195,8 +185,8 @@ export default function ProfilePage(props) {
       )}
 
       <main className={style.exploreProfileContainer}>
-        {posts.map((post) => (
-          <ExplorePost key={v4()} post={post} id={post.id} />
+        {filteredPosts.map((post) => (
+          <ExplorePost key={v4()} post={post.post} id={post.id} uid={user.uid} />
         ))}
       </main>
     </>
