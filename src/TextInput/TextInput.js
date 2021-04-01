@@ -35,7 +35,6 @@ export default function TextInput(props) {
                 onClick={handleShowEmojis}
             ></SentimentSatisfiedIcon>
             <TextareaAutosize
-                disableUnderline
                 multiline
                 rowsMax={3}
                 fullWidth={true}

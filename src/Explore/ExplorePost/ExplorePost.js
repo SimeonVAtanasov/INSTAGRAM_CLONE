@@ -17,7 +17,7 @@ export default function ExplorePost({ post, id }) {
     .then((snap) => {
         setCommentsCount(snap.size);
       });
-  }, []);
+  }, [id]);
 
   return (
     <>

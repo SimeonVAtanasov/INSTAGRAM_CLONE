@@ -107,7 +107,6 @@ export default React.memo(function NavBar({ onLogout, currentUser }) {
                   className={classes.searchInput}
                   id="filled-basic" label="Търсене..."
                   variant="filled"
-                  disableUnderline
                   value={searchInput}
                   onInput={(e) => { handleInput(e) }}
                 />
