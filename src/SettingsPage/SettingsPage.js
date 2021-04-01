@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import styles from "./SettingsPage.module.scss"
-import PostUpload from '../PostUpload/PostUpload';
+import PostUpload from '../UploadProfilePhoto/UploadProfilePhoto';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';

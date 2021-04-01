@@ -15,28 +15,32 @@ export default function ChatRoom(props) {
     const [filteredUsers, setFilteredUsers] = useState([]);
 
     const [searchInput, setSearchInput] = useState("");
-    // useEffect(() => {
-    //     db.collection("chatRooms")
-    //         .where("users", "array-contains", currentUser.uid)
-    //         .onSnapshot(snap => {
-    //             let conversations = [];
-    //             snap.forEach(conversation => conversations.push(conversation.data()));
-    //             setConversations(conversations)
-    //             setConvoId(conversations[0].convoId)
-    //         })
-    //     db.collection("users")
-    //         .get()
-    //         .then((querySnapshot) => {
-    //             let fetchedUsers = [];
-    //             querySnapshot.forEach((doc) => {
-    //                 fetchedUsers.push(doc.data());
-    //                 setUsers(fetchedUsers)
-    //             });
+    useEffect(() => {
+        db.collection("chatRooms")
+            .where("users", "array-contains", currentUser.uid)
+            .onSnapshot(snap => {
+                let conversations = [];
+                snap.forEach(conversation => conversations.push(conversation.data()));
+                setConversations(conversations)
+                setConvoId(conversations[0].convoId)
+            })
+        
 
-    //         })
+    }, [])
 
-    // }, [])
+    useEffect(()=>{
+        db.collection("users")
+        .get()
+        .then((querySnapshot) => {
+            let fetchedUsers = [];
+            querySnapshot.forEach((doc) => {
+                fetchedUsers.push(doc.data());
+                setUsers(fetchedUsers)
+            });
 
+        })
+
+    },[])
 
     const handleInput = (ev) => {
         ev.preventDefault();
@@ -87,7 +91,7 @@ export default function ChatRoom(props) {
                                 username={user.displayName}
                                 userPhoto={user.photoUrl}
                                 key={v4()}
-                                // onClick={() => { createNewChatRoom(user) }}
+                                onClick={() => { createNewChatRoom(user) }}
                             />
                         )
                         }

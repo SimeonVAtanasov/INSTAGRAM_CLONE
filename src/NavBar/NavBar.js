@@ -1,25 +1,57 @@
 import { Link, Redirect } from "react-router-dom";
 import Logo from "./Logo/Logo.js";
-import Input from "../Login/Input/Input.js";
-import styles from "../Login//Input/Input.module.css";
+// import Input from "../Login/Input/Input.js";
+// import styles from "../Login//Input/Input.module.css";
 
 import ExploreOutlinedIcon from '@material-ui/icons/ExploreOutlined';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+// import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 
-import { Avatar, Tooltip } from "@material-ui/core";
+import { Avatar, TextField, Tooltip } from "@material-ui/core";
 import "./NavBar.scss"
 
 import { auth, db } from "../firebase";
 
 import React, { useState, useEffect } from 'react';
 import NotificationsPop from "../NotificationsPop/NotificationsPop.js";
+import { makeStyles } from '@material-ui/core/styles';
+import { v4 } from "uuid";
+import Comment from "../Post/Comment/Comment.js";
+
+const useStyles = makeStyles((theme) => ({
+  searchInput: {
+
+    '& > *': {
+      marginTop: "-7px",
+      width: '25ch',
+      height: "35px",
+      padding: "0",
+      position: "relative",
+    },
 
 
+
+
+  },
+
+  suggestionBox: {
+    height: "auto",
+    marginTop: "6px",
+    border: "1px solid lightgray",
+    borderTop: "none",
+    backgroundColor: "white",
+    width: '220px',
+    borderRadius: "3px"
+  }
+}));
 
 export default React.memo(function NavBar({ onLogout, currentUser }) {
+  const [users, setUsers] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
+  const classes = useStyles();
   const handleLogout = () => {
     auth.signOut()
       .then(() => {
@@ -29,6 +61,31 @@ export default React.memo(function NavBar({ onLogout, currentUser }) {
       .catch((err) => alert(err.message))
   }
 
+  useEffect(() => {
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        let fetchedUsers = [];
+        querySnapshot.forEach((doc) => {
+          fetchedUsers.push(doc.data());
+          setUsers(fetchedUsers)
+        });
+
+      })
+
+  }, [])
+
+  const handleInput = (ev) => {
+    ev.preventDefault();
+    setFilteredUsers([]);
+
+    let text = ev.target.value;
+    setSearchInput(text)
+    if (text) {
+      let filteredUsers = users.filter(user => user.displayName.toLowerCase().split(' ').join("").includes(text))
+      setFilteredUsers(filteredUsers);
+    }
+  }
   return (
     <>
       <header className="app_header">
@@ -42,8 +99,30 @@ export default React.memo(function NavBar({ onLogout, currentUser }) {
           </ul>
           <ul id="inputNav">
             <li >
-              <form>
-                <Input className={styles.searchInput} placeholder="Търсене" />
+              <form
+                className={classes.searchInput}
+              >
+                {/* <Input className={styles.searchInput} placeholder="" /> */}
+                <TextField
+                  className={classes.searchInput}
+                  id="filled-basic" label="Търсене..."
+                  variant="filled"
+                  disableUnderline
+                  value={searchInput}
+                  onInput={(e) => { handleInput(e) }}
+                />
+                <div className={classes.suggestionBox} >{filteredUsers.map(user =>
+                  <Link key={v4()} to={`/profile/${user.uid}`} onClick={() => {setSearchInput("");  setFilteredUsers([])}}>
+                    <Comment
+                      username={user.displayName}
+                      userPhoto={user.photoUrl}
+                      key={v4()}
+                    // onClick={() => <Redirect to={`/profile/${user.uid}`} />}
+                    />
+                  </Link>
+                )
+                }
+                </div>
               </form>
             </li>
           </ul>

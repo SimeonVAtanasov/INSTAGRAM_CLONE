@@ -75,7 +75,8 @@
   .post_comments {
     padding: 0 20px 20px;
     position: relative;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: none;
     max-height: 285px;
 
     .view_comments_text {
@@ -106,13 +107,13 @@
     .modal_image {
       object-fit: contain;
       width: 600px;
-      padding: 16px 24px 16px 24px;
+      // padding: 16px 24px 16px 24px;
     }
   }
 
   aside {
     border-left: 1px solid lightgrey;
-    width: 360px;
+    width: 427px;
     .modal_header {
       display: flex;
       align-items: center;

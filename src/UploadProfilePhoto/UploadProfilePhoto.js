@@ -92,25 +92,6 @@ function PostUpload(props) {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-
-            if (props.isPost) {
-              db.collection("posts").add({
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                caption: caption,
-                imageUrl: url,
-                username: props.user.displayName,
-                userPhoto: props.user.photoUrl,
-                uid: props.user.uid,
-                likedBy: [],
-  
-              });
-              setProgress(0);
-              setCaption("");
-              setImage(null);
-              handleClose();
-              setLabel("Choose a picture");
-              setFilie(null);
-            } else {
               let user = firebase.auth().currentUser;
               db.collection("users").doc(user.uid).update({ photoUrl: url })
                 .then(function () {
@@ -123,9 +104,6 @@ function PostUpload(props) {
                 }).catch(function (error) {
                   alert(error.message);
                 });
-
-            }
-
           }
           );
       }

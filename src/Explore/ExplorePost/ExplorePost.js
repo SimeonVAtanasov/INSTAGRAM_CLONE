@@ -7,15 +7,14 @@ import { db } from "../../firebase";
 import PostModal from "../../Post/PostModal";
 
 export default function ExplorePost({ post, id }) {
+  
   const [commentsCount, setCommentsCount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    db.collection("posts")
-      .doc(id)
-      .collection("comments")
-      .get()
-      .then((snap) => {
+    db.collection("comments").where("forPost", "==", id)  
+    .get()
+    .then((snap) => {
         setCommentsCount(snap.size);
       });
   }, []);

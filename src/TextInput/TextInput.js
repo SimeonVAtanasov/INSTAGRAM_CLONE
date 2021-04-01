@@ -1,7 +1,7 @@
 import EmojiKeybord from "../EmojiKeybord";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import React, { useState, createRef } from "react";
-import { Button } from "@material-ui/core";
+import { Button, TextareaAutosize, TextField } from "@material-ui/core";
 
 export default function TextInput(props) {
     const inputRef = createRef();
@@ -18,7 +18,8 @@ export default function TextInput(props) {
     const onSubmit = (e) => {
         if (e.keyCode == 13 && e.shiftKey === false) {
             e.preventDefault();
-            console.log("sendmessage");
+            props.send(message);
+            setMessage('');
         }
     }
     return (
@@ -33,7 +34,11 @@ export default function TextInput(props) {
             <SentimentSatisfiedIcon
                 onClick={handleShowEmojis}
             ></SentimentSatisfiedIcon>
-            <textarea
+            <TextareaAutosize
+                disableUnderline
+                multiline
+                rowsMax={3}
+                fullWidth={true}
                 ref={inputRef}
                 className={styles.post_textarea}
                 type="text"
@@ -41,17 +46,22 @@ export default function TextInput(props) {
                 value={message}
                 onChange={(ev) => setMessage(ev.target.value)}
                 onKeyDown={onSubmit}
-            ></textarea>
+            ></TextareaAutosize>
             <Button
                 className={props.styles.post_btn}
                 disabled={!message}
                 type="submit"
                 // onClick={props.sendMessage}
-                onClick={(e)=>{e.preventDefault(); props.send(message)}}
+                onClick={(e) => {
+                    e.preventDefault();
+                    props.send(message)
+                    setMessage('');
+                }
+                }
 
             >
                 {props.buttonText}
             </Button>
-        </form>
+        </form >
     )
 }

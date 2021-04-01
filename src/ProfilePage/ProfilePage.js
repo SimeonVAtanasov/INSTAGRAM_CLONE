@@ -49,23 +49,21 @@ export default function ProfilePage(props) {
       .get()
       .then((res) => {
         let data = res.data();
-        // setUser({ ...data });
         setUser(data);
 
-        if (user.uid === currentUser.uid) {
+        if (data.uid === currentUser.uid) {
           setIsCurrentUser(true);
         } else {
           setIsCurrentUser(false);
         }
-        let isFollowedByUser = data.followers.some(
-          (id) => id === currentUser.uid
-        );
+
+        let isFollowedByUser = data.followers.some((id) => id === currentUser.uid);
         if (isFollowedByUser) {
           setIsFollowing(true);
         }
 
         db.collection("posts")
-          .where("createdBy", "==", data.uid)
+          .where("createdBy", "==",  data.uid)
           .onSnapshot((querySnapshot) => {
             let posts = [];
 
@@ -98,28 +96,12 @@ export default function ProfilePage(props) {
 
           });
 
-        // db.collection("users")
-        //   .doc(id)
-        //   .onSnapshot((snap) => {
-        //     let followers = snap.data().followers;
-        //     let following = snap.data().following
-        // setFollowedByNumber(followers.length);
-        // setFollowingNumber(following.length);
-
-        // });
+      
       })
       .catch((err) => console.log(err.message));
   }, [id]);
 
-  useEffect(() => {
-    db.collection("users")
-      .doc(id)
-      .onSnapshot(user => {
-        setCurrentUser(user.data())
-
-        
-      })
-  }, [user.uid, currentUser]);
+  
 
   const handleFollow = () => {
     let userFollowersArr = [...user.followers];
@@ -127,7 +109,7 @@ export default function ProfilePage(props) {
     if (!isFollowing) {
 
       userFollowersArr.push(currentUser.uid);
-      clientFollowingArr.push(user.uid);
+      clientFollowingArr.push(id);
 
       setUser(prevState => ({ ...prevState, followers: userFollowersArr }))
 
@@ -138,13 +120,14 @@ export default function ProfilePage(props) {
 
       userFollowersArr.splice(followerIndex, 1);
       clientFollowingArr.splice(followingIndex, 1);
+      setUser(prevState => ({ ...prevState, followers: userFollowersArr }))
 
     }
     // this is not the personal profile
     db.collection("users").doc(id).update({
       followers: userFollowersArr,
     });
-    //  this is the personal profile
+     // this is the personal profile
     db.collection("users").doc(currentUser.uid).update({
       following: clientFollowingArr,
     });
@@ -170,7 +153,7 @@ export default function ProfilePage(props) {
         <div className={styles.avatar_container}>
 
           <Avatar
-            style={hasStories ? { background: "linear-gradient(to right, #f9c83f, #b31bb5)" } : { background: "none" }}
+            style={hasStories ? { background: "linear-gradient(to right, #f9c83f, #b31bb5)" } : { background: "#bdbdbd" }}
             className={styles.avatarProfile}
             alt={user.displayName}
             src={user.photoUrl || "/static/images/avatar/1.jpg"}

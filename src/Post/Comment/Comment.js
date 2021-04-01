@@ -14,7 +14,8 @@ function Comment({ comment, username, time, userPhoto, onClick }) {
             src={userPhoto || "/static/images/avatar/1.jpg"}
           ></Avatar>
 
-          <strong className={styles.comment_username}>{username}</strong> <span className={styles.comment}>{comment}</span>
+          <strong className={styles.comment_username}>{username}</strong>
+           <p className={styles.comment}>{comment}</p>
         </div>
         {time && <ReactTimeAgo className={styles.time} date={time.toDate()} locale="en-US" />}
       </div>

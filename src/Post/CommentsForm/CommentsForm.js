@@ -16,8 +16,7 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
   const [isPost, setIsPost] = useState(true);
 
 
-  const postComment = (ev) => {
-    ev.preventDefault();
+  const postComment = (str) => {
 
     db.collection("comments").add({
       forPost: postId,
@@ -25,7 +24,7 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
         username: user.displayName,
         userPhoto: user.photoUrl,
       },
-      comment: comment,
+      comment: str,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setComment("");
