@@ -77,7 +77,7 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
                             userPhoto={message.fromUser.userPhoto}
                             time={message.timestamp}
                             uid={uid}
-                        ></Comment>
+                        />
                     ))}
 
                 <div ref={messagesEndRef} >

@@ -178,7 +178,7 @@ export default React.memo(function NavBar({ onLogout, currentUser }) {
                   id="nav_avatar"
                   alt={currentUser.displayName}
                   src={currentUser.photoUrl || "/static/images/avatar/1.jpg"}
-                ></Avatar>
+               />
               </div>
 
               <div className="options">
