@@ -29,7 +29,7 @@ function Post({
   const [showHeart, setShowHeart] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
-  const userCredential = firebase.auth().currentUser;
+  const userCredential = useSelector(state => state.currentUser.user)
   const posts = useSelector((state) => state.posts.posts);
 
 

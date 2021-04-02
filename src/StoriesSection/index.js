@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Story.module.scss";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -25,18 +25,18 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     outline: "none",
     position: "absolute",
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(0, 4, 0),
     boxShadow: theme.shadows[5],
   },
 }));
 
-function StoriesSection({ isStoryOpen, handleClose, user, stories, setStories }) {
+function StoriesSection(props) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
- 
+
 
   const Close = () => {
-    handleClose();
+    props.handleClose();
   };
 
   const body = (
@@ -44,27 +44,27 @@ function StoriesSection({ isStoryOpen, handleClose, user, stories, setStories })
       <div className={styles.title}>
         <Avatar
           className={styles.avatar_story}
-          alt={user.displayName}
-          src={user.photoURL}
+          alt={props.user.displayName}
+          src={props.user.photoUrl}
         />
-        <span>{user.displayName}</span>
+        <span>{props.user.displayName}</span>
       </div>
 
       <Stories
-          // key={id}
-          stories = {stories}
-          defaultInterval={3500}
-          width={432}
-          height={600}
-        />
-      
+        // key={id}
+        stories={props.stories}
+        defaultInterval={3500}
+        width={432}
+        height={700}
+      />
+
     </div>
   );
 
   return (
     <div>
       <Modal
-        open={isStoryOpen}
+        open={props.isStoryOpen}
         onClose={Close}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"

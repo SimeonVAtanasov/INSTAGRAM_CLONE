@@ -43,7 +43,6 @@
   outline: none;
   box-shadow: 0 0 0 0px white, 0 0 0 0px rgba(var(--d69, 0, 149, 246), 1);
 
-
   -webkit-animation: pulsing 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
   -moz-animation: pulsing 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
   -ms-animation: pulsing 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
@@ -110,12 +109,12 @@ input[type="file"] {
 .modal img {
   max-height: 250px;
 }
-.explore_users{
+.explore_users {
   margin-top: 1em;
   font-size: 22px;
   color: rgb(194, 194, 194);
 }
-.users_section{
+.users_section {
   margin-top: 2em;
 }
 .users_section > div {
@@ -130,29 +129,29 @@ input[type="file"] {
   border-radius: 3px;
   width: 45px;
   height: 16px;
-  margin: 14px;
+  margin: 10px;
   color: rgba(var(--d69, 0, 149, 246), 1);
   text-decoration: none;
   font-size: 16px;
-  transition: all 0.1s ease-in  ;
+  transition: all 0.1s ease-in;
   text-transform: none;
 }
 
 .users_section > div > a:hover {
-  background-color: rgb(250,250,250);
+  background-color: rgb(250, 250, 250);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 3px;
   width: 45px;
   height: 16px;
-  margin: 14px;
+  margin: 10px;
   text-decoration: none;
   font-size: 16px;
-  transition: all 0.5s ease-in  ;
+  transition: all 0.5s ease-in;
   text-transform: none;
-  box-shadow: 0 0 0 2px rgb(250,250,250), 0 0 0 4px rgba(var(--d69, 0, 149, 246), 1);
-
+  box-shadow: 0 0 0 2px rgb(250, 250, 250),
+    0 0 0 4px rgba(var(--d69, 0, 149, 246), 1);
 }
 
 .profile_section_footer {

@@ -7,7 +7,7 @@ import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import { db } from "../../firebase";
 import firebase from "firebase/app";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 
 function PostMenu({
@@ -23,22 +23,7 @@ function PostMenu({
   imageUrl,
 }) {
 
-
-  const [user, setUser] = useState({});
-
-
-  useEffect(() => {
-    let userCredential = firebase.auth().currentUser;
-    db.collection("users")
-        .doc(userCredential.uid)
-        .get()
-        .then((userData) => {
-            let currentUser = userData.data();
-            setUser(currentUser)
-        })
-}, [uid]);
-
-
+  const currentUser = useSelector(state => state.currentUser.user);
 
   useEffect(() => {
     if (postId) {
@@ -47,7 +32,7 @@ function PostMenu({
         .onSnapshot((snap) => {
           let likesArr = snap.data().likedBy;
           setLikedByNumber(likesArr.length);
-          let isLikedByUser = likesArr.some((id) => id === user.uid);
+          let isLikedByUser = likesArr.some((id) => id === currentUser.uid);
           if (isLikedByUser) {
             setIsLiked(true)
           }
@@ -60,14 +45,14 @@ function PostMenu({
   };
 
   const handleLike = () => {
-    console.log(user);
-    
+    console.log(currentUser);
+
     let likedByArr = [];
     if (!isLiked) {
-      likedByArr.push(user.uid);
+      likedByArr.push(currentUser.uid);
       setLikedByUsers(likedByArr);
     } else {
-      let index = likedByArr.indexOf(user.uid);
+      let index = likedByArr.indexOf(currentUser.uid);
       likedByUsers.splice(index, 1);
       setLikedByUsers(likedByArr);
     }
@@ -80,16 +65,16 @@ function PostMenu({
     db.collection("notifications").add({
       action: "liked your photo",
       fromUser: {
-          displayName: user.displayName,
-          photoUrl: user.photoUrl,
-          uid: user.uid, 
+        displayName: currentUser.displayName,
+        photoUrl: currentUser.photoUrl,
+        uid: currentUser.uid,
       },
       forUser: uid,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      target:imageUrl,
-  });
+      target: imageUrl,
+    });
 
-    
+
     setIsLiked(!isLiked);
     setShowHeart(false);
   };
@@ -111,9 +96,9 @@ function PostMenu({
           className={styles.icon}
           onClick={handleOpen}
         />
-        <SendOutlinedIcon className={styles.icon}/>
+        {/* <SendOutlinedIcon className={styles.icon} /> */}
       </div>
-      <TurnedInNotIcon className={styles.icon}/>
+      {/* <TurnedInNotIcon className={styles.icon} /> */}
     </div>
   );
 }
