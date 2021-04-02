@@ -38,7 +38,7 @@ export default function SettingsPage() {
     const [biography, setBiography] = useState("");
 
 
-    // let { id } = useParams();
+    let { id } = useParams();
 
     useEffect(() => {
         setDisplayNameText(currentUser.displayName)
@@ -48,17 +48,17 @@ export default function SettingsPage() {
 
     }, [currentUser])
 
-    useEffect(() => {
-        if (displayNameText !== prevDisplayName.current && currentUser.id ) {
-            db.collection("users").doc(currentUser.id).update({ ...currentUser })
+    // useEffect(() => {
+    //     if (displayNameText !== prevDisplayName.current && currentUser.id ) {
+    //         db.collection("users").doc(currentUser.id).update({ ...currentUser })
 
-        }
-        
-        if (biography !== prevBiography.current && currentUser.id) {
-            db.collection("users").doc(currentUser.id).update({ ...currentUser }).then(() => console.log("yes"))
+    //     }
 
-        }
-    }, [currentUser])
+    //     if (biography !== prevBiography.current && currentUser.id) {
+    //         db.collection("users").doc(currentUser.id).update({ ...currentUser }).then(() => console.log("yes"))
+
+    //     }
+    // }, [currentUser])
 
 
     const handleDisplayNameChange = (e) => {
@@ -70,7 +70,20 @@ export default function SettingsPage() {
     }
 
     const handleSaveChanges = () => {
-        dispatch(fetchCurrentUserUpdated({ ...currentUser, displayName: displayNameText, biography: biography }))
+        if (displayNameText.length && id) {
+            db.collection("users").doc(id).update({ displayName: displayNameText })
+                .then(() => {
+                    dispatch(fetchCurrentUserUpdated({ ...currentUser, displayName: displayNameText }))
+                })
+        }
+
+        if (biography.length && id) {
+            db.collection("users").doc(id).update({ biography: biography }).then(() => console.log("yes"))
+                .then(() => {
+                    dispatch(fetchCurrentUserUpdated({ ...currentUser, biography: biography }))
+                })
+        }
+
     }
 
 
@@ -92,7 +105,7 @@ export default function SettingsPage() {
                         <Box className={styles.header}>
                             <Box className={styles.nameWrapper}>
                                 <h2>{currentUser.displayName}</h2>
-                                <SettingsMenu />
+                                {/* <SettingsMenu /> */}
                             </Box>
 
                             <PostUpload text={"Промени снимката на профила"} isPost={false} />
@@ -122,6 +135,7 @@ export default function SettingsPage() {
                     <Box className={styles.settingsWrapperDiv}>
                         <aside>Биография:</aside>
                         <TextareaAutosize
+                            maxLength={180}
                             cols={50}
                             rowsMax={4}
                             aria-label="user biography"

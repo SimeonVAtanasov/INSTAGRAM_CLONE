@@ -8,13 +8,13 @@ import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase"
 import TextInput from "../../TextInput/TextInput";
+import { useSelector } from "react-redux";
 
-export default function CommentsForm({ convoId, time, uid, buttonText }) {
+export default function CommentsForm({ convoId, time, buttonText }) {
 
     const [messages, setMessages] = useState([]);
-    const [user, setUser] = useState({});
 
-
+    const currentUser = useSelector(state => state.currentUser.user)
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
@@ -26,8 +26,8 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
         db.collection("messages").add({
             forConvo: convoId,
             fromUser: {
-                username: user.displayName,
-                userPhoto: user.photoUrl,
+                username: currentUser.displayName,
+                userPhoto: currentUser.photoUrl,
             },
             text: str,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -36,23 +36,11 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
     };
 
 
-
-    useEffect(() => {
-        let userCredential = firebase.auth().currentUser;
-        db.collection("users")
-            .doc(userCredential.uid)
-            .get()
-            .then((userData) => {
-                let currentUser = userData.data();
-                setUser(currentUser)
-            })
-    }, [uid]);
-
     useEffect(() => {
         if (convoId) {
             db.collection("messages")
                 .where("forConvo", "==", convoId)
-                .orderBy("timestamp", "desc")
+                .orderBy("timestamp", "asc")
                 .limit(15)
                 .onSnapshot((snapshot) => {
                     let messagesArr = [];
@@ -77,7 +65,7 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
                             username={message.fromUser.username}
                             userPhoto={message.fromUser.userPhoto}
                             time={message.timestamp}
-                            uid={uid}
+                            uid={currentUser.uid}
                         />
                     ))}
 

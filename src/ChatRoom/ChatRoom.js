@@ -99,13 +99,13 @@ export default function ChatRoom() {
                     <div className={stylesB.suggestions}>
                         {filteredUsers.map(user =>
 
-                            <div onClick={() => { createNewChatRoom(user) }}>
+                            <div key={v4()} onClick={() => { createNewChatRoom(user) }}>
                                 <div style={{ pointerEvents: "none" }}>
                                     <Comment
                                         
                                         username={user.displayName}
                                         userPhoto={user.photoUrl}
-                                        key={v4()}
+                                        
                                     />
                                 </div>
                             </div>
@@ -118,11 +118,11 @@ export default function ChatRoom() {
                 </form>
                 <div className={stylesB.convoBoxBottom}>
                     {conversations.map(convo =>
-                        <div className={stylesB.singleConvo}>
+                        <div key={v4()} className={stylesB.singleConvo}>
                             <QuestionAnswerOutlinedIcon />
                             <h3
                                 className={stylesB.convoName}
-                                key={v4()}
+                                
                                 onClick={() => {
                                     setConvoId(convo.convoId);
                                 }}>

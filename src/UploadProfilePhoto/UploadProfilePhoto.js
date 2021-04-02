@@ -54,8 +54,9 @@ function PostUpload(props) {
   const [progress, setProgress] = useState(0);
   const [file, setFilie] = useState(null);
   const currentUser = useSelector(state => state.currentUser.user)
+  const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
 
-  const    {id}  =  useParams();
+  const { id } = useParams();
 
   const handleOpen = () => {
     setOpen(true);
@@ -72,6 +73,7 @@ function PostUpload(props) {
       setImage(ev.target.files[0]);
       setLabel("Change picture");
       setFilie(URL.createObjectURL(ev.target.files[0]))
+      setIsUploadButtonDisabled(false)
     }
   };
 
@@ -95,22 +97,22 @@ function PostUpload(props) {
         uploadImage.snapshot.ref.getDownloadURL()
           .then((url) => {
             console.log(id);
-              db.collection("users").doc(id).update({ photoUrl: url })
-                .then(function () {
-                  setProgress(0);
-                  setCaption("");
-                  setImage(null);
-                  handleClose();
-                  setLabel("Choose a picture");
-                  setFilie(null); 
-                  dispatch(
-                  fetchCurrentUserUpdated({...currentUser, photoUrl: url})
+            db.collection("users").doc(id).update({ photoUrl: url })
+              .then(function () {
+                setProgress(0);
+                setCaption("");
+                setImage(null);
+                handleClose();
+                setLabel("Choose a picture");
+                setFilie(null);
+                dispatch(
+                  fetchCurrentUserUpdated({ ...currentUser, photoUrl: url })
                 )
-                }).catch(function (error) {
-                  console.log("tuka");
-                  alert(error.message);
-                });
-               
+              }).catch(function (error) {
+                console.log("tuka");
+                alert(error.message);
+              });
+
 
           }
           );
@@ -135,14 +137,18 @@ function PostUpload(props) {
           placeholder="Write a caption..."
           value={caption}
           onInput={(ev) => setCaption(ev.target.value)}
-        ></Input> }
+        ></Input>}
 
 
         <img src={file} alt={caption} />
-        <Button variant="contained" color="primary" type="submit" onClick={() => {
-
-          handleUpload();
-        }}
+        <Button
+          disabled={isUploadButtonDisabled}
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={() => {
+            handleUpload();
+          }}
         >Upload photo</Button>
       </div>
 
