@@ -7,6 +7,7 @@ import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import { db } from "../../firebase";
 import firebase from "firebase/app";
+import {useSelector} from "react-redux";
 
 
 function PostMenu({
@@ -17,10 +18,27 @@ function PostMenu({
   setIsLiked,
   likedByUsers,
   setLikedByUsers,
-  setShowHeart
+  setShowHeart,
+  uid,
+  imageUrl,
 }) {
 
-  const userCredential = firebase.auth().currentUser;
+
+  const [user, setUser] = useState({});
+
+
+  useEffect(() => {
+    let userCredential = firebase.auth().currentUser;
+    db.collection("users")
+        .doc(userCredential.uid)
+        .get()
+        .then((userData) => {
+            let currentUser = userData.data();
+            setUser(currentUser)
+        })
+}, [uid]);
+
+
 
   useEffect(() => {
     if (postId) {
@@ -29,7 +47,7 @@ function PostMenu({
         .onSnapshot((snap) => {
           let likesArr = snap.data().likedBy;
           setLikedByNumber(likesArr.length);
-          let isLikedByUser = likesArr.some((id) => id === userCredential.uid);
+          let isLikedByUser = likesArr.some((id) => id === user.uid);
           if (isLikedByUser) {
             setIsLiked(true)
           }
@@ -42,12 +60,14 @@ function PostMenu({
   };
 
   const handleLike = () => {
+    console.log(user);
+    
     let likedByArr = [];
     if (!isLiked) {
-      likedByArr.push(userCredential.uid);
+      likedByArr.push(user.uid);
       setLikedByUsers(likedByArr);
     } else {
-      let index = likedByArr.indexOf(userCredential.uid);
+      let index = likedByArr.indexOf(user.uid);
       likedByUsers.splice(index, 1);
       setLikedByUsers(likedByArr);
     }
@@ -55,6 +75,21 @@ function PostMenu({
     db.collection("posts").doc(postId).update({
       likedBy: likedByArr,
     });
+
+
+    db.collection("notifications").add({
+      action: "liked your photo",
+      fromUser: {
+          displayName: user.displayName,
+          photoUrl: user.photoUrl,
+          uid: user.uid, 
+      },
+      forUser: uid,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      target:imageUrl,
+  });
+
+    
     setIsLiked(!isLiked);
     setShowHeart(false);
   };

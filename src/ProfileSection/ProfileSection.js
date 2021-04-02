@@ -15,7 +15,7 @@ export default function ProfileSection({ currentUser }) {
                 className="profile_section_avatar"
                 alt={currentUser.displayName}
                 src={currentUser.photoUrl || "/static/images/avatar/1.jpg"}
-              ></Avatar>
+             />
 
               <span> {currentUser.displayName}</span>
             </Link>

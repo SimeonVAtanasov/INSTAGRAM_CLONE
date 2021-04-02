@@ -20,8 +20,7 @@ import {subscribeToRealTimeEvents} from "./Post/Posts.actions"
 function App() {
 
   const dispatch = useDispatch();
-  // const posts = useSelector(state => state.posts.posts);
-
+  
   const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false
   
   const [currentUser, setCurrentUser] = useState({});

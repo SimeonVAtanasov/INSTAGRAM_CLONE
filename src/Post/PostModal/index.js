@@ -64,7 +64,7 @@ export default function PostModal({
               className={styles.modal_avatar}
               alt={username}
               src={userPhoto || "/static/images/avatar/1.jpg"}
-            ></Avatar>
+            />
 
             <h3>{username}</h3>
           </Link>
@@ -76,7 +76,7 @@ export default function PostModal({
               alt={username}
               src={userPhoto || "/static/images/avatar/1.jpg"}
               data-id={uid}
-            ></Avatar>
+            />
 
             <h3 className={styles.post_modal_description}>
               <strong className={styles.username}> {username} </strong>{" "}
@@ -92,7 +92,7 @@ export default function PostModal({
             openModal={openModal}
             setOpenModal={setOpenModal}
             buttonText={"Post"}
-          ></CommentsForm>
+          />
         </div>
       </aside>
     </div>
