@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default React.memo(function NavBar({ onLogout}) {
+export default React.memo(function NavBar({ onLogout }) {
   const currentUser = useSelector(state => state.currentUser.user)
 
   const [users, setUsers] = useState([]);
@@ -112,17 +112,17 @@ export default React.memo(function NavBar({ onLogout}) {
                 />
                 <div className={classes.suggestionBox} >{filteredUsers.map(user =>
 
-                    <Comment
-                      username={user.displayName}
-                      userPhoto={user.photoUrl}
-                      key={v4()}
-                      to={user.uid}
-                      onClick={() => {
-                        setSearchInput("");
-                        setFilteredUsers([]);
-                      }}
-                    />
-                  )}
+                  <Comment
+                    username={user.displayName}
+                    userPhoto={user.photoUrl}
+                    key={v4()}
+                    uid={user.uid}
+                    onClick={() => {
+                      setSearchInput("");
+                      setFilteredUsers([]);
+                    }}
+                  />
+                )}
                 </div>
               </form>
             </li>
@@ -176,7 +176,7 @@ export default React.memo(function NavBar({ onLogout}) {
                   id="nav_avatar"
                   alt={currentUser.displayName}
                   src={currentUser.photoUrl || "/static/images/avatar/1.jpg"}
-                ></Avatar>
+                />
               </div>
 
               <div className="options">

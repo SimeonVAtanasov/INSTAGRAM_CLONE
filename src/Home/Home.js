@@ -32,11 +32,11 @@ export default function Home() {
             time={post.timestamp}
             userPhoto={post.userPhoto}
             uid = {post.createdBy}
-          ></Post>
+          />
         ))}
       </div>
 
-      <ProfileSection currentUser={currentUser} ></ProfileSection>
+      <ProfileSection currentUser={currentUser}/>
 
     </div>
   );

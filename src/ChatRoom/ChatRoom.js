@@ -130,22 +130,16 @@ export default function ChatRoom() {
                             </h3>
                         </div>)}
                 </div>
-            </div>
+           
+      </div>
 
-            <main className={stylesB.contentBox}>
-
-
-                <MessageForm
-
-                    convoId={convoId}
-                    uid={currentUser.uid}
-                    buttonText={"Send"}
-                ></MessageForm>
-
-            </main>
-
-
-
-        </section>
-    )
+      <main className={stylesB.contentBox}>
+        <MessageForm
+          convoId={convoId}
+          uid={currentUser.uid}
+          buttonText={"Send"}
+        />
+      </main>
+    </section>
+  );
 }

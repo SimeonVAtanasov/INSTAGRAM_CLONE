@@ -91,7 +91,7 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
                 userPhoto={comment.fromUser.userPhoto}
                 time={comment.timestamp}
                 uid={comment.fromUser.uid}
-              ></Comment>
+              />
             ))}
 
         {openModal &&
@@ -103,7 +103,7 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
               userPhoto={comment.fromUser.userPhoto}
               time={comment.timestamp}
               uid={comment.fromUser.uid}
-            ></Comment>
+            />
           ))}
       </div>
 

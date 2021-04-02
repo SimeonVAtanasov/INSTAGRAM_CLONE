@@ -181,7 +181,6 @@ export default function ProfilePage() {
       )}
 
       <main className={style.exploreProfileContainer}>
-
         {filteredPosts.map((post) => (
           <ExplorePost key={v4()} post={post.post} id={post.id} uid={user.uid} />
         ))}

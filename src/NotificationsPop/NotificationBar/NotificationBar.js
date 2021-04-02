@@ -8,22 +8,22 @@ export default function NofificationBar(props) {
         <li className={styles.notificationWrapper}>
             <div className={styles.blockNotification}>
                 <span className={styles.notificationAvatar}>
-                    <Link to={`/profile/${props.from.userId}`}>
-                        <Avatar alt={props.from.username} src={props.from.userPhoto} />
+                    <Link to={`/profile/${props.fromUser.uid}`}>
+                        <Avatar alt={props.fromUser.displayName} src={props.fromUser.photoUrl} />
                     </Link>
                 </span>
                 <strong className={styles.nameStyle}>
-                    {props.from.username}
+                    {props.fromUser.displayName}
                 </strong>
             </div>
             <div className={styles.blockNotification}>
                 <span>
                     {props.action}
                 </span>
-                <ReactTimeAgo className={styles.date} date={props.when.toDate()} locale="en-US" />
+                <ReactTimeAgo className={styles.date} date={props.timestamp.toDate()} locale="en-US" />
             </div>
             <div>
-                <img alt="targetPhoto" src={props.targetPhoto} width={40}/>
+                <img alt="targetPhoto" src={props.target} width={40}/>
             </div>
         </li>
     )

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createRef, useRef } from "react";
 import stylesB from "./MessageForm.module.scss";
-import stylesC  from "../../TextInput/TextInput.module.scss";
+import stylesC from "../../TextInput/TextInput.module.scss";
 
 import Comment from "../../Post/Comment/Comment";
 import { db } from "../../firebase";
@@ -35,7 +35,7 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
 
     };
 
-    
+
 
     useEffect(() => {
         let userCredential = firebase.auth().currentUser;
@@ -62,7 +62,7 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
                     setMessages(messagesArr);
                     scrollToBottom();
                 });
-            
+
         }
     }, [convoId]);
 
@@ -78,7 +78,7 @@ export default function CommentsForm({ convoId, time, uid, buttonText }) {
                             userPhoto={message.fromUser.userPhoto}
                             time={message.timestamp}
                             uid={uid}
-                        ></Comment>
+                        />
                     ))}
 
                 <div ref={messagesEndRef} >
