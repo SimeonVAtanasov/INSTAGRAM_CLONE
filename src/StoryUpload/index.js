@@ -9,7 +9,7 @@ import { Input } from "@material-ui/core";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import LinearProgress from "../LinearProgress";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { v4 as uuidv4, v4 } from "uuid";
+import { v4 } from "uuid";
 
 import Webcam from "react-webcam";
 import { useSelector } from "react-redux";

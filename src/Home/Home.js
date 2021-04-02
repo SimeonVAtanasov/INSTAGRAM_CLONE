@@ -17,7 +17,7 @@ export default function Home() {
     const arr = posts.filter(({ post }) => currentUser.following.includes(post.createdBy) || post.createdBy === currentUser.uid);
     setFilteredPosts(arr);
 
-  }, [currentUser])
+  }, [currentUser,  posts])
 
 
 

@@ -1,7 +1,7 @@
 import EmojiKeybord from "../EmojiKeybord";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import React, { useState, createRef } from "react";
-import { Button, TextareaAutosize, TextField } from "@material-ui/core";
+import { Button, TextareaAutosize } from "@material-ui/core";
 
 export default function TextInput(props) {
     const inputRef = createRef();

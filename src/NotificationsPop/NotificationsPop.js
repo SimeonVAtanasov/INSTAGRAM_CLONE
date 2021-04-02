@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import {
   CircularProgress,
@@ -71,26 +71,26 @@ export default function NotificationsPop({ uid }) {
           horizontal: "right",
         }}
       >
-        <Typography  component="div">
-            {isLoading ? (
-              <CircularProgress />
-            ) : !!notifications ? (
-              <ul style={{ maxHeight: "364px" }}>
-                {notifications.map((noti) => (
-                  <NotificationBar
-                    action={noti.action}
-                    timestamp={noti.timestamp}
-                    userId={noti.fromUser.uid}
-                    userName={noti.fromUser.displayName}
-                    userPhoto = {noti.fromUser.photoUrl}
-                    targetPhoto={noti.target}
-                    key={v4()}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <h4>Нямате известия</h4>
-            )}
+        <Typography component="div">
+          {isLoading ? (
+            <CircularProgress />
+          ) : !!notifications ? (
+            <ul style={{ maxHeight: "364px" }}>
+              {notifications.map((noti) => (
+                <NotificationBar
+                  action={noti.action}
+                  timestamp={noti.timestamp}
+                  userId={noti.fromUser.uid}
+                  userName={noti.fromUser.displayName}
+                  userPhoto={noti.fromUser.photoUrl}
+                  targetPhoto={noti.target}
+                  key={v4()}
+                />
+              ))}
+            </ul>
+          ) : (
+            <h4>Нямате известия</h4>
+          )}
         </Typography>
       </Popover>
     </div>

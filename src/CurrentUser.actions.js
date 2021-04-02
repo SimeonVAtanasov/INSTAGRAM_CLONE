@@ -1,4 +1,4 @@
-import { db, auth } from "./firebase";
+import { db } from "./firebase";
 export const FETCH_CURRENT_USER_UPDATED = "FETCH_CURRENT_USER_UPDATED";
 export const FETCH_CURRENT_USER_FAILED = "FETCH_CURRENT_USER_FAILED";
 export const FETCH_CURRENT_USER_REQUESTED = "FETCH_CURRENT_USER_REQUESTED";

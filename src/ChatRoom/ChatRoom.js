@@ -1,7 +1,7 @@
 import { TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { v4 } from 'uuid';
-import { auth, db } from '../firebase';
+import { db } from '../firebase';
 import stylesB from "./ChatRoom.module.scss"
 import MessageForm from "./MessageForm/MessageForm"
 import Comment from '../Post/Comment/Comment';
@@ -102,10 +102,10 @@ export default function ChatRoom() {
                             <div key={v4()} onClick={() => { createNewChatRoom(user) }}>
                                 <div style={{ pointerEvents: "none" }}>
                                     <Comment
-                                        
+
                                         username={user.displayName}
                                         userPhoto={user.photoUrl}
-                                        
+
                                     />
                                 </div>
                             </div>
@@ -122,7 +122,7 @@ export default function ChatRoom() {
                             <QuestionAnswerOutlinedIcon />
                             <h3
                                 className={stylesB.convoName}
-                                
+
                                 onClick={() => {
                                     setConvoId(convo.convoId);
                                 }}>
@@ -130,16 +130,16 @@ export default function ChatRoom() {
                             </h3>
                         </div>)}
                 </div>
-           
-      </div>
 
-      <main className={stylesB.contentBox}>
-        <MessageForm
-          convoId={convoId}
-          uid={currentUser.uid}
-          buttonText={"Send"}
-        />
-      </main>
-    </section>
-  );
+            </div>
+
+            <main className={stylesB.contentBox}>
+                <MessageForm
+                    convoId={convoId}
+                    uid={currentUser.uid}
+                    buttonText={"Send"}
+                />
+            </main>
+        </section>
+    );
 }

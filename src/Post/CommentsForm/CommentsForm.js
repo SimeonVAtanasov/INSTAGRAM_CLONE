@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect} from "react";
 import styles from "../../Post/Post.module.scss";
 import Comment from "../Comment/Comment";
 import { db } from "../../firebase";

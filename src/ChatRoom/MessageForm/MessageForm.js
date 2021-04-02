@@ -1,10 +1,9 @@
-import React, { useState, useEffect, createRef, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import stylesB from "./MessageForm.module.scss";
 import stylesC from "../../TextInput/TextInput.module.scss";
 
 import Comment from "../../Post/Comment/Comment";
 import { db } from "../../firebase";
-import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase"
 import TextInput from "../../TextInput/TextInput";

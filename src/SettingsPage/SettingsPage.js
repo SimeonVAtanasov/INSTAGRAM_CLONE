@@ -1,11 +1,10 @@
 import React, { useRef } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import { Avatar, Box, Button, OutlinedInput, TextareaAutosize, TextField } from '@material-ui/core';
-import { auth, db } from '../firebase';
+import { Avatar, Box, Button, TextareaAutosize } from '@material-ui/core';
+import { db } from '../firebase';
 import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
 import styles from "./SettingsPage.module.scss"
 import PostUpload from '../UploadProfilePhoto/UploadProfilePhoto';
 import Input from '@material-ui/core/Input';
@@ -13,7 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import SettingsMenu from './SettingsMenu/SettingsMenu';
+import SettingsMenu from './SettingsMenu/SettingsMenu'; //  Do not delete
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCurrentUserUpdated } from '../CurrentUser.actions';

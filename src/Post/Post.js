@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import CommentsForm from "../Post/CommentsForm/CommentsForm.js";
 import PostModal from "./PostModal";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import firebase from "firebase/app";
 import { db } from "../firebase";
 import {useSelector} from "react-redux"; 
 

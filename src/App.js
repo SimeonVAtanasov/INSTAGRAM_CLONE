@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Home from "./Home/Home";
 import NavBar from "./NavBar/NavBar"
-import { db, auth } from "./firebase";
+import { auth } from "./firebase";
 import Login from "./Login/Login.js";
 import Explore from "./Explore/Explore";
 import ProfilePage from "./ProfilePage/ProfilePage";
@@ -58,23 +58,23 @@ function App() {
       (<Router id="router">
 
         {isLoggedIn && <>
-          <NavBar onLogout={changeStatusLoggedIn}  />
+          <NavBar onLogout={changeStatusLoggedIn} />
         </>}
         <div>
           <Switch>
             <Route exact path="/">
-              {isLoggedIn ? <Home  /> : <Login />}
+              {isLoggedIn ? <Home /> : <Login />}
             </Route>
             <Route path="/inbox">
-              <ChatRoom  />
+              <ChatRoom />
             </Route>
 
             <Route path="/explore">
-              <Explore/>
+              <Explore />
             </Route>
 
             <Route exact path={`/profile/:id`}>
-              <ProfilePage  />
+              <ProfilePage />
             </Route>
 
             <Route path={"/profile/settings/:id"}>
