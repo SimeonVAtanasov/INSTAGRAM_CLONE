@@ -165,18 +165,18 @@ function StoryUpload(props) {
 
         <input type="file" onChange={handleChange} id="file"></input>
         <label htmlFor="file" className="upload_label">
-          <ImageSearchIcon></ImageSearchIcon>
+          <ImageSearchIcon/>
           {label}
         </label>
 
         <h2 className="new_post_header">Or</h2>
 
         <button className="upload_label" onClick={handleCameraOpen}>
-          <CameraAltIcon></CameraAltIcon>
+          <CameraAltIcon/>
           Take a picture
         </button>
 
-        {isCameraOpen && <WebcamCapture></WebcamCapture>}
+        {isCameraOpen && <WebcamCapture/>}
 
         {props.isPost && (
           <Input
@@ -184,7 +184,7 @@ function StoryUpload(props) {
             placeholder="Write a caption..."
             value={caption}
             onInput={(ev) => setCaption(ev.target.value)}
-          ></Input>
+         />
         )}
 
         <img src={file} alt={caption} />

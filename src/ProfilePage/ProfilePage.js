@@ -137,7 +137,7 @@ export default function ProfilePage() {
               text={"Upload story"}
               isPost={false}
               buttonText={"Upload story"}
-            ></StoryUpload>
+            />
           )}
 
         </div>
@@ -177,7 +177,7 @@ export default function ProfilePage() {
           handleClose={handleClose}
           stories={stories}
           setStories={setStories}
-        ></StoriesSection>
+        />
       )}
 
       <main className={style.exploreProfileContainer}>

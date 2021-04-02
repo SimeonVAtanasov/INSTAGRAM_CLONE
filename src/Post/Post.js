@@ -8,6 +8,7 @@ import PostModal from "./PostModal";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import firebase from "firebase/app";
 import { db } from "../firebase";
+import {useSelector} from "react-redux"; 
 
 function Post({
   postId,
@@ -29,6 +30,8 @@ function Post({
   const [isLiked, setIsLiked] = useState(false);
 
   const userCredential = firebase.auth().currentUser;
+  const posts = useSelector((state) => state.posts.posts);
+
 
   const handleShowHeart = () => {
     let likedByArr = [];
@@ -54,7 +57,7 @@ function Post({
             className={styles.post_avatar}
             alt={username}
             src={userPhoto || "/static/images/avatar/1.jpg"}
-          ></Avatar>
+          />
 
           <h3>{username}</h3>
         </Link>
@@ -68,7 +71,7 @@ function Post({
       >
         <img className={styles.post_image} src={imageUrl} alt="post"></img>
 
-        {showHeart && <FavoriteIcon className={styles.heart}></FavoriteIcon>}
+        {showHeart && <FavoriteIcon className={styles.heart}/>}
       </div>
 
       <PostMenu
@@ -80,7 +83,9 @@ function Post({
         isLiked={isLiked}
         setIsLiked={setIsLiked}
         setShowHeart={setShowHeart}
-      ></PostMenu>
+        uid={uid}
+        imageUrl= {imageUrl}
+      />
       <div className={styles.liked_by}>
         <span>
           <strong>{likedByNumber} </strong> likes
@@ -97,7 +102,7 @@ function Post({
         buttonText={"Post"}
         openModal={openModal}
         setOpenModal={setOpenModal}
-      ></CommentsForm>
+      />
 
       <PostModal
         openModal={openModal}
@@ -109,7 +114,7 @@ function Post({
         time={time}
         postId={postId}
         uid={uid}
-      ></PostModal>
+      />
     </div>
   );
 }

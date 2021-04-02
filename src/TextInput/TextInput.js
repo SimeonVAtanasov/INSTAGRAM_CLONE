@@ -29,11 +29,11 @@ export default function TextInput(props) {
                     comment={message}
                     setComment={setMessage}
                     inputRef={inputRef}
-                ></EmojiKeybord>
+                />
             }
             <SentimentSatisfiedIcon
                 onClick={handleShowEmojis}
-            ></SentimentSatisfiedIcon>
+            />
             <TextareaAutosize
                 // maxLength={40}
                 rowsMax={3}
@@ -44,7 +44,7 @@ export default function TextInput(props) {
                 value={message}
                 onChange={(ev) => setMessage(ev.target.value)}
                 onKeyDown={onSubmit}
-            ></TextareaAutosize>
+            />
             <Button
                 className={props.styles.post_btn}
                 disabled={!message}

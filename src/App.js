@@ -21,7 +21,7 @@ import { getCurrentUser } from "./CurrentUser.actions";
 function App() {
 
   const dispatch = useDispatch();
-  // const posts = useSelector(state => state.posts.posts);
+
   const currentUser = useSelector(state => state.currentUser)
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false

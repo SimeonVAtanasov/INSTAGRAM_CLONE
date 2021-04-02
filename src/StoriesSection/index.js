@@ -35,15 +35,6 @@ function StoriesSection({ isStoryOpen, handleClose, user, stories, setStories })
   const [modalStyle] = useState(getModalStyle);
  
 
-  // const stories = [
-  //   "https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=900.0&fit=crop",
-  //   "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*",
-  //   "https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=900.0&fit=crop",
-  // ];
-
-
- 
-
   const Close = () => {
     handleClose();
   };
@@ -55,7 +46,7 @@ function StoriesSection({ isStoryOpen, handleClose, user, stories, setStories })
           className={styles.avatar_story}
           alt={user.displayName}
           src={user.photoURL}
-        ></Avatar>
+        />
         <span>{user.displayName}</span>
       </div>
 
