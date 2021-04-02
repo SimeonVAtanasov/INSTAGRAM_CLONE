@@ -75,10 +75,10 @@ function PostMenu({
         <ModeCommentOutlinedIcon
           className={styles.icon}
           onClick={handleOpen}
-        ></ModeCommentOutlinedIcon>
-        <SendOutlinedIcon className={styles.icon}></SendOutlinedIcon>
+        />
+        <SendOutlinedIcon className={styles.icon}/>
       </div>
-      <TurnedInNotIcon className={styles.icon}></TurnedInNotIcon>
+      <TurnedInNotIcon className={styles.icon}/>
     </div>
   );
 }

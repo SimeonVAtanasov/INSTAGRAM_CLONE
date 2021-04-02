@@ -14,7 +14,7 @@ function Comment({ comment, username, time, userPhoto, onClick, uid }) {
               className={styles.comment_avatar}
               alt={username}
               src={userPhoto || "/static/images/avatar/1.jpg"}
-            ></Avatar>
+           />
 
             <strong className={styles.comment_username}>{username}</strong>
           </Link>
