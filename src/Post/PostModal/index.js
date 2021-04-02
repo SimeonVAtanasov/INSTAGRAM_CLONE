@@ -20,13 +20,14 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: "70%",
+    width: "960px",
     backgroundColor: theme.palette.background.paper,
     border: "1px solid #dbdbdb",
     outline: "none",
     objectFit: "contain",
     display: "flex",
     maxHeight: "600px",
+    borderRadius: "3px"
   },
 }));
 

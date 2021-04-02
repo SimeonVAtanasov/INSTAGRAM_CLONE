@@ -55,7 +55,7 @@ function StoriesSection({ isStoryOpen, handleClose, user, stories, setStories })
           stories = {stories}
           defaultInterval={3500}
           width={432}
-          height={768}
+          height={600}
         />
       
     </div>

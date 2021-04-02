@@ -35,9 +35,8 @@ export default function TextInput(props) {
                 onClick={handleShowEmojis}
             />
             <TextareaAutosize
-                multiline
+                // maxLength={40}
                 rowsMax={3}
-                fullWidth={true}
                 ref={inputRef}
                 className={styles.post_textarea}
                 type="text"

@@ -26,6 +26,7 @@ export default function NotificationsPop({ uid }) {
 
     let notificationsQuerry = [];
 
+
     db.collection("notifications")
       .where("forUser", "==", uid)
       .orderBy("timestamp", "desc")
