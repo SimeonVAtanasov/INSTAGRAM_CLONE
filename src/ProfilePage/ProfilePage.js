@@ -26,19 +26,12 @@ export default function ProfilePage(props) {
     uid: "",
   });
 
-<<<<<<< HEAD
-  // let followingCount = user.following.length;
-  // let followersCount = user.followers.length;
-  const currentUser = props.currentUser;
-  const [posts, setPosts] = useState([]);
-=======
   const posts = useSelector((state) => state.posts.posts);
   const filteredPosts = posts.filter(({post}) => post.createdBy === user.uid);
 
 
   const [currentUser, setCurrentUser] = useState(props.currentUser);
 
->>>>>>> 485d8292d7d2a9cc915ca572552fd568d19dd9db
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
 
@@ -74,13 +67,6 @@ export default function ProfilePage(props) {
         //     setPosts(posts);
         //   })
 
-<<<<<<< HEAD
-        let isFollowedByUser = data.followers.some((element) => element === currentUser.uid);
-        if (isFollowedByUser) {
-          setIsFollowing(true);
-        }
-         
-=======
         let isFollowedByUser = data.followers.some(
           (id) => id === currentUser.uid
         );
@@ -88,7 +74,6 @@ export default function ProfilePage(props) {
           setIsFollowing(true);
         }
 
->>>>>>> 485d8292d7d2a9cc915ca572552fd568d19dd9db
         db.collection("stories")
           .where("createdBy", "==", data.uid)
           .onSnapshot((querySnapshot) => {
@@ -110,24 +95,6 @@ export default function ProfilePage(props) {
       .catch((err) => console.log(err.message));
   }, [id]);
 
-<<<<<<< HEAD
-  // useEffect(()=>{
-  //   db.collection("posts")
-  //   .where("createdBy", "==", id)
-  //   .onSnapshot((querySnapshot) => {
-  //     let posts = [];
-
-  //     querySnapshot.forEach((doc) => {
-  //       posts.push(doc.data());
-  //     });
-
-  //     setPosts(posts);
-  //   })
-
-  // },[id])
-
-=======
->>>>>>> 485d8292d7d2a9cc915ca572552fd568d19dd9db
   const handleFollow = () => {
     let userFollowersArr = [...user.followers];
     let clientFollowingArr = [...currentUser.following];
@@ -230,13 +197,8 @@ export default function ProfilePage(props) {
       )}
 
       <main className={style.exploreProfileContainer}>
-<<<<<<< HEAD
-        {posts.map((post) => (
-          <ExplorePost key={v4()} post={post}/>
-=======
         {filteredPosts.map((post) => (
           <ExplorePost key={v4()} post={post.post} id={post.id} uid={user.uid} />
->>>>>>> 485d8292d7d2a9cc915ca572552fd568d19dd9db
         ))}
       </main>
     </>
