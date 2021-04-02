@@ -31,7 +31,7 @@ export default function Home() {
             likedBy={post.likedBy}
             time={post.timestamp}
             userPhoto={post.userPhoto}
-            uid={post.uid}
+            uid = {post.createdBy}
           ></Post>
         ))}
       </div>

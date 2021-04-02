@@ -23,6 +23,7 @@ function App() {
   const dispatch = useDispatch();
   // const posts = useSelector(state => state.posts.posts);
   const currentUser = useSelector(state => state.currentUser)
+
   const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false
 
   const [isLoading, setIsLoading] = useState(true);
@@ -69,7 +70,7 @@ function App() {
             </Route>
 
             <Route path="/explore">
-              <Explore />
+              <Explore/>
             </Route>
 
             <Route exact path={`/profile/:id`}>

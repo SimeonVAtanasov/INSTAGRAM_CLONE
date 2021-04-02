@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Avatar } from "@material-ui/core";
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     outline: "none",
     objectFit: "contain",
     display: "flex",
+    maxHeight: "600px",
   },
 }));
 
@@ -41,6 +42,8 @@ export default function PostModal({
   userPhoto,
   uid,
 }) {
+
+
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -62,9 +65,9 @@ export default function PostModal({
               alt={username}
               src={userPhoto || "/static/images/avatar/1.jpg"}
             ></Avatar>
-          </Link>
 
-          <h3>{username}</h3>
+            <h3>{username}</h3>
+          </Link>
         </div>
         <div className={styles.post_modal_description_container}>
           <Link to={`/profile/${uid}`}>
@@ -74,13 +77,16 @@ export default function PostModal({
               src={userPhoto || "/static/images/avatar/1.jpg"}
               data-id={uid}
             ></Avatar>
+
+            <h3 className={styles.post_modal_description}>
+              <strong className={styles.username}> {username} </strong>{" "}
+              {caption}
+            </h3>
           </Link>
-          <h3 className={styles.post_modal_description}>
-            <strong className={styles.username}> {username} </strong> {caption}
-          </h3>
         </div>
         <div className={styles.modal_comments_form}>
           <CommentsForm
+            uid={uid}
             postId={postId}
             time={time}
             openModal={openModal}

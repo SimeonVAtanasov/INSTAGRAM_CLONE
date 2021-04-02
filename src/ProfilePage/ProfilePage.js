@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 export default function ProfilePage(props) {
   
 
+
   const [user, setUser] = useState({
     displayName: "",
     photoUrl: "",
@@ -27,7 +28,16 @@ export default function ProfilePage(props) {
 
   const currentUser = useSelector(state => state.currentUser.user)
 
-  const [posts, setPosts] = useState([]);
+
+  // let followingCount = user.following.length;
+  // let followersCount = user.followers.length;
+
+  const posts = useSelector((state) => state.posts.posts);
+  const filteredPosts = posts.filter(({post}) => post.createdBy === user.uid);
+
+
+ 
+
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
 
@@ -63,29 +73,12 @@ export default function ProfilePage(props) {
         //     setPosts(posts);
         //   })
 
-        let isFollowedByUser = data.followers.some(
-          (id) => id === currentUser.uid
-        );
+
+        let isFollowedByUser = data.followers.some((element) => element === currentUser.uid);
         if (isFollowedByUser) {
           setIsFollowing(true);
         }
-
-        db.collection("posts")
-          .where("createdBy", "==", data.uid)
-          .onSnapshot((querySnapshot) => {
-            let posts = [];
-
-            querySnapshot.forEach((doc) => {
-              let post = doc.data();
-              posts.push({ ...post, id: doc.id });
-            });
-
-            setPosts(posts);
-          });
-        // .catch((error) => {
-        //   console.log("Error getting documents: ", error);
-        // });
-
+         
         db.collection("stories")
           .where("createdBy", "==", data.uid)
           .onSnapshot((querySnapshot) => {
@@ -106,6 +99,21 @@ export default function ProfilePage(props) {
       })
       .catch((err) => console.log(err.message));
   }, [id,  currentUser]);
+
+  // useEffect(()=>{
+  //   db.collection("posts")
+  //   .where("createdBy", "==", id)
+  //   .onSnapshot((querySnapshot) => {
+  //     let posts = [];
+
+  //     querySnapshot.forEach((doc) => {
+  //       posts.push(doc.data());
+  //     });
+
+  //     setPosts(posts);
+  //   })
+
+  // },[id])
 
   const handleFollow = () => {
     let userFollowersArr = [...user.followers];
@@ -167,7 +175,7 @@ export default function ProfilePage(props) {
               buttonText={"Upload story"}
             ></StoryUpload>
           )}
-          
+
         </div>
         <div className={styles.profileInfoWrapper}>
           <h2>
@@ -185,7 +193,7 @@ export default function ProfilePage(props) {
           </h2>
           <ul>
             <li>
-              <span>{posts.length || 0}</span> <span>Posts</span>
+              <span>{filteredPosts.length || 0}</span> <span>Posts</span>
             </li>
             <li>
               <span>{user.followers.length || 0}</span> <span>Followers</span>
@@ -209,8 +217,9 @@ export default function ProfilePage(props) {
       )}
 
       <main className={style.exploreProfileContainer}>
-        {posts.map((post) => (
-          <ExplorePost key={v4()} post={post} id={post.id} />
+
+        {filteredPosts.map((post) => (
+          <ExplorePost key={v4()} post={post.post} id={post.id} uid={user.uid} />
         ))}
       </main>
     </>
