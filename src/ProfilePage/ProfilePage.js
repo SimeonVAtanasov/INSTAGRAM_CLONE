@@ -12,9 +12,7 @@ import StoryUpload from "../StoryUpload";
 import { useSelector } from "react-redux";
 
 
-export default function ProfilePage(props) {
-  
-
+export default function ProfilePage() {
 
   const [user, setUser] = useState({
     displayName: "",
@@ -28,15 +26,8 @@ export default function ProfilePage(props) {
 
   const currentUser = useSelector(state => state.currentUser.user)
 
-
-  // let followingCount = user.following.length;
-  // let followersCount = user.followers.length;
-
   const posts = useSelector((state) => state.posts.posts);
   const filteredPosts = posts.filter(({post}) => post.createdBy === user.uid);
-
-
- 
 
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
@@ -61,18 +52,6 @@ export default function ProfilePage(props) {
           setIsCurrentUser(false);
           setUser({...data});
         }
-        // db.collection("posts")
-        //   .where("uid", "==", data.uid)
-        //   .onSnapshot((querySnapshot) => {
-        //     let posts = [];
-      
-        //     querySnapshot.forEach((doc) => {
-        //       posts.push(doc.data());
-        //     });
-      
-        //     setPosts(posts);
-        //   })
-
 
         let isFollowedByUser = data.followers.some((element) => element === currentUser.uid);
         if (isFollowedByUser) {
@@ -99,22 +78,7 @@ export default function ProfilePage(props) {
       })
       .catch((err) => console.log(err.message));
   }, [id,  currentUser]);
-
-  // useEffect(()=>{
-  //   db.collection("posts")
-  //   .where("createdBy", "==", id)
-  //   .onSnapshot((querySnapshot) => {
-  //     let posts = [];
-
-  //     querySnapshot.forEach((doc) => {
-  //       posts.push(doc.data());
-  //     });
-
-  //     setPosts(posts);
-  //   })
-
-  // },[id])
-
+  
   const handleFollow = () => {
     let userFollowersArr = [...user.followers];
     let clientFollowingArr = [...currentUser.following];

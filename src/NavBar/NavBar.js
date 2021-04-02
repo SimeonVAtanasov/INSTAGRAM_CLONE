@@ -80,7 +80,7 @@ export default React.memo(function NavBar({ onLogout}) {
     setSearchInput(text);
     if (text) {
       let filteredUsers = users.filter((user) =>
-        user.displayName.toLowerCase().split(" ").join("").includes(text)
+        user.displayName.toLowerCase().split(" ").join("").includes(text.toLowerCase())
       );
       setFilteredUsers(filteredUsers);
     }
@@ -111,18 +111,17 @@ export default React.memo(function NavBar({ onLogout}) {
                   }}
                 />
                 <div className={classes.suggestionBox} >{filteredUsers.map(user =>
-                  <Link key={v4()} to={`/profile/${user.uid}`} onClick={() => { setSearchInput(""); setFilteredUsers([]) }}>
+
                     <Comment
                       username={user.displayName}
                       userPhoto={user.photoUrl}
                       key={v4()}
-                      to={`/profile/${user.uid}`}
+                      to={user.uid}
                       onClick={() => {
                         setSearchInput("");
                         setFilteredUsers([]);
                       }}
                     />
-                    </Link>
                   )}
                 </div>
               </form>

@@ -54,7 +54,7 @@ export default function ChatRoom() {
         let text = ev.target.value;
         setSearchInput(text)
         if (text) {
-            let filteredUsers = users.filter(user => user.displayName.toLowerCase().split(' ').join("").includes(text))
+            let filteredUsers = users.filter(user => user.displayName.toLowerCase().split(' ').join("").includes(text.toLowerCase().trim()))
             setFilteredUsers(filteredUsers);
         }
     }
@@ -98,12 +98,18 @@ export default function ChatRoom() {
 
                     <div className={stylesB.suggestions}>
                         {filteredUsers.map(user =>
-                            <Comment
-                                username={user.displayName}
-                                userPhoto={user.photoUrl}
-                                key={v4()}
-                                onClick={() => { createNewChatRoom(user) }}
-                            />
+
+                            <div onClick={() => { createNewChatRoom(user) }}>
+                                <div style={{ pointerEvents: "none" }}>
+                                    <Comment
+                                        
+                                        username={user.displayName}
+                                        userPhoto={user.photoUrl}
+                                        key={v4()}
+                                    />
+                                </div>
+                            </div>
+
                         )
                         }
 
