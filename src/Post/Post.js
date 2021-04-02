@@ -28,8 +28,6 @@ function Post({
   const [showHeart, setShowHeart] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
-
-
   const userCredential = firebase.auth().currentUser;
 
   const handleShowHeart = () => {
@@ -42,7 +40,7 @@ function Post({
         likedBy: likedByArr,
       });
 
-       setIsLiked(true);
+      setIsLiked(true);
     }
 
     setShowHeart(!showHeart);
@@ -57,15 +55,15 @@ function Post({
             alt={username}
             src={userPhoto || "/static/images/avatar/1.jpg"}
           ></Avatar>
-        </Link>
 
-        <h3>{username}</h3>
+          <h3>{username}</h3>
+        </Link>
       </div>
+
       <div
         className={styles.post_image_container}
-        onDoubleClick={() =>  {
-          handleShowHeart()
-        
+        onDoubleClick={() => {
+          handleShowHeart();
         }}
       >
         <img className={styles.post_image} src={imageUrl} alt="post"></img>
@@ -79,9 +77,9 @@ function Post({
         setOpenModal={setOpenModal}
         likedByUsers={likedByUsers}
         setLikedByUsers={setLikedByUsers}
-        isLiked = {isLiked}
-        setIsLiked = {setIsLiked}
-        setShowHeart = {setShowHeart}
+        isLiked={isLiked}
+        setIsLiked={setIsLiked}
+        setShowHeart={setShowHeart}
       ></PostMenu>
       <div className={styles.liked_by}>
         <span>
@@ -96,7 +94,7 @@ function Post({
         postId={postId}
         time={time}
         uid={uid}
-        buttonText={"Публикуване"}
+        buttonText={"Post"}
         openModal={openModal}
         setOpenModal={setOpenModal}
       ></CommentsForm>
@@ -109,7 +107,8 @@ function Post({
         userPhoto={userPhoto}
         caption={caption}
         time={time}
-        postId={postId}   
+        postId={postId}
+        uid={uid}
       ></PostModal>
     </div>
   );

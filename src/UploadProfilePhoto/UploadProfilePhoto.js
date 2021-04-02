@@ -71,7 +71,7 @@ function PostUpload(props) {
   };
 
   const handleUpload = () => {
-    const uploadImage = storage.ref(`images/${image.name}`).put(image);
+    const uploadImage = storage.ref(`images/${Date.now()}`).put(image);
 
     uploadImage.on(
       "state_changed",
@@ -87,10 +87,7 @@ function PostUpload(props) {
       },
       () => {
         //complete
-        storage
-          .ref("images")
-          .child(image.name)
-          .getDownloadURL()
+        uploadImage.snapshot.ref.getDownloadURL()
           .then((url) => {
               let user = firebase.auth().currentUser;
               db.collection("users").doc(user.uid).update({ photoUrl: url })

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import PostModal from "../../Post/PostModal";
 
-export default function ExplorePost({ post, id }) {
+export default function ExplorePost({ post, id, uid }) {
   
   const [commentsCount, setCommentsCount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
@@ -17,7 +17,7 @@ export default function ExplorePost({ post, id }) {
     .then((snap) => {
         setCommentsCount(snap.size);
       });
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -52,6 +52,7 @@ export default function ExplorePost({ post, id }) {
           caption={post.caption}
           time={post.time}
           postId={id}
+          uid={uid}
         ></PostModal>
       </div>
     </>

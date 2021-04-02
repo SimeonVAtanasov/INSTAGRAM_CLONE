@@ -15,12 +15,12 @@ import Explore from "./Explore/Explore";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import SettingsPage from "./SettingsPage/SettingsPage";
 import ChatRoom from "./ChatRoom/ChatRoom";
-import {fetchPosts} from "./Post/Posts.actions"
+import {subscribeToRealTimeEvents} from "./Post/Posts.actions"
 
 function App() {
 
   const dispatch = useDispatch();
-  const posts = useSelector(state => state.posts.posts);
+  // const posts = useSelector(state => state.posts.posts);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // should be false
   
@@ -49,7 +49,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(subscribeToRealTimeEvents());
   }, []);
 
   if (isLoading) {
@@ -67,14 +67,14 @@ function App() {
         <div>
           <Switch>
             <Route exact path="/">
-              {isLoggedIn ? <Home posts={posts} currentUser={currentUser} /> : <Login />}
+              {isLoggedIn ? <Home currentUser={currentUser} /> : <Login />}
             </Route>
             <Route path="/inbox">
               <ChatRoom currentUser={currentUser}/>
             </Route>
 
             <Route path="/explore">
-              <Explore posts={posts} />
+              <Explore/>
             </Route>
 
             <Route exact path={`/profile/:id`}>
