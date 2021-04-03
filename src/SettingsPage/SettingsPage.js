@@ -30,13 +30,14 @@ export default function SettingsPage() {
 
     const currentUser = useSelector(state => state.currentUser.user)
    
-    const [displayNameText, setDisplayNameText] = useState("");
-    const [biography, setBiography] = useState("");
+    const [displayNameText, setDisplayNameText] = useState('');
+    const [biography, setBiography] = useState('');
 
 
     let { id } = useParams();
 
     useEffect(() => {
+        
         setDisplayNameText(currentUser.displayName)
         setBiography(currentUser.biography)
     }, [currentUser])
@@ -54,18 +55,19 @@ export default function SettingsPage() {
     //  REFACTOR !!!
     const handleSaveChanges = () => {
         if (displayNameText.length !== 0 && id) {
-            console.log("going");
-            dispatch(fetchCurrentUserUpdated({ ...currentUser, displayName: displayNameText }))
             db.collection("users").doc(id).update({ displayName: displayNameText })
-               
+            .then(()=> {
+                dispatch(fetchCurrentUserUpdated({ ...currentUser, displayName: displayNameText }))
+                console.log(displayNameText);
+            })
         }
 
-        if (biography.length  !== 0 && id) {
-            db.collection("users").doc(id).update({ biography: biography }).then(() => console.log("yes"))
-                .then(() => {
-                    dispatch(fetchCurrentUserUpdated({ ...currentUser, biography: biography }))
-                })
-        }
+        // if (biography.length  !== 0 && id) {
+        //     db.collection("users").doc(id).update({ biography: biography }).then(() => console.log("yes"))
+        //         .then(() => {
+        //             dispatch(fetchCurrentUserUpdated({ ...currentUser, biography: biography }))
+        //         })
+        // }
 
     }
 
