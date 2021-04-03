@@ -1,3 +1,13 @@
-.ImgExplore{
-    object-fit: cover;
+.imgExploreContainer {
+  overflow: hidden;
+  position: relative;
+}
+
+.ImgExplore {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.ImgExplore:hover {
+  transform: scale(1.1);
 }

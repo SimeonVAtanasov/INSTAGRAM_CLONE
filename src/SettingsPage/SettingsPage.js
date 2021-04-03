@@ -29,10 +29,7 @@ export default function SettingsPage() {
     const classes = useStyles();
 
     const currentUser = useSelector(state => state.currentUser.user)
-
-
-    const prevDisplayName = useRef();
-    const prevBiography = useRef();
+   
     const [displayNameText, setDisplayNameText] = useState("");
     const [biography, setBiography] = useState("");
 
@@ -42,22 +39,7 @@ export default function SettingsPage() {
     useEffect(() => {
         setDisplayNameText(currentUser.displayName)
         setBiography(currentUser.biography)
-        prevDisplayName.current = currentUser.displayName;
-        prevBiography.current = currentUser.biography;
-
     }, [currentUser])
-
-    // useEffect(() => {
-    //     if (displayNameText !== prevDisplayName.current && currentUser.id ) {
-    //         db.collection("users").doc(currentUser.id).update({ ...currentUser })
-
-    //     }
-
-    //     if (biography !== prevBiography.current && currentUser.id) {
-    //         db.collection("users").doc(currentUser.id).update({ ...currentUser }).then(() => console.log("yes"))
-
-    //     }
-    // }, [currentUser])
 
 
     const handleDisplayNameChange = (e) => {
@@ -68,15 +50,17 @@ export default function SettingsPage() {
         setBiography(e.target.value)
     }
 
+
+    //  REFACTOR !!!
     const handleSaveChanges = () => {
-        if (displayNameText.length && id) {
+        if (displayNameText.length !== 0 && id) {
+            console.log("going");
+            dispatch(fetchCurrentUserUpdated({ ...currentUser, displayName: displayNameText }))
             db.collection("users").doc(id).update({ displayName: displayNameText })
-                .then(() => {
-                    dispatch(fetchCurrentUserUpdated({ ...currentUser, displayName: displayNameText }))
-                })
+               
         }
 
-        if (biography.length && id) {
+        if (biography.length  !== 0 && id) {
             db.collection("users").doc(id).update({ biography: biography }).then(() => console.log("yes"))
                 .then(() => {
                     dispatch(fetchCurrentUserUpdated({ ...currentUser, biography: biography }))

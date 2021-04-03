@@ -52,7 +52,7 @@ export default function Login() {
           alert(error.message);
         });
     } else {
-      alert("Failed Fullname field is required");
+      alert("Failed Fullname field is required, or your password is weak");
     }
   };
 
