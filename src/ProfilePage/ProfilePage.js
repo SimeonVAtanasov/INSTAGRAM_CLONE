@@ -10,6 +10,7 @@ import style from "../Explore/Explore.module.scss";
 import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload";
 import { useSelector } from "react-redux";
+import firebase from "firebase";
 
 
 export default function ProfilePage() {
@@ -103,6 +104,18 @@ export default function ProfilePage() {
     db.collection("users").doc(currentUser.uid).update({
       following: clientFollowingArr,
     });
+
+    // db.collection("notifications").add({
+    //   action: "commented your photo",
+    //   fromUser: {
+    //     displayName: currentUser.displayName,
+    //     photoUrl: currentUser.photoUrl,
+    //     uid: currentUser.uid,
+    //   },
+    //   forUser: uid,
+    //   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      
+    // });
 
     setIsFollowing(!isFollowing);
   };

@@ -66,24 +66,13 @@ export default function PostModal({
               alt={username}
               src={userPhoto || "/static/images/avatar/1.jpg"}
             />
-
-            <h3>{username}</h3>
+             <h3 className={styles.post_modal_description}>
+              <strong className={styles.username}> {username} </strong>{" "}
+            </h3>
           </Link>
         </div>
         <div className={styles.post_modal_description_container}>
-          <Link to={`/profile/${uid}`}>
-            <Avatar
-              className={styles.modal_avatar}
-              alt={username}
-              src={userPhoto || "/static/images/avatar/1.jpg"}
-              data-id={uid}
-            />
-
-            <h3 className={styles.post_modal_description}>
-              <strong className={styles.username}> {username} </strong>{" "}
-              {caption}
-            </h3>
-          </Link>
+              <strong>{username.split(" ")[0]}</strong> <span>{caption}</span>
         </div>
         <div className={styles.modal_comments_form}>
           <CommentsForm

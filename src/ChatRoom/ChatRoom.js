@@ -90,7 +90,7 @@ export default function ChatRoom() {
                     <TextField
                         className={stylesB.searchInput}
                         id="outlined-basic"
-                        label="До: "
+                        label="To: "
                         variant="outlined"
                         value={searchInput}
                         onInput={(ev) => { handleInput(ev) }}

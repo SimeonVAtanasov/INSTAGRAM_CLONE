@@ -15,7 +15,6 @@ function PostMenu({
   setOpenModal,
   isLiked,
   setIsLiked,
-  likedByUsers,
   setLikedByUsers,
   setShowHeart,
   uid,
@@ -54,12 +53,12 @@ function PostMenu({
       likedByArr.splice(index, 1);
       setLikedByUsers(likedByArr);
     }
-
+  
     db.collection("posts").doc(postId).update({
       likedBy: likedByArr,
     });
 
-    if (!currentUser && !isLiked) {
+    if (uid !== currentUser.uid && !isLiked) {
       db.collection("notifications").add({
         action: "liked your photo",
         fromUser: {

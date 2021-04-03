@@ -53,7 +53,7 @@ export default function Login() {
           alert(error.message);
         });
     } else {
-      alert("Failed Fullname field is required");
+      alert("Failed Fullname field is required, or your password is weak");
     }
   };
 
@@ -61,7 +61,7 @@ export default function Login() {
     ev.preventDefault();
     auth
       .signInWithEmailAndPassword(email.value, password.value)
-      .then((userCredential) => {})
+      .then((userCredential) => { })
       .catch((error) => {
         alert(error.message);
       });
@@ -86,13 +86,12 @@ export default function Login() {
       .then((result) => {
         // The signed-in user info.
         const user = result.user;
-    
         db.collection("users")
           .doc(user.uid)
           .set({
             uid: user.uid,
             displayName: user.displayName,
-            photoUrl: user.photoURL || "/static/images/avatar/1.jpg",
+            photoUrl: user.photoUrl || "/static/images/avatar/1.jpg",
             email: user.email,
             following: [],
             followers: [],

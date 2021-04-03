@@ -103,7 +103,7 @@ export default React.memo(function NavBar({ onLogout }) {
                 <TextField
                   className={classes.searchInput}
                   id="filled-basic"
-                  label="Търсене..."
+                  label="Search user..."
                   variant="filled"
                   value={searchInput}
                   onInput={(e) => {
@@ -181,14 +181,14 @@ export default React.memo(function NavBar({ onLogout }) {
 
               <div className="options">
                 <Link to={`/profile/${currentUser.uid}`}>
-                  <p>Профил</p>
+                  <p>Profile</p>
                 </Link>
 
                 <Link to={"/profile/settings/" + currentUser.uid}>
-                  <p>Настройки</p>
+                  <p>Settings</p>
                 </Link>
                 <Link to={"/login"}>
-                  <p onClick={handleLogout}>Изход</p>
+                  <p onClick={handleLogout}>Log out</p>
                 </Link>
 
               </div>

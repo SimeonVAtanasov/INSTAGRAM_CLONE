@@ -27,6 +27,7 @@ export default function CommentsForm({ convoId, time, buttonText }) {
             fromUser: {
                 username: currentUser.displayName,
                 userPhoto: currentUser.photoUrl,
+                uid: currentUser.uid
             },
             text: str,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -64,7 +65,7 @@ export default function CommentsForm({ convoId, time, buttonText }) {
                             username={message.fromUser.username}
                             userPhoto={message.fromUser.userPhoto}
                             time={message.timestamp}
-                            uid={currentUser.uid}
+                            uid={message.fromUser.uid}
                         />
                     ))}
 

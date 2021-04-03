@@ -20,7 +20,6 @@ export default function CommentsForm({
 }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-  // const [user, setUser] = useState({});
   const [isPost, setIsPost] = useState(true);
 
   const currentUser = useSelector(state => state.currentUser.user);
@@ -37,7 +36,7 @@ export default function CommentsForm({
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-    if (!currentUser) {
+    if (uid !== currentUser.uid) {
       db.collection("notifications").add({
         action: "commented your photo",
         fromUser: {

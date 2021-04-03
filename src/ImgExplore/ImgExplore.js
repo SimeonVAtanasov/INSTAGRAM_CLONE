@@ -7,6 +7,9 @@ export default function ImgExplore({src, alt,setOpenModal}) {
       };
 
     return (
-        <img alt={alt} src={src} width="292" height="292" className="ImgExplore" onClick = {handleOpen}/>
+        <div className="imgExploreContainer">
+            <img alt={alt} src={src} width="292" height="292" className="ImgExplore" onClick = {handleOpen}/>
+
+        </div>
     );
 }
