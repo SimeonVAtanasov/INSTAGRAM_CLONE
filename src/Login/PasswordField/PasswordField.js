@@ -17,7 +17,7 @@ function PasswordField(props) {
     return (
         <>
             <input onInput={props.onInput} type={typeOfField} required />
-            <span>Парола</span>
+            <span>Password</span>
             <span id="controlPass" className="fa fa-fw fa-eye field-icon" onClick={() => viewPass() } />
         </>
     );

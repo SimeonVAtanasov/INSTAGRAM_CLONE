@@ -16,7 +16,7 @@ export default function TextInput(props) {
     };
 
     const onSubmit = (e) => {
-        if (e.keyCode == 13 && e.shiftKey === false) {
+        if (e.keyCode === 13 && e.shiftKey === false) {
             e.preventDefault();
             props.send(message);
             setMessage('');
