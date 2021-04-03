@@ -12,9 +12,7 @@ import StoryUpload from "../StoryUpload";
 import { useSelector } from "react-redux";
 import firebase from "firebase";
 
-
 export default function ProfilePage() {
-
   const [user, setUser] = useState({
     displayName: "",
     photoUrl: "",
@@ -25,10 +23,10 @@ export default function ProfilePage() {
     uid: "",
   });
 
-  const currentUser = useSelector(state => state.currentUser.user)
+  const currentUser = useSelector((state) => state.currentUser.user);
 
   const posts = useSelector((state) => state.posts.posts);
-  const filteredPosts = posts.filter(({post}) => post.createdBy === user.uid);
+  const filteredPosts = posts.filter(({ post }) => post.createdBy === user.uid);
 
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
@@ -48,17 +46,19 @@ export default function ProfilePage() {
 
         if (id === currentUser.uid) {
           setIsCurrentUser(true);
-          setUser(currentUser)
+          setUser(currentUser);
         } else {
           setIsCurrentUser(false);
-          setUser({...data});
+          setUser({ ...data });
         }
 
-        let isFollowedByUser = data.followers.some((element) => element === currentUser.uid);
+        let isFollowedByUser = data.followers.some(
+          (element) => element === currentUser.uid
+        );
         if (isFollowedByUser) {
           setIsFollowing(true);
         }
-         
+
         db.collection("stories")
           .where("createdBy", "==", data.uid)
           .onSnapshot((querySnapshot) => {
@@ -78,8 +78,8 @@ export default function ProfilePage() {
           });
       })
       .catch((err) => console.log(err.message));
-  }, [id,  currentUser]);
-  
+  }, [id, currentUser]);
+
   const handleFollow = () => {
     let userFollowersArr = [...user.followers];
     let clientFollowingArr = [...currentUser.following];
@@ -104,18 +104,20 @@ export default function ProfilePage() {
     db.collection("users").doc(currentUser.uid).update({
       following: clientFollowingArr,
     });
-
-    // db.collection("notifications").add({
-    //   action: "commented your photo",
-    //   fromUser: {
-    //     displayName: currentUser.displayName,
-    //     photoUrl: currentUser.photoUrl,
-    //     uid: currentUser.uid,
-    //   },
-    //   forUser: uid,
-    //   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      
-    // });
+    
+    if (!isFollowing) {
+      db.collection("notifications").add({
+        action: "followed you",
+        fromUser: {
+          displayName: currentUser.displayName,
+          photoUrl: currentUser.photoUrl,
+          uid: currentUser.uid,
+        },
+        forUser: user.uid,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        target: "",
+      });
+    }
 
     setIsFollowing(!isFollowing);
   };
@@ -152,7 +154,6 @@ export default function ProfilePage() {
               buttonText={"Upload story"}
             />
           )}
-
         </div>
         <div className={styles.profileInfoWrapper}>
           <h2>
@@ -195,7 +196,12 @@ export default function ProfilePage() {
 
       <main className={style.exploreProfileContainer}>
         {filteredPosts.map((post) => (
-          <ExplorePost key={v4()} post={post.post} id={post.id} uid={user.uid} />
+          <ExplorePost
+            key={v4()}
+            post={post.post}
+            id={post.id}
+            uid={user.uid}
+          />
         ))}
       </main>
     </>

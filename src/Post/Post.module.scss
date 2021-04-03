@@ -3,7 +3,7 @@
   background-color: white;
   border: 1px solid lightgrey;
   margin-bottom: 4em;
-  max-width: 614px;
+  max-width: 43vw;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
 
@@ -31,10 +31,11 @@
     position: relative;
 
     .post_image {
-      width: 614px;
+      max-width: 42vw;
       object-fit: contain;
       border-top: 1px solid lightgrey;
       border-bottom: 1px solid lightgrey;
+      max-height: 40vw;
     }
 
     .heart {
@@ -100,9 +101,10 @@
 
   .time {
     padding: 20px;
+    display: flex;
+    justify-content: flex-end;
     font-size: 14px;
     color: grey;
-    margin-left: 78%;
   }
 }
 

@@ -8,10 +8,12 @@ import { db } from "../firebase";
 import { v4 } from "uuid";
 import Comment from "../Post/Comment/Comment";
 import { Button } from "@material-ui/core";
+import {useSelector} from "react-redux";
 
-export default function ProfileSection({ currentUser }) {
+export default function ProfileSection() {
 
   const [users, setUsers] = useState([]);
+  const currentUser = useSelector(state => state.currentUser.user)
 
   useEffect(() => {
     db.collection("users")

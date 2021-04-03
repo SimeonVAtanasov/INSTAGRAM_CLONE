@@ -1,12 +1,12 @@
 .home_page {
-  width: 960px;
+  width: 68vw;
   display: flex;
   margin: auto;
-  justify-content: flex-start;
+  justify-content: space-between;
   position: relative;
 }
 
-.message{
+.message {
   display: flex;
   align-items: center;
   justify-content: center;

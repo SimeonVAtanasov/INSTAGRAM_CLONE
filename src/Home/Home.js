@@ -40,7 +40,7 @@ export default function Home() {
           ))}
         </div>
 
-        <ProfileSection currentUser={currentUser} />
+        <ProfileSection/>
 
       </div>
     );
@@ -57,7 +57,7 @@ export default function Home() {
             </div>
         </div>
 
-        <ProfileSection currentUser={currentUser} />
+        <ProfileSection />
 
       </div>)
   }

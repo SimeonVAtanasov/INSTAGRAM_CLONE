@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import styles from "./NotificationBar.module.scss";
 
-
 export default function NofificationBar(props) {
-
   return (
     <li className={styles.notificationWrapper}>
       <div className={styles.details}>
@@ -27,16 +25,11 @@ export default function NofificationBar(props) {
           />
         </div>
       </div>
-
-      <div>
-        <img
-          alt="targetPhoto"
-          src={props.targetPhoto}
-          width={40}
-        />
-      </div>
-  
+      {props.action !== "followed you" && (
+        <div>
+          <img alt="targetPhoto" src={props.targetPhoto} width={40} />
+        </div>
+      )}
     </li>
   );
 }
-

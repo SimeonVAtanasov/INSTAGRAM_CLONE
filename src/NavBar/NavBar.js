@@ -7,6 +7,8 @@ import ExploreOutlinedIcon from "@material-ui/icons/ExploreOutlined";
 import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 // import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
+import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 
 import { Avatar, TextField, Tooltip } from "@material-ui/core";
 import "./NavBar.scss";
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default React.memo(function NavBar({ onLogout }) {
-  const currentUser = useSelector(state => state.currentUser.user)
+  const currentUser = useSelector((state) => state.currentUser.user);
 
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -80,7 +82,11 @@ export default React.memo(function NavBar({ onLogout }) {
     setSearchInput(text);
     if (text) {
       let filteredUsers = users.filter((user) =>
-        user.displayName.toLowerCase().split(" ").join("").includes(text.toLowerCase())
+        user.displayName
+          .toLowerCase()
+          .split(" ")
+          .join("")
+          .includes(text.toLowerCase())
       );
       setFilteredUsers(filteredUsers);
     }
@@ -102,6 +108,7 @@ export default React.memo(function NavBar({ onLogout }) {
                 {/* <Input className={styles.searchInput} placeholder="" /> */}
                 <TextField
                   className={classes.searchInput}
+                  autoComplete= "off"
                   id="filled-basic"
                   label="Search user..."
                   variant="filled"
@@ -110,19 +117,19 @@ export default React.memo(function NavBar({ onLogout }) {
                     handleInput(e);
                   }}
                 />
-                <div className={classes.suggestionBox} >{filteredUsers.map(user =>
-
-                  <Comment
-                    username={user.displayName}
-                    userPhoto={user.photoUrl}
-                    key={v4()}
-                    uid={user.uid}
-                    onClick={() => {
-                      setSearchInput("");
-                      setFilteredUsers([]);
-                    }}
-                  />
-                )}
+                <div className={classes.suggestionBox}>
+                  {filteredUsers.map((user) => (
+                    <Comment
+                      username={user.displayName}
+                      userPhoto={user.photoUrl}
+                      key={v4()}
+                      uid={user.uid}
+                      onClick={() => {
+                        setSearchInput("");
+                        setFilteredUsers([]);
+                      }}
+                    />
+                  ))}
                 </div>
               </form>
             </li>
@@ -165,10 +172,7 @@ export default React.memo(function NavBar({ onLogout }) {
               </Link>
             </li>
             <li>
-              {/* <Link to="/notifications"><FavoriteBorderOutlinedIcon style={{ fontSize: 26 }} /></Link> */}
-              <a href="#notifications">
-                <NotificationsPop {...currentUser} />
-              </a>
+              <NotificationsPop {...currentUser} />
             </li>
             <li>
               <div className={"profile_nav"}>
@@ -181,16 +185,17 @@ export default React.memo(function NavBar({ onLogout }) {
 
               <div className="options">
                 <Link to={`/profile/${currentUser.uid}`}>
+                  <AccountCircleOutlinedIcon />
                   <p>Profile</p>
                 </Link>
 
                 <Link to={"/profile/settings/" + currentUser.uid}>
+                  <SettingsOutlinedIcon />
                   <p>Settings</p>
                 </Link>
                 <Link to={"/login"}>
                   <p onClick={handleLogout}>Log out</p>
                 </Link>
-
               </div>
             </li>
           </ul>
