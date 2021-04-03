@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import { storage, db } from "../firebase";
-import firebase from "firebase/app";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import "../ProfileSection/ProfileSection.css";
@@ -9,6 +8,9 @@ import { Input } from '@material-ui/core';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 import LinearProgress from "../LinearProgress";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCurrentUserUpdated } from "../CurrentUser.actions";
+import { useParams } from "react-router";
 
 
 function getModalStyle() {
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function PostUpload(props) {
-
+  const dispatch = useDispatch();
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
@@ -51,6 +53,10 @@ function PostUpload(props) {
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
   const [file, setFilie] = useState(null);
+  const currentUser = useSelector(state => state.currentUser.user)
+  const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
+
+  const { id } = useParams();
 
   const handleOpen = () => {
     setOpen(true);
@@ -67,6 +73,7 @@ function PostUpload(props) {
       setImage(ev.target.files[0]);
       setLabel("Change picture");
       setFilie(URL.createObjectURL(ev.target.files[0]))
+      setIsUploadButtonDisabled(false)
     }
   };
 
@@ -89,18 +96,24 @@ function PostUpload(props) {
         //complete
         uploadImage.snapshot.ref.getDownloadURL()
           .then((url) => {
-              let user = firebase.auth().currentUser;
-              db.collection("users").doc(user.uid).update({ photoUrl: url })
-                .then(function () {
-                  setProgress(0);
-                  setCaption("");
-                  setImage(null);
-                  handleClose();
-                  setLabel("Choose a picture");
-                  setFilie(null);
-                }).catch(function (error) {
-                  alert(error.message);
-                });
+            console.log(id);
+            db.collection("users").doc(id).update({ photoUrl: url })
+              .then(function () {
+                setProgress(0);
+                setCaption("");
+                setImage(null);
+                handleClose();
+                setLabel("Choose a picture");
+                setFilie(null);
+                dispatch(
+                  fetchCurrentUserUpdated({ ...currentUser, photoUrl: url })
+                )
+              }).catch(function (error) {
+                console.log("tuka");
+                alert(error.message);
+              });
+
+
           }
           );
       }
@@ -124,14 +137,18 @@ function PostUpload(props) {
           placeholder="Write a caption..."
           value={caption}
           onInput={(ev) => setCaption(ev.target.value)}
-        ></Input> }
+        ></Input>}
 
 
         <img src={file} alt={caption} />
-        <Button variant="contained" color="primary" type="submit" onClick={() => {
-
-          handleUpload();
-        }}
+        <Button
+          disabled={isUploadButtonDisabled}
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={() => {
+            handleUpload();
+          }}
         >Upload photo</Button>
       </div>
 

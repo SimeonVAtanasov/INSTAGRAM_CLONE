@@ -9,9 +9,10 @@ import { Input } from "@material-ui/core";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import LinearProgress from "../LinearProgress";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { v4 as uuidv4, v4 } from "uuid";
+import { v4 } from "uuid";
 
 import Webcam from "react-webcam";
+import { useSelector } from "react-redux";
 
 function getModalStyle() {
   const top = 50;
@@ -52,10 +53,11 @@ function StoryUpload(props) {
   const [progress, setProgress] = useState(0);
   const [file, setFilie] = useState(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
+  const currentUser = useSelector(state => state.currentUser.user)
 
   const WebcamCapture = () => {
     const webcamRef = React.useRef(null);
-
     const capture = useCallback(async () => {
       const imageSrc = webcamRef.current.getScreenshot();
       const blob = await fetch(imageSrc).then((res) => res.blob());
@@ -64,6 +66,8 @@ function StoryUpload(props) {
       setImage(blob);
       setFilie(imageSrc);
       setIsCameraOpen(false);
+      setIsUploadButtonDisabled(false);
+
     }, [webcamRef]);
     return (
       <>
@@ -87,7 +91,10 @@ function StoryUpload(props) {
       setImage(ev.target.files[0]);
       setLabel("Change picture");
       setFilie(URL.createObjectURL(ev.target.files[0]));
+      setIsUploadButtonDisabled(false);
+      return;
     }
+    setIsUploadButtonDisabled(true);
   };
 
   const handleCameraOpen = () => {
@@ -118,31 +125,21 @@ function StoryUpload(props) {
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               caption: caption,
               imageUrl: url,
-              username: props.user.displayName,
-              createdBy: props.user.uid,
-              userPhoto: props.user.photoUrl,
+              username: currentUser.displayName,
+              createdBy: currentUser.uid,
+              userPhoto: currentUser.photoUrl,
               likedBy: [],
             });
           } else {
             db.collection("stories").add({
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               imageUrl: url,
-              username: props.user.displayName,
-              createdBy: props.user.uid,
-              userPhoto: props.user.photoUrl,
+              username: currentUser.displayName,
+              createdBy: currentUser.uid,
+              userPhoto: currentUser.photoUrl,
             });
           }
 
-          // This  line should adds to  a collection in current user's doc
-          // db.collection("users").doc(props.user.uid).update({posts:[{
-
-          //   caption: caption,
-          //   imageUrl: url,
-          //   username: props.user.displayName,
-          //   userPhoto: props.user.photoUrl,
-          //   uid: props.user.uid,
-          //   likes: 0
-          // }]})
           setProgress(0);
           setCaption("");
           setImage(null);
@@ -192,6 +189,7 @@ function StoryUpload(props) {
 
         <img src={file} alt={caption} />
         <Button
+          disabled={isUploadButtonDisabled}
           variant="contained"
           color="primary"
           type="submit"

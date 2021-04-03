@@ -6,6 +6,7 @@ import styles from "./NotificationBar.module.scss";
 
 
 export default function NofificationBar(props) {
+
   return (
     <li className={styles.notificationWrapper}>
       <div className={styles.details}>
@@ -38,3 +39,4 @@ export default function NofificationBar(props) {
     </li>
   );
 }
+

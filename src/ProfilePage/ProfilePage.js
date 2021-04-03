@@ -11,10 +11,8 @@ import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload";
 import { useSelector } from "react-redux";
 
-// TO DO REFACTOR AGAIN WORK FLOW INTETUPTED
-export default function ProfilePage(props) {
-  // const browsingUser = firebase.auth().currentUser;
 
+export default function ProfilePage() {
 
   const [user, setUser] = useState({
     displayName: "",
@@ -26,11 +24,10 @@ export default function ProfilePage(props) {
     uid: "",
   });
 
+  const currentUser = useSelector(state => state.currentUser.user)
+
   const posts = useSelector((state) => state.posts.posts);
   const filteredPosts = posts.filter(({post}) => post.createdBy === user.uid);
-
-
-  const [currentUser, setCurrentUser] = useState(props.currentUser);
 
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
@@ -47,21 +44,20 @@ export default function ProfilePage(props) {
       .get()
       .then((res) => {
         let data = res.data();
-        setUser(data);
 
-        if (data.uid === currentUser.uid) {
+        if (id === currentUser.uid) {
           setIsCurrentUser(true);
+          setUser(currentUser)
         } else {
           setIsCurrentUser(false);
+          setUser({...data});
         }
 
-        let isFollowedByUser = data.followers.some(
-          (id) => id === currentUser.uid
-        );
+        let isFollowedByUser = data.followers.some((element) => element === currentUser.uid);
         if (isFollowedByUser) {
           setIsFollowing(true);
         }
-
+         
         db.collection("stories")
           .where("createdBy", "==", data.uid)
           .onSnapshot((querySnapshot) => {
@@ -81,8 +77,8 @@ export default function ProfilePage(props) {
           });
       })
       .catch((err) => console.log(err.message));
-  }, [id]);
-
+  }, [id,  currentUser]);
+  
   const handleFollow = () => {
     let userFollowersArr = [...user.followers];
     let clientFollowingArr = [...currentUser.following];
@@ -130,7 +126,7 @@ export default function ProfilePage(props) {
                 : { background: "#bdbdbd" }
             }
             className={styles.avatarProfile}
-            alt={user.displayName}
+            alt={user.displayName || "User"}
             src={user.photoUrl || "/static/images/avatar/1.jpg"}
             onClick={handleOpen}
           />

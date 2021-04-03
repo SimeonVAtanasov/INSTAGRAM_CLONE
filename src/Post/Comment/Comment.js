@@ -18,15 +18,16 @@ function Comment({ comment, username, time, userPhoto, onClick, uid }) {
 
             <strong className={styles.comment_username}>{username}</strong>
           </Link>
-          <p className={styles.comment}>{comment}</p>
-        </div>
+          
+          <p className={styles.comment}>{comment}
+        
         {time && (
           <ReactTimeAgo
             className={styles.time}
             date={time.toDate()}
             locale="en-US"
           />
-        )}
+        )}</p></div>
       </div>
     </React.Fragment>
   );

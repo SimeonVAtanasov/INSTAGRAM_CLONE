@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import {
   CircularProgress,
@@ -25,6 +25,7 @@ export default function NotificationsPop({ uid }) {
 
 
     let notificationsQuerry = [];
+
 
     db.collection("notifications")
       .where("forUser", "==", uid)

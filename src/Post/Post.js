@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import CommentsForm from "../Post/CommentsForm/CommentsForm.js";
 import PostModal from "./PostModal";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import firebase from "firebase/app";
 import { db } from "../firebase";
 import {useSelector} from "react-redux"; 
 
@@ -29,7 +28,7 @@ function Post({
   const [showHeart, setShowHeart] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
-  const userCredential = firebase.auth().currentUser;
+  const userCredential = useSelector(state => state.currentUser.user)
   const posts = useSelector((state) => state.posts.posts);
 
 

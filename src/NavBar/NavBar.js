@@ -18,6 +18,7 @@ import NotificationsPop from "../NotificationsPop/NotificationsPop.js";
 import { makeStyles } from "@material-ui/core/styles";
 import { v4 } from "uuid";
 import Comment from "../Post/Comment/Comment.js";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   searchInput: {
@@ -41,7 +42,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default React.memo(function NavBar({ onLogout, currentUser }) {
+export default React.memo(function NavBar({ onLogout }) {
+  const currentUser = useSelector(state => state.currentUser.user)
+
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -77,7 +80,7 @@ export default React.memo(function NavBar({ onLogout, currentUser }) {
     setSearchInput(text);
     if (text) {
       let filteredUsers = users.filter((user) =>
-        user.displayName.toLowerCase().split(" ").join("").includes(text)
+        user.displayName.toLowerCase().split(" ").join("").includes(text.toLowerCase())
       );
       setFilteredUsers(filteredUsers);
     }
@@ -107,24 +110,19 @@ export default React.memo(function NavBar({ onLogout, currentUser }) {
                     handleInput(e);
                   }}
                 />
-                <div className={classes.suggestionBox}>
-                  {filteredUsers.map((user) => (
-                    <Link
-                      key={v4()}
-                      to={`/profile/${user.uid}`}
-                      onClick={() => {
-                        setSearchInput("");
-                        setFilteredUsers([]);
-                      }}
-                    >
-                      <Comment
-                        username={user.displayName}
-                        userPhoto={user.photoUrl}
-                        key={v4()}
-                        // onClick={() => <Redirect to={`/profile/${user.uid}`} />}
-                      />
-                    </Link>
-                  ))}
+                <div className={classes.suggestionBox} >{filteredUsers.map(user =>
+
+                  <Comment
+                    username={user.displayName}
+                    userPhoto={user.photoUrl}
+                    key={v4()}
+                    uid={user.uid}
+                    onClick={() => {
+                      setSearchInput("");
+                      setFilteredUsers([]);
+                    }}
+                  />
+                )}
                 </div>
               </form>
             </li>
@@ -178,19 +176,21 @@ export default React.memo(function NavBar({ onLogout, currentUser }) {
                   id="nav_avatar"
                   alt={currentUser.displayName}
                   src={currentUser.photoUrl || "/static/images/avatar/1.jpg"}
-               />
+                />
               </div>
 
               <div className="options">
-                <Link to={`/profile/${auth.currentUser.uid}`}>
+                <Link to={`/profile/${currentUser.uid}`}>
                   <p>Профил</p>
                 </Link>
 
                 <Link to={"/profile/settings/" + currentUser.uid}>
                   <p>Настройки</p>
                 </Link>
+                <Link to={"/login"}>
+                  <p onClick={handleLogout}>Изход</p>
+                </Link>
 
-                <p onClick={handleLogout}>Изход</p>
               </div>
             </li>
           </ul>

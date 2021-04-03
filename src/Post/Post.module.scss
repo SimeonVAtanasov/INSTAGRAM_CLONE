@@ -1,9 +1,9 @@
 .post {
   border-radius: 3px;
-  max-width: 614px;
   background-color: white;
   border: 1px solid lightgrey;
   margin-bottom: 4em;
+  max-width: 614px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
 
@@ -86,11 +86,12 @@
   }
 
   .post_comments {
-    padding: 0 20px 20px;
+    padding: 0 20px 0px;
     position: relative;
-    overflow-y: auto;
-    overflow-x: none;
+    // overflow-y: auto;
+    // overflow-x: none;
     max-height: 285px;
+    overflow-wrap: normal;
 
     .view_comments_text {
       color: grey;
@@ -101,6 +102,7 @@
     padding: 20px;
     font-size: 14px;
     color: grey;
+    margin-left: 78%;
   }
 }
 
@@ -108,9 +110,9 @@
   background-color: white;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
-    
+
   > div:first-child {
-    background-color: #fafafa !important;
+    background-color: #262626 !important;
   }
 
   .modal_image_container {
@@ -127,7 +129,7 @@
 
   aside {
     border-left: 1px solid lightgrey;
-    width: 427px;
+    width: 360px;
     .modal_header {
       padding: 12px 0 12px 1.1em;
       border-bottom: 1px solid lightgrey;
@@ -175,7 +177,7 @@
 
     .modal_comments_form {
       .post_comments {
-        margin-bottom: 20px;
+        margin-bottom: 45px;
         position: relative;
         overflow: auto;
         height: 285px;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect} from "react";
 import styles from "../../Post/Post.module.scss";
 import Comment from "../Comment/Comment";
 import { db } from "../../firebase";
@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase";
 import TextInput from "../../TextInput/TextInput";
 import stylesB from "../../TextInput/postTextInputStyles.module.scss";
+import {useSelector} from "react-redux";
 
 export default function CommentsForm({
   postId,
@@ -19,28 +20,30 @@ export default function CommentsForm({
 }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [isPost, setIsPost] = useState(true);
+
+  const currentUser = useSelector(state => state.currentUser.user);
 
   const postComment = (str) => {
     db.collection("comments").add({
       forPost: postId,
       fromUser: {
-        username: user.displayName,
-        userPhoto: user.photoUrl,
-        uid: user.uid,
+        username: currentUser.displayName,
+        userPhoto: currentUser.photoUrl,
+        uid: currentUser.uid,
       },
       comment: str,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-    if (!user) {
+    if (!currentUser) {
       db.collection("notifications").add({
         action: "commented your photo",
         fromUser: {
-          displayName: user.displayName,
-          photoUrl: user.photoUrl,
-          uid: user.uid,
+          displayName: currentUser.displayName,
+          photoUrl: currentUser.photoUrl,
+          uid: currentUser.uid,
         },
         forUser: uid,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -57,15 +60,7 @@ export default function CommentsForm({
   };
 
   useEffect(() => {
-    let userCredential = firebase.auth().currentUser;
-    db.collection("users")
-      .doc(userCredential.uid)
-      .get()
-      .then((userData) => {
-        let currentUser = userData.data();
-        setUser(currentUser);
-      });
-
+   
     //if a post id was passed through, access the post collection, go inside the comments collection,
     //  listen for the specific post and all the common changes within it
 
