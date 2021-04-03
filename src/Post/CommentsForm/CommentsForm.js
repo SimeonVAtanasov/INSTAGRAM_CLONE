@@ -4,32 +4,52 @@ import Comment from "../Comment/Comment";
 import { db } from "../../firebase";
 import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
-import firebase from "firebase"
+import firebase from "firebase";
 import TextInput from "../../TextInput/TextInput";
-import stylesB  from "../../TextInput/postTextInputStyles.module.scss";
+import stylesB from "../../TextInput/postTextInputStyles.module.scss";
 
-
-export default function CommentsForm({ postId, time, uid, openModal, setOpenModal, buttonText }) {
+export default function CommentsForm({
+  postId,
+  time,
+  uid,
+  openModal,
+  setOpenModal,
+  buttonText,
+  imageUrl,
+}) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState({});
   const [isPost, setIsPost] = useState(true);
 
-
   const postComment = (str) => {
-
     db.collection("comments").add({
       forPost: postId,
       fromUser: {
         username: user.displayName,
         userPhoto: user.photoUrl,
-        uid:user.uid,
+        uid: user.uid,
       },
       comment: str,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    setComment("");
 
+    if (!user) {
+      db.collection("notifications").add({
+        action: "commented your photo",
+        fromUser: {
+          displayName: user.displayName,
+          photoUrl: user.photoUrl,
+          uid: user.uid,
+        },
+        forUser: uid,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        target: imageUrl,
+        postId: postId,
+      });
+    }
+
+    setComment("");
   };
 
   const handleShowComments = () => {
@@ -43,8 +63,8 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
       .get()
       .then((userData) => {
         let currentUser = userData.data();
-        setUser(currentUser)
-      })
+        setUser(currentUser);
+      });
 
     //if a post id was passed through, access the post collection, go inside the comments collection,
     //  listen for the specific post and all the common changes within it
@@ -114,7 +134,7 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
           locale="en-US"
         />
       )}
- 
+
       <TextInput
         placeholder={"Add comment ..."}
         buttonText={buttonText}
@@ -124,5 +144,3 @@ export default function CommentsForm({ postId, time, uid, openModal, setOpenModa
     </React.Fragment>
   );
 }
-
-

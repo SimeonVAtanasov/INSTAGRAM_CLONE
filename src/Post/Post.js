@@ -102,6 +102,7 @@ function Post({
         buttonText={"Post"}
         openModal={openModal}
         setOpenModal={setOpenModal}
+        imageUrl = {imageUrl}
       />
 
       <PostModal
@@ -114,6 +115,7 @@ function Post({
         time={time}
         postId={postId}
         uid={uid}
+        isLiked = {isLiked}
       />
     </div>
   );

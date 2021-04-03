@@ -84,6 +84,8 @@ export default function NotificationsPop({ uid }) {
                     userPhoto = {noti.fromUser.photoUrl}
                     targetPhoto={noti.target}
                     key={v4()}
+                    forUser= {noti.forUser}
+                    postId = {noti.postId}
                   />
                 ))}
               </ul>

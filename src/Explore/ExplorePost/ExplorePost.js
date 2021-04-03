@@ -9,6 +9,7 @@ import PostModal from "../../Post/PostModal";
 export default function ExplorePost({ post, id, uid }) {
   const [commentsCount, setCommentsCount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
+  console.log(post.timestamp)
 
   useEffect(() => {
     db.collection("comments")
@@ -50,7 +51,7 @@ export default function ExplorePost({ post, id, uid }) {
           username={post.username}
           userPhoto={post.userPhoto}
           caption={post.caption}
-          time={post.time}
+          time={post.timestamp}
           postId={id}
           uid={uid}
         />
