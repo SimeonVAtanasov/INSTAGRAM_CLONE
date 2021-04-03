@@ -6,6 +6,9 @@ import PasswordField from "./PasswordField/PasswordField.js";
 import { auth, db } from "../firebase.js";
 import styles from "../NavBar/Logo/Logo.module.scss";
 import firebase from "firebase";
+import "react-slideshow-image/dist/styles.css";
+import { Fade } from "react-slideshow-image";
+import FacebookIcon from "@material-ui/icons/Facebook";
 
 import Button from "@material-ui/core/Button";
 
@@ -15,6 +18,14 @@ export default function Login() {
   const email = useFormInput("");
   const password = useFormInput("");
   const fullName = useFormInput("");
+
+  const fadeImages = [
+    "https://www.instagram.com/static/images/homepage/screenshot2.jpg/6f03eb85463c.jpg",
+    "https://www.instagram.com/static/images/homepage/screenshot1.jpg/d6bf0c928b5a.jpg",
+    "https://www.instagram.com/static/images/homepage/screenshot3.jpg/f0c687aa6ec2.jpg",
+    "https://www.instagram.com/static/images/homepage/screenshot4.jpg/842fe5699220.jpg",
+    "https://www.instagram.com/static/images/homepage/screenshot5.jpg/0a2d3016f375.jpg",
+  ];
 
   let registerUser = (ev) => {
     ev.preventDefault();
@@ -104,6 +115,26 @@ export default function Login() {
             width="455px"
             height="600px"
           />
+
+          <div className="slide-container">
+            <Fade arrows={false} duration={2000}>
+              <div className="each-fade">
+                <div className="image-container">
+                  <img src={fadeImages[0]} alt="slide1" />
+                </div>
+              </div>
+              <div className="each-fade">
+                <div className="image-container">
+                  <img src={fadeImages[1]} alt="slide2" />
+                </div>
+              </div>
+              <div className="each-fade">
+                <div className="image-container">
+                  <img src={fadeImages[2]} alt="slide3" />
+                </div>
+              </div>
+            </Fade>
+          </div>
         </section>
         <section id="boxes">
           <div>
@@ -162,7 +193,26 @@ export default function Login() {
                 </Button>
               )}
 
-              {!isShowingReg ? <p>Нямате акаунт?</p> : <p>Имате акаунт?</p>}
+              <div className="or-container">
+                <div className="line"></div>
+                <div className="or-text">или</div>
+                <div className="line"></div>
+              </div>
+
+              <button className="facebook-button" onClick={onFacebookLogin}>
+                <span>
+                  <FacebookIcon />
+                </span>
+                <span>Влизане с Facebook</span>
+              </button>
+
+              <div className="text-container">
+                {!isShowingReg ? (
+                  <div className="account-text">Нямате акаунт?</div>
+                ) : (
+                  <div className="or-text">Имате акаунт?</div>
+                )}
+              </div>
 
               <Button
                 variant="contained"
@@ -172,15 +222,6 @@ export default function Login() {
                 }}
               >
                 {isShowingReg ? "Вход" : "Регистрация"}
-              </Button>
-
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                onClick={onFacebookLogin}
-              >
-                Facebook
               </Button>
             </form>
           </div>

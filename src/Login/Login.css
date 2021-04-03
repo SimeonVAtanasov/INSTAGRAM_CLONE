@@ -7,6 +7,17 @@
   justify-content: center;
 }
 
+.mainContainer section{
+  display: flex;
+  position: relative;
+}
+.slide-container{
+  position: absolute;
+  z-index: 1;
+  top: 16%;
+  left: 39%;
+  width: 244px;
+}
 #loginCarousel {
   margin: 0 0 0 2.7em;
 }
@@ -18,7 +29,7 @@
 .mainContainer form button {
   color: white;
   width: 110%;
-  margin: 1px 0 0 0;
+  margin: 5px 0 5px 0;
   border: 1px solid transparent;
   border-radius: 3px;
   background-color: #0095f6;
@@ -39,10 +50,64 @@
   border: 1px solid rgb(119, 119, 119);
   border-radius: 3px;
   width: 108%;
-  height: 26px;
+  height: 32px;
+  margin-bottom: 0.5em;
+  background: rgba(var(--b3f,250,250,250),1);
   margin-bottom: 0.5em;
 }
+.or-container{
+  display: flex;
+  margin-top: 25px;
+  justify-content: center;
+  align-items: center;
+  width: 294px
+}
 
+.line{
+  top: .45em;
+  height: 1px;
+  background-color: #dbdbdb;
+  width: 50%;
+}
+
+.or-text{
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 15px;
+  margin: 0 18px;
+  text-transform: uppercase;
+  color: #8e8e8e;
+}
+
+.facebook-button{
+  background:none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 14px;
+  padding-right: 20px !important;
+  
+}
+
+.facebook-button span{
+  color: #385185 !important;
+  margin-left: 8px;
+}
+
+.text-container{
+  margin: 15px 0px 15px 7px;
+  width: 294px
+}
+
+.account-text{
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 15px;
+  text-transform: uppercase;
+  color: #8e8e8e;
+}
 .mainContainer form {
   text-align: center;
   color: rgb(119, 119, 119);
