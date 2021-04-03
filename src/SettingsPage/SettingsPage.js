@@ -93,7 +93,7 @@ export default function SettingsPage() {
                                 {/* <SettingsMenu /> */}
                             </Box>
 
-                            <PostUpload text={"Промени снимката на профила"} isPost={false} />
+                            <PostUpload text={"Change your profile picture"} isPost={false} />
 
                         </Box>
                     </Box>
@@ -101,7 +101,7 @@ export default function SettingsPage() {
 
                     <Box className={styles.settingsWrapperDiv}>
                         <FormControl className={classes.margin}>
-                            <InputLabel htmlFor="input-with-icon-adornment">Променете името си.</InputLabel>
+                            <InputLabel htmlFor="input-with-icon-adornment">Change your name</InputLabel>
                             <Input
                                 value={displayNameText}
                                 onInput={(e) => { handleDisplayNameChange(e) }}
@@ -118,7 +118,7 @@ export default function SettingsPage() {
 
 
                     <Box className={styles.settingsWrapperDiv}>
-                        <aside>Биография:</aside>
+                        <aside>Bio:</aside>
                         <TextareaAutosize
                             maxLength={180}
                             cols={50}

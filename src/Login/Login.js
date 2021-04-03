@@ -18,6 +18,7 @@ export default function Login() {
   const email = useFormInput("");
   const password = useFormInput("");
   const fullName = useFormInput("");
+  
 
   const fadeImages = [
     "https://www.instagram.com/static/images/homepage/screenshot2.jpg/6f03eb85463c.jpg",
@@ -85,7 +86,6 @@ export default function Login() {
       .then((result) => {
         // The signed-in user info.
         const user = result.user;
-
         db.collection("users")
           .doc(user.uid)
           .set({
@@ -143,7 +143,7 @@ export default function Login() {
               <div>
                 <Input
                   type={"email"}
-                  text="Имейл"
+                  text="Email"
                   onInput={email.onchange}
                   value={email.value}
                 />
@@ -156,7 +156,7 @@ export default function Login() {
                     onInput={fullName.onchange}
                     value={fullName.value}
                     type={"text"}
-                    text="Пълно име"
+                    text="Full name"
                   />
                 </div>
               )}
@@ -176,8 +176,10 @@ export default function Login() {
                   onClick={(ev) => {
                     logUser(ev);
                   }}
+
+                disabled = {!email.value || !password.value}
                 >
-                  Вход
+                  Log in
                 </Button>
               ) : (
                 <Button
@@ -187,14 +189,15 @@ export default function Login() {
                   onClick={(ev) => {
                     registerUser(ev);
                   }}
+                  disabled = {!email.value || !fullName.value || !password.value}
                 >
-                  Регистрирай ме и влез!
+                 Sign up
                 </Button>
               )}
 
               <div className="or-container">
                 <div className="line"></div>
-                <div className="or-text">или</div>
+                <div className="or-text">or</div>
                 <div className="line"></div>
               </div>
 
@@ -202,14 +205,14 @@ export default function Login() {
                 <span>
                   <FacebookIcon />
                 </span>
-                <span>Влизане с Facebook</span>
+                <span>Log in with Facebook</span>
               </button>
 
               <div className="text-container">
                 {!isShowingReg ? (
-                  <div className="account-text">Нямате акаунт?</div>
+                  <div className="account-text">Don't have an account?</div>
                 ) : (
-                  <div className="or-text">Имате акаунт?</div>
+                  <div className="or-text">Have an account?</div>
                 )}
               </div>
 
@@ -220,7 +223,7 @@ export default function Login() {
                   changeView(ev);
                 }}
               >
-                {isShowingReg ? "Вход" : "Регистрация"}
+                {isShowingReg ? "Log in" : "Sign up"}
               </Button>
             </form>
           </div>

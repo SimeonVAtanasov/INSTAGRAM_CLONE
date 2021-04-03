@@ -9,10 +9,27 @@ import {
 import { db } from "../firebase";
 import NotificationBar from "./NotificationBar/NotificationBar.js";
 import { v4 } from "uuid";
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    border: "none",
+    borderRadius: "3px",
+    backgroundColor: theme.palette.background.paper,
+     display: "flex",
+    justifyContent: "center",
+   
+  },
+
+  text: {
+    display: "flex",
+    justifyContent: "center",
+    width: "276px",
+  }
+}));
 
 export default function NotificationsPop({ uid }) {
-
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,10 +39,7 @@ export default function NotificationsPop({ uid }) {
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
     setIsLoading(true);
-
-
     let notificationsQuerry = [];
-
 
     db.collection("notifications")
       .where("forUser", "==", uid)
@@ -71,10 +85,11 @@ export default function NotificationsPop({ uid }) {
           horizontal: "right",
         }}
       >
-        <Typography  component="div">
+        <Typography component="div">
+          <div className={classes.paper}>
             {isLoading ? (
               <CircularProgress />
-            ) : !!notifications ? (
+            ) : notifications.length ? (
               <ul style={{ maxHeight: "364px" }}>
                 {notifications.map((noti) => (
                   <NotificationBar
@@ -82,17 +97,18 @@ export default function NotificationsPop({ uid }) {
                     timestamp={noti.timestamp}
                     userId={noti.fromUser.uid}
                     userName={noti.fromUser.displayName}
-                    userPhoto = {noti.fromUser.photoUrl}
+                    userPhoto={noti.fromUser.photoUrl}
                     targetPhoto={noti.target}
                     key={v4()}
-                    forUser= {noti.forUser}
-                    postId = {noti.postId}
+                    forUser={noti.forUser}
+                    postId={noti.postId}
                   />
                 ))}
               </ul>
             ) : (
-              <h4>Нямате известия</h4>
+              <h6 className={classes.text}>No notifications available</h6>
             )}
+          </div>
         </Typography>
       </Popover>
     </div>

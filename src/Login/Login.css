@@ -36,6 +36,12 @@
   padding: 3px;
   cursor: pointer;
   font-size: 12px;
+  font-weight: bold;
+}
+
+.mainContainer form button:disabled{
+  background-color:#b2dffb;
+  color: white
 }
 
 #registerBtn {
