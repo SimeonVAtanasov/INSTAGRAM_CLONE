@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Logo from "../NavBar/Logo/Logo.js";
 import Input from "./Input/Input.js";
-// import { debounce } from "../utils/debounce.js"
-import './Login.css';
+import "./Login.css";
 import PasswordField from "./PasswordField/PasswordField.js";
 import { auth, db } from "../firebase.js";
 import styles from "../NavBar/Logo/Logo.module.scss";
+import firebase from "firebase";
 
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 
 export default function Login() {
-
   const [isShowingReg, setIsShowingReg] = useState(false);
 
   const email = useFormInput("");
@@ -18,117 +17,188 @@ export default function Login() {
   const fullName = useFormInput("");
 
   let registerUser = (ev) => {
-
     ev.preventDefault();
     if (fullName.value !== "") {
-      auth.createUserWithEmailAndPassword(email.value, password.value)
+      auth
+        .createUserWithEmailAndPassword(email.value, password.value)
         .then((userCredential) => {
           db.collection("users")
             .doc(userCredential.user.uid)
             .set({
               uid: userCredential.user.uid,
               displayName: fullName.value,
-              photoUrl: userCredential.user.photoUrl || "/static/images/avatar/1.jpg",
+              photoUrl:
+                userCredential.user.photoUrl || "/static/images/avatar/1.jpg",
               email: email.value,
               following: [],
               followers: [],
               biography: "",
             });
 
-
-          setIsShowingReg(false)
+          setIsShowingReg(false);
         })
         .catch((error) => {
           alert(error.message);
         });
     } else {
-      alert("Failed Fullname field is required")
+      alert("Failed Fullname field is required");
     }
-
-
-  }
+  };
 
   let logUser = (ev) => {
     ev.preventDefault();
-    auth.signInWithEmailAndPassword(email.value, password.value)
-      .then((userCredential) => {
-
-      })
+    auth
+      .signInWithEmailAndPassword(email.value, password.value)
+      .then((userCredential) => {})
       .catch((error) => {
         alert(error.message);
       });
-  }
-
+  };
 
   let changeView = (ev) => {
-    ev.preventDefault()
+    ev.preventDefault();
     if (isShowingReg) {
       setIsShowingReg(false);
-      return
+      return;
     }
     setIsShowingReg(true);
-  }
+  };
+
+  const onFacebookLogin = (ev) => {
+    ev.preventDefault();
+    const provider = new firebase.auth.FacebookAuthProvider();
+
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+
+        db.collection("users")
+          .doc(user.uid)
+          .set({
+            uid: user.uid,
+            displayName: user.displayName,
+            photoUrl: user.photoURL || "/static/images/avatar/1.jpg",
+            email: user.email,
+            following: [],
+            followers: [],
+            biography: "",
+          });
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+  };
 
   return (
     <>
       <main className="mainContainer">
-
         <section>
-          <img id='loginCarousel' src={"loginCarousel.png"} alt="loginCarousel" width="455px" height="600px" />
+          <img
+            id="loginCarousel"
+            src={"loginCarousel.png"}
+            alt="loginCarousel"
+            width="455px"
+            height="600px"
+          />
         </section>
         <section id="boxes">
           <div>
-
             <Logo className={styles.loginLogo} width={"200px"} />
 
             <form>
               <div>
-                <Input type={"email"} text="Имейл" onInput={email.onchange} value={email.value} />
+                <Input
+                  type={"email"}
+                  text="Имейл"
+                  onInput={email.onchange}
+                  value={email.value}
+                />
               </div>
 
-              {isShowingReg &&
-
+              {isShowingReg && (
                 <div>
-                  <Input required onInput={fullName.onchange} value={fullName.value} type={"text"} text="Пълно име" />
+                  <Input
+                    required
+                    onInput={fullName.onchange}
+                    value={fullName.value}
+                    type={"text"}
+                    text="Пълно име"
+                  />
                 </div>
-
-              }
+              )}
 
               <div>
-                <PasswordField onInput={password.onchange} value={password.value} />
+                <PasswordField
+                  onInput={password.onchange}
+                  value={password.value}
+                />
               </div>
 
-
-              {!isShowingReg ?
-                <Button variant="contained" color="primary" type="submit" onClick={(ev) => { logUser(ev); }}>Вход</Button>
-                :
-                <Button variant="contained" color="primary" type="submit" onClick={(ev) => { registerUser(ev) }}>Регистрирай ме и влез!</Button>}
+              {!isShowingReg ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  onClick={(ev) => {
+                    logUser(ev);
+                  }}
+                >
+                  Вход
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  onClick={(ev) => {
+                    registerUser(ev);
+                  }}
+                >
+                  Регистрирай ме и влез!
+                </Button>
+              )}
 
               {!isShowingReg ? <p>Нямате акаунт?</p> : <p>Имате акаунт?</p>}
 
-              <Button variant="contained" color="primary" onClick={(ev) => { changeView(ev) }}>{isShowingReg ? "Вход" : "Регистрация"}</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={(ev) => {
+                  changeView(ev);
+                }}
+              >
+                {isShowingReg ? "Вход" : "Регистрация"}
+              </Button>
 
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                onClick={onFacebookLogin}
+              >
+                Facebook
+              </Button>
             </form>
           </div>
         </section>
-
       </main>
     </>
-  )
-
+  );
 }
 
 export function useFormInput(initialValue) {
   const [value, setValue] = useState(initialValue);
 
-
   function handleChange(ev) {
-    setValue(ev.target.value)
+    setValue(ev.target.value);
   }
 
   return {
     value,
-    onchange: handleChange
-
+    onchange: handleChange,
   };
 }

@@ -29,11 +29,11 @@ function Post({
   const [isLiked, setIsLiked] = useState(false);
 
   const userCredential = useSelector(state => state.currentUser.user)
-  const posts = useSelector((state) => state.posts.posts);
+
 
 
   const handleShowHeart = () => {
-    let likedByArr = [];
+    let likedByArr = [...likedBy];
     if (!isLiked) {
       likedByArr.push(userCredential.uid);
       setLikedByUsers(likedByArr);
@@ -84,6 +84,7 @@ function Post({
         setShowHeart={setShowHeart}
         uid={uid}
         imageUrl= {imageUrl}
+        likedBy= {likedBy}
       />
       <div className={styles.liked_by}>
         <span>

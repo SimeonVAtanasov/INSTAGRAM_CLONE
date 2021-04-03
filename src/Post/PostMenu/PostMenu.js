@@ -20,10 +20,12 @@ function PostMenu({
   setShowHeart,
   uid,
   imageUrl,
+  likedBy 
 }) {
   const currentUser = useSelector((state) => state.currentUser.user);
 
   useEffect(() => {
+
     if (postId) {
       db.collection("posts")
         .doc(postId)
@@ -43,13 +45,13 @@ function PostMenu({
   };
 
   const handleLike = () => {
-    let likedByArr = [];
+    let likedByArr = [...likedBy];
     if (!isLiked) {
       likedByArr.push(currentUser.uid);
       setLikedByUsers(likedByArr);
     } else {
       let index = likedByArr.indexOf(currentUser.uid);
-      likedByUsers.splice(index, 1);
+      likedByArr.splice(index, 1);
       setLikedByUsers(likedByArr);
     }
 
