@@ -15,10 +15,9 @@ export default function Explore() {
 
   const loadExplorePagePosts = () => {
     let endPosition = postsToShow.length  + perPage
-    console.log("🚀 ~ file: Explore.js ~ line 18 ~ loadExplorePagePosts ~ endPosition", endPosition)
 
     if (endPosition > posts.length) {
-      endPosition = posts.length - 1;
+      endPosition = posts.length ;
     }
 
     let arr = posts.slice(lastPosition, endPosition)

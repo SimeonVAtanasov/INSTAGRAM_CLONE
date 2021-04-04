@@ -9,12 +9,15 @@ import ExplorePost from "../Explore/ExplorePost/ExplorePost.js";
 import style from "../Explore/Explore.module.scss";
 import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import firebase from "firebase";
 import AppsIcon from "@material-ui/icons/Apps";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import { fetchCurrentUserUpdated } from '../CurrentUser.actions';
 
 export default function ProfilePage() {
+  const dispatch = useDispatch();
+
   const [user, setUser] = useState({
     displayName: "",
     photoUrl: "",
@@ -115,7 +118,9 @@ export default function ProfilePage() {
     // this is the personal profile
     db.collection("users").doc(currentUser.uid).update({
       following: clientFollowingArr,
-    });
+    }).then(() => {
+      dispatch(fetchCurrentUserUpdated({ ...currentUser, following: clientFollowingArr }))
+    })
 
     if (!isFollowing) {
       db.collection("notifications").add({
@@ -205,7 +210,7 @@ export default function ProfilePage() {
           setStories={setStories}
         />
       )}
-      
+
       {isCurrentUser && (
         <div className={styles.tabs}>
           <button
@@ -226,22 +231,22 @@ export default function ProfilePage() {
       <main className={style.exploreProfileContainer}>
         {showPosts
           ? showPosts &&
-            userPosts.map((post) => (
-              <ExplorePost
-                key={v4()}
-                post={post.post}
-                id={post.id}
-                uid={user.uid}
-              />
-            ))
+          userPosts.map((post) => (
+            <ExplorePost
+              key={v4()}
+              post={post.post}
+              id={post.id}
+              uid={user.uid}
+            />
+          ))
           : savedPosts.map((post) => (
-              <ExplorePost
-                key={v4()}
-                post={post.post}
-                id={post.id}
-                uid={post.post.createdBy}
-              />
-            ))}
+            <ExplorePost
+              key={v4()}
+              post={post.post}
+              id={post.id}
+              uid={post.post.createdBy}
+            />
+          ))}
       </main>
     </>
   );

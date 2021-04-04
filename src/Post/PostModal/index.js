@@ -67,7 +67,9 @@ export default function PostModal({
   };
 
   const handleDelete = (ev) => { 
-    ev.preventDefault();
+
+     ev.preventDefault();
+    
     db.collection("posts")
       .doc(postId)
       .delete()

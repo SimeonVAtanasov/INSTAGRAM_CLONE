@@ -19,10 +19,9 @@ export default function Home() {
 
   const loadHomePagePosts = () => {
     let endPosition = postsToShow.length + perPage
-    console.log("🚀 ~ file: Home.js ~ line 22 ~ loadHomePagePosts ~ endPosition", endPosition)
 
     if (endPosition > filteredPosts.length) {
-      endPosition = filteredPosts.length - 1;
+      endPosition = filteredPosts.length;
     }
 
 

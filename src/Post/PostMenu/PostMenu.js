@@ -8,8 +8,7 @@ import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import { db } from "../../firebase";
 import firebase from "firebase/app";
-import { useSelector, useDispatch } from "react-redux";
-import { subscribeToRealTimeEvents } from "../Posts.actions";
+import { useSelector } from "react-redux";
 
 function PostMenu({
   setLikedByNumber,
@@ -28,32 +27,30 @@ function PostMenu({
 }) {
   const currentUser = useSelector((state) => state.currentUser.user);
 
-//  const dispatch = useDispatch();
-
   useEffect(() => {
-    let unsubscribe;
-    if (postId.length) {
-      unsubscribe = db
-        .collection("posts")
+    if (postId) {
+      db.collection("posts")
         .doc(postId)
         .onSnapshot((snap) => {
-          let likesArr = snap.data().likedBy;
-          let savedPostsArr = snap.data().savedBy;
-          let isSavedByUser = savedPostsArr.some(
-            (id) => id === currentUser.uid
-          );
-          let isLikedByUser = likesArr.some((id) => id === currentUser.uid);
+          if (snap.exists) {
+            let likesArr = snap.data().likedBy;
+            let savedPostsArr = snap.data().savedBy;
+            console.log(snap.data().savedBy);
+            let isSavedByUser = savedPostsArr.some(
+              (id) => id === currentUser.uid
+            );
+            let isLikedByUser = likesArr.some((id) => id === currentUser.uid);
 
-          setLikedByNumber(likesArr.length);
-          if (isLikedByUser) {
-            setIsLiked(true);
-          }
+            setLikedByNumber(likesArr.length);
+            if (isLikedByUser) {
+              setIsLiked(true);
+            }
 
-          if (isSavedByUser) {
-            setIsSaved(true);
+            if (isSavedByUser) {
+              setIsSaved(true);
+            }
           }
         });
-      unsubscribe();
     }
   }, [postId]);
 
@@ -109,17 +106,6 @@ function PostMenu({
 
     setIsLiked(!isLiked);
     setShowHeart(false);
-
-    // db.collection("posts")
-    //   .doc(postId)
-    //   .delete()
-    //   .then(() => {
-    //     console.log("Document successfully deleted!");
-    //     dispatch(subscribeToRealTimeEvents());
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error removing document: ", error);
-    //   });
   };
 
   return (

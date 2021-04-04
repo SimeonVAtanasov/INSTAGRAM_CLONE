@@ -52,7 +52,7 @@ function App() {
   if (isLoading) {
     return (
       <img
-        src={"./LoadingIMG.png"}
+        src={"./LoadingIMG.gif"}
         style={{ marginLeft: "25%" }}
         alt={"logo"}
       />
