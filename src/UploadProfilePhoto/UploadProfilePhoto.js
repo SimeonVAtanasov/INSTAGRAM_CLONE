@@ -113,7 +113,7 @@ function PostUpload(props) {
                 alert(error.message);
               });
 
-
+              setIsUploadButtonDisabled(true);
           }
           );
       }

@@ -128,8 +128,8 @@ function StoryUpload(props) {
               username: currentUser.displayName,
               createdBy: currentUser.uid,
               userPhoto: currentUser.photoUrl,
-              likedBy: [], 
-              savedBy: [],            
+              likedBy: [],
+              savedBy: [],
             });
           } else {
             db.collection("stories").add({
@@ -148,6 +148,7 @@ function StoryUpload(props) {
           setLabel("Choose a picture");
           setFilie(null);
           setIsCameraOpen(false);
+          setIsUploadButtonDisabled(true);
         });
       }
     );
@@ -166,18 +167,18 @@ function StoryUpload(props) {
 
         <input type="file" onChange={handleChange} id="file"></input>
         <label htmlFor="file" className="upload_label">
-          <ImageSearchIcon/>
+          <ImageSearchIcon />
           {label}
         </label>
 
         <h2 className="new_post_header">Or</h2>
 
         <button className="upload_label" onClick={handleCameraOpen}>
-          <CameraAltIcon/>
+          <CameraAltIcon />
           Take a picture
         </button>
 
-        {isCameraOpen && <WebcamCapture/>}
+        {isCameraOpen && <WebcamCapture />}
 
         {props.isPost && (
           <Input
@@ -185,7 +186,7 @@ function StoryUpload(props) {
             placeholder="Write a caption..."
             value={caption}
             onInput={(ev) => setCaption(ev.target.value)}
-         />
+          />
         )}
 
         <img src={file} alt={caption} />

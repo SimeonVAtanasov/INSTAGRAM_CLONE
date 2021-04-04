@@ -11,10 +11,10 @@ export default function Explore() {
 
   const [hasMore, setHasmore] = useState(true)
   const [lastPosition, setLastPosition] = useState(0)
-  const perPage = 6;
+  const perPage = 9;
 
   const loadExplorePagePosts = () => {
-    let endPosition = postsToShow.length - 1 + perPage
+    let endPosition = postsToShow.length  + perPage
     console.log("🚀 ~ file: Explore.js ~ line 18 ~ loadExplorePagePosts ~ endPosition", endPosition)
 
     if (endPosition > posts.length) {
@@ -30,7 +30,7 @@ export default function Explore() {
       if (endPosition >= posts.length - 1) {
         setHasmore(false)
       }
-    }, 1000);
+    }, 1200);
 
   }
 
@@ -42,7 +42,7 @@ export default function Explore() {
   return (
     <>
       <InfiniteScroll
-        dataLength={posts.length}
+        dataLength={postsToShow.length}
         next={loadExplorePagePosts}
         hasMore={hasMore}
         endMessage={
@@ -50,7 +50,7 @@ export default function Explore() {
             <b>Yay! You have seen it all</b>
           </p>
         }
-        loader={<h4>Loading...</h4>}
+        loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
       >
         <div className={styles.exploreContainer}>
 
