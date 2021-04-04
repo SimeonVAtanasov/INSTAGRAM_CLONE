@@ -32,11 +32,11 @@
 
     .post_image {
       cursor: pointer;
-      max-width: 35vw;
-      object-fit: fill;
+      width: 35vw;
+      object-fit: contain;
       border-top: 1px solid lightgrey;
       border-bottom: 1px solid lightgrey;
-      max-height: 40vw;
+      height: 35vw;
     }
 
     .heart {

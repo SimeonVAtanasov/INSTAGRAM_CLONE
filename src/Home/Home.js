@@ -15,14 +15,16 @@ export default function Home() {
   const [postsToShow, setPostsToShow] = useState([]);
   const [hasMore, setHasmore] = useState(true)
   const [lastPosition, setLastPosition] = useState(0)
-  const perPage = 3;
+  const perPage = 2;
 
   const loadHomePagePosts = () => {
     let endPosition = postsToShow.length + perPage
+    console.log("🚀 ~ file: Home.js ~ line 22 ~ loadHomePagePosts ~ endPosition", endPosition)
 
     if (endPosition > filteredPosts.length) {
       endPosition = filteredPosts.length - 1;
     }
+
 
     let arr = filteredPosts.slice(lastPosition, endPosition)
 
@@ -33,7 +35,7 @@ export default function Home() {
       if (endPosition >= filteredPosts.length - 1) {
         setHasmore(false)
       }
-    }, 1000);
+    }, 1200);
 
   }
 
@@ -52,7 +54,7 @@ export default function Home() {
     return (
       <div className={styles.home_page}>
         <InfiniteScroll
-          dataLength={filteredPosts.length}
+          dataLength={postsToShow.length}
           next={loadHomePagePosts}
           hasMore={hasMore}
           endMessage={
@@ -74,7 +76,7 @@ export default function Home() {
                 time={post.timestamp}
                 userPhoto={post.userPhoto}
                 uid={post.createdBy}
-                savedBy = {post.savedBy}
+                savedBy={post.savedBy}
               />
             ))}
           </div>

@@ -38,7 +38,6 @@ export default function PostModal({
   username,
   caption,
   imageUrl,
-  likes,
   time,
   userPhoto,
   uid,

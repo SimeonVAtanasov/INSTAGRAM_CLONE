@@ -239,7 +239,7 @@ export default function ProfilePage() {
                 key={v4()}
                 post={post.post}
                 id={post.id}
-                uid={user.uid}
+                uid={post.post.createdBy}
               />
             ))}
       </main>
