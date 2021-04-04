@@ -25,7 +25,7 @@
         border-radius: 50%;
       }
     }
-  
+
     button {
       border: 2px solid rgba(var(--d69, 0, 149, 246), 1);
       border-radius: 50px;
@@ -55,7 +55,7 @@
       font-weight: 400;
       font-size: 21px;
       width: 29vw;
-      
+
       a {
         color: black;
         margin-right: 4.3em;
@@ -110,5 +110,41 @@
       font-size: 1.1rem;
       text-align: left;
     }
+  }
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin: 25px;
+  .tabBtn {
+    background: none;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    margin: 0 25px 0 25px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: #7b7b7b;
+    padding: 3px 18px;
+  }
+
+  .active {
+    background: none;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    margin: 0 25px 0 25px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 15px;
+    text-transform: uppercase;
+    padding: 3px 18px;
+    color: rgb(73, 73, 73);
+    border-bottom: 1px solid rgb(73, 73, 73);
   }
 }

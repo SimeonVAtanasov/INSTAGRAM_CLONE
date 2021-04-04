@@ -128,7 +128,8 @@ function StoryUpload(props) {
               username: currentUser.displayName,
               createdBy: currentUser.uid,
               userPhoto: currentUser.photoUrl,
-              likedBy: [],
+              likedBy: [], 
+              savedBy: [],            
             });
           } else {
             db.collection("stories").add({

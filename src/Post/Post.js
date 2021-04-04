@@ -18,6 +18,7 @@ function Post({
   time,
   userPhoto,
   uid,
+  savedBy
 }) {
   let likesCount = likedBy.length;
 
@@ -27,6 +28,8 @@ function Post({
   const [openModal, setOpenModal] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  
 
   const userCredential = useSelector(state => state.currentUser.user)
 
@@ -85,6 +88,10 @@ function Post({
         uid={uid}
         imageUrl= {imageUrl}
         likedBy= {likedBy}
+        setIsSaved = {setIsSaved}
+        isSaved = {isSaved}
+        savedBy = {savedBy}
+
       />
       <div className={styles.liked_by}>
         <span>

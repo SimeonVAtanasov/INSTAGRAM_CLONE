@@ -5,6 +5,7 @@ import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
 import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
 import { db } from "../../firebase";
 import firebase from "firebase/app";
 import { useSelector } from "react-redux";
@@ -19,21 +20,31 @@ function PostMenu({
   setShowHeart,
   uid,
   imageUrl,
-  likedBy 
+  likedBy,
+  setIsSaved,
+  isSaved,
+  savedBy,
 }) {
   const currentUser = useSelector((state) => state.currentUser.user);
 
   useEffect(() => {
-
     if (postId) {
       db.collection("posts")
         .doc(postId)
         .onSnapshot((snap) => {
           let likesArr = snap.data().likedBy;
-          setLikedByNumber(likesArr.length);
+          let savedPostsArr = snap.data().savedBy;
+          console.log(snap.data().savedBy)
+          let isSavedByUser = savedPostsArr.some((id) => id === postId);
           let isLikedByUser = likesArr.some((id) => id === currentUser.uid);
+          
+          setLikedByNumber(likesArr.length);
           if (isLikedByUser) {
             setIsLiked(true);
+          }
+
+          if(isSavedByUser){
+            setIsSaved(true);
           }
         });
     }
@@ -41,6 +52,23 @@ function PostMenu({
 
   const handleOpen = () => {
     setOpenModal(true);
+  };
+
+  const handleSave = () => {
+    let savedArr = [...savedBy];
+
+    if (!isSaved) {
+      savedArr.push(currentUser.uid);
+    } else {
+      let index = savedArr.indexOf(currentUser.uid);
+      savedArr.splice(index, 1);
+    }
+
+    db.collection("posts").doc(postId).update({
+      savedBy: savedArr,
+    });
+
+    setIsSaved(!isSaved);
   };
 
   const handleLike = () => {
@@ -53,7 +81,7 @@ function PostMenu({
       likedByArr.splice(index, 1);
       setLikedByUsers(likedByArr);
     }
-  
+
     db.collection("posts").doc(postId).update({
       likedBy: likedByArr,
     });
@@ -92,7 +120,11 @@ function PostMenu({
         <ModeCommentOutlinedIcon className={styles.icon} onClick={handleOpen} />
         {/* <SendOutlinedIcon className={styles.icon} /> */}
       </div>
-      {/* <TurnedInNotIcon className={styles.icon} /> */}
+      {isSaved ? (
+        <BookmarkIcon className={styles.icon} onClick={handleSave} />
+      ) : (
+        <TurnedInNotIcon className={styles.icon} onClick={handleSave} />
+      )}
     </div>
   );
 }

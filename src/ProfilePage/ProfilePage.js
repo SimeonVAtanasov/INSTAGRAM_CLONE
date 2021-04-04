@@ -11,6 +11,8 @@ import StoriesSection from "../StoriesSection";
 import StoryUpload from "../StoryUpload";
 import { useSelector } from "react-redux";
 import firebase from "firebase";
+import AppsIcon from "@material-ui/icons/Apps";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 
 export default function ProfilePage() {
   const [user, setUser] = useState({
@@ -26,7 +28,10 @@ export default function ProfilePage() {
   const currentUser = useSelector((state) => state.currentUser.user);
 
   const posts = useSelector((state) => state.posts.posts);
-  const filteredPosts = posts.filter(({ post }) => post.createdBy === user.uid);
+  const userPosts = posts.filter(({ post }) => post.createdBy === user.uid);
+  const savedPosts = posts.filter(({ post }) => post.savedBy === currentUser.uid);
+
+console.log(savedPosts);
 
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
@@ -34,6 +39,12 @@ export default function ProfilePage() {
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [hasStories, setHasStories] = useState(false);
+  const [showPosts, setShowPosts] = useState(true);
+
+  const handleActiveButton = (ev) => {
+    ev.preventDefault();
+    setShowPosts(!showPosts);
+  };
 
   const { id } = useParams();
 
@@ -104,7 +115,7 @@ export default function ProfilePage() {
     db.collection("users").doc(currentUser.uid).update({
       following: clientFollowingArr,
     });
-    
+
     if (!isFollowing) {
       db.collection("notifications").add({
         action: "followed you",
@@ -171,7 +182,7 @@ export default function ProfilePage() {
           </h2>
           <ul>
             <li>
-              <span>{filteredPosts.length || 0}</span> <span>Posts</span>
+              <span>{userPosts.length || 0}</span> <span>Posts</span>
             </li>
             <li>
               <span>{user.followers.length || 0}</span> <span>Followers</span>
@@ -194,15 +205,40 @@ export default function ProfilePage() {
         />
       )}
 
+      <div className={styles.tabs}>
+        <button
+          className={showPosts ? styles.active : styles.tabBtn}
+          onClick={handleActiveButton}
+        >
+          <AppsIcon /> Posts
+        </button>
+        <button
+          className={!showPosts ? styles.active : styles.tabBtn}
+          onClick={handleActiveButton}
+        >
+          <BookmarkBorderIcon /> Saved
+        </button>
+      </div>
+
       <main className={style.exploreProfileContainer}>
-        {filteredPosts.map((post) => (
-          <ExplorePost
-            key={v4()}
-            post={post.post}
-            id={post.id}
-            uid={user.uid}
-          />
-        ))}
+        {showPosts &&
+          userPosts.map((post) => (
+            <ExplorePost
+              key={v4()}
+              post={post.post}
+              id={post.id}
+              uid={user.uid}
+            />
+          ))}
+        {!showPosts &&
+          savedPosts.map((post) => (
+            <ExplorePost
+              key={v4()}
+              post={post.post}
+              id={post.id}
+              uid={user.uid}
+            />
+          ))}
       </main>
     </>
   );

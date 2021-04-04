@@ -36,6 +36,7 @@ export default function Home() {
               time={post.timestamp}
               userPhoto={post.userPhoto}
               uid={post.createdBy}
+              savedBy = {post.savedBy}
             />
           ))}
         </div>
