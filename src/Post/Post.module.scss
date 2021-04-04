@@ -31,6 +31,7 @@
     position: relative;
 
     .post_image {
+      cursor: pointer;
       max-width: 35vw;
       object-fit: fill;
       border-top: 1px solid lightgrey;
