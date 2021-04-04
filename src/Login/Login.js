@@ -18,7 +18,9 @@ export default function Login() {
   const email = useFormInput("");
   const password = useFormInput("");
   const fullName = useFormInput("");
-  
+  const [isPassValid, setIsPassValid]  = useState(false);
+
+  const passwordCheck = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
   const fadeImages = [
     "https://www.instagram.com/static/images/homepage/screenshot2.jpg/6f03eb85463c.jpg",
@@ -30,7 +32,7 @@ export default function Login() {
 
   let registerUser = (ev) => {
     ev.preventDefault();
-    if (fullName.value !== "") {
+    if (fullName.value !== "" && isPassValid) {
       auth
         .createUserWithEmailAndPassword(email.value, password.value)
         .then((userCredential) => {
@@ -53,7 +55,13 @@ export default function Login() {
           alert(error.message);
         });
     } else {
-      alert("Failed Fullname field is required, or your password is weak");
+      if(isPassValid){
+        
+        alert("Failed Fullname field is required");
+      } else {
+        alert("Password must contain at least one number , one uppercase and lowercase letter, and at least 8 or more characters");
+
+      }
     }
   };
 
@@ -103,6 +111,10 @@ export default function Login() {
       });
   };
 
+  const checkPassword = (ev) => {
+    password.onchange(ev);
+    setIsPassValid(passwordCheck.test(password.value))
+}
   return (
     <>
       <main className="mainContainer">
@@ -142,6 +154,7 @@ export default function Login() {
             <form>
               <div>
                 <Input
+                  required
                   type={"email"}
                   text="Email"
                   onInput={email.onchange}
@@ -163,8 +176,9 @@ export default function Login() {
 
               <div>
                 <PasswordField
-                  onInput={password.onchange}
+                  onInput={checkPassword}
                   value={password.value}
+                  
                 />
               </div>
 
