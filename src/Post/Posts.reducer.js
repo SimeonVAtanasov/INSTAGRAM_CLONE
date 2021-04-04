@@ -3,6 +3,7 @@ import {
   FETCH_POSTS_REQUESTED,
   FETCH_POSTS_UPDATED,
   FETCH_POSTS_ADDED,
+  FETCH_POST_DELETED
 } from "./Posts.actions";
 
 const INITIAL_STATE = {

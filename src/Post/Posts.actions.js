@@ -27,9 +27,8 @@ export const fetchPostAdded = (post) => ({
 
 export const subscribeToRealTimeEvents = () => {
   return function (dispatch) {
-
       dispatch(fetchPostsRequested());
-      db.collection("posts")
+       db.collection("posts")
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
           dispatch(
@@ -41,6 +40,8 @@ export const subscribeToRealTimeEvents = () => {
             )
           );
         });
+        
     }
+    
 };
 

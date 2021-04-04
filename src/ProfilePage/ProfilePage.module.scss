@@ -20,6 +20,7 @@
       width: 150px;
       height: 150px;
       padding: 5px;
+      cursor: pointer;
 
       img {
         border-radius: 50%;
@@ -130,6 +131,7 @@
     text-transform: uppercase;
     color: #7b7b7b;
     padding: 3px 18px;
+    cursor: pointer;
   }
 
   .active {

@@ -137,6 +137,8 @@
       padding: 12px 0 12px 1.1em;
       border-bottom: 1px solid lightgrey;
       font-size: 12px;
+      display: flex;
+      justify-content: space-between;
 
       a {
         display: flex;
@@ -149,6 +151,19 @@
           height: 36px !important;
           width: 36px !important;
         }
+      }
+
+      .deleteBtn {
+        border: none;
+        background: none;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 15px;
+        text-transform: uppercase;
+        cursor: pointer;
+        outline: none;
+        padding-right:10px;
+        color: rgba(var(--d69, 0, 149, 246), 1);
       }
     }
 

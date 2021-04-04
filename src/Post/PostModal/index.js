@@ -1,10 +1,14 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import CommentsForm from "../CommentsForm/CommentsForm.js";
 import styles from "../Post.module.scss";
+import { subscribeToRealTimeEvents } from "../Posts.actions";
+import {useDispatch } from "react-redux";
+import { db } from "../../firebase";
+import { useSelector } from "react-redux";
 
 function getModalStyle() {
   const top = 50;
@@ -43,14 +47,38 @@ export default function PostModal({
   uid,
 }) {
 
+  const currentUser = useSelector((state) => state.currentUser.user);
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
 
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    if(currentUser.uid === uid){
+      setIsCurrentUser(true);
+    }
+    
+
+  },[])
 
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  const handleDelete = (ev) => { 
+    ev.preventDefault();
+    db.collection("posts")
+      .doc(postId)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+        dispatch(subscribeToRealTimeEvents());
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  }
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -69,6 +97,7 @@ export default function PostModal({
               <strong className={styles.username}> {username} </strong>{" "}
             </h3>
           </Link>
+          {isCurrentUser &&  <button onClick = {handleDelete} className={styles.deleteBtn}>Delete post</button>}
         </div>
         <div className={styles.post_modal_description_container}>
               <strong>{username.split(" ")[0]}</strong> <span>{caption}</span>

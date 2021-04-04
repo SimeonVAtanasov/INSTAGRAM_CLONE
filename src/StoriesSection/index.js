@@ -51,11 +51,11 @@ function StoriesSection(props) {
       </div>
 
       <Stories
-        // key={id}
         stories={props.stories}
         defaultInterval={3500}
         width={432}
         height={700}
+        loop= "true"
       />
 
     </div>
