@@ -3,7 +3,7 @@
   background-color: white;
   border: 1px solid lightgrey;
   margin-bottom: 4em;
-  max-width: 43vw;
+  max-width: 35vw;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
 
@@ -31,8 +31,8 @@
     position: relative;
 
     .post_image {
-      max-width: 42vw;
-      object-fit: contain;
+      max-width: 35vw;
+      object-fit: fill;
       border-top: 1px solid lightgrey;
       border-bottom: 1px solid lightgrey;
       max-height: 40vw;
@@ -100,7 +100,7 @@
   }
 
   .time {
-    padding: 20px;
+    padding: 0 4px 2px 0px;
     display: flex;
     justify-content: flex-end;
     font-size: 14px;
