@@ -205,21 +205,23 @@ export default function ProfilePage() {
           setStories={setStories}
         />
       )}
-
-      <div className={styles.tabs}>
-        <button
-          className={showPosts ? styles.active : styles.tabBtn}
-          onClick={handleActiveButton}
-        >
-          <AppsIcon /> Posts
-        </button>
-        <button
-          className={!showPosts ? styles.active : styles.tabBtn}
-          onClick={handleActiveButton}
-        >
-          <BookmarkBorderIcon /> Saved
-        </button>
-      </div>
+      
+      {isCurrentUser && (
+        <div className={styles.tabs}>
+          <button
+            className={showPosts ? styles.active : styles.tabBtn}
+            onClick={handleActiveButton}
+          >
+            <AppsIcon /> Posts
+          </button>
+          <button
+            className={!showPosts ? styles.active : styles.tabBtn}
+            onClick={handleActiveButton}
+          >
+            <BookmarkBorderIcon /> Saved
+          </button>
+        </div>
+      )}
 
       <main className={style.exploreProfileContainer}>
         {showPosts
