@@ -35,7 +35,7 @@ function PostMenu({
           let likesArr = snap.data().likedBy;
           let savedPostsArr = snap.data().savedBy;
           console.log(snap.data().savedBy)
-          let isSavedByUser = savedPostsArr.some((id) => id === postId);
+          let isSavedByUser = savedPostsArr.some((id) => id === currentUser.uid);
           let isLikedByUser = likesArr.some((id) => id === currentUser.uid);
           
           setLikedByNumber(likesArr.length);

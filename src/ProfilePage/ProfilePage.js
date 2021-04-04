@@ -23,15 +23,16 @@ export default function ProfilePage() {
     followers: [],
     biography: "",
     uid: "",
+    savedBy: [],
   });
 
   const currentUser = useSelector((state) => state.currentUser.user);
 
   const posts = useSelector((state) => state.posts.posts);
   const userPosts = posts.filter(({ post }) => post.createdBy === user.uid);
-  const savedPosts = posts.filter(({ post }) => post.savedBy === currentUser.uid);
-
-console.log(savedPosts);
+  const savedPosts = posts.filter(({ post }) =>
+    post.savedBy.includes(currentUser.uid)
+  );
 
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
@@ -221,24 +222,24 @@ console.log(savedPosts);
       </div>
 
       <main className={style.exploreProfileContainer}>
-        {showPosts &&
-          userPosts.map((post) => (
-            <ExplorePost
-              key={v4()}
-              post={post.post}
-              id={post.id}
-              uid={user.uid}
-            />
-          ))}
-        {!showPosts &&
-          savedPosts.map((post) => (
-            <ExplorePost
-              key={v4()}
-              post={post.post}
-              id={post.id}
-              uid={user.uid}
-            />
-          ))}
+        {showPosts
+          ? showPosts &&
+            userPosts.map((post) => (
+              <ExplorePost
+                key={v4()}
+                post={post.post}
+                id={post.id}
+                uid={user.uid}
+              />
+            ))
+          : savedPosts.map((post) => (
+              <ExplorePost
+                key={v4()}
+                post={post.post}
+                id={post.id}
+                uid={user.uid}
+              />
+            ))}
       </main>
     </>
   );
