@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "contain",
     display: "flex",
     maxHeight: "600px",
-    borderRadius: "3px"
+    borderRadius: "3px",
   },
 }));
 
@@ -55,9 +55,8 @@ export default function PostModal({
   setIsSaved,
   isSaved,
   savedBy,
-  isLiked
+  isLiked,
 }) {
-
   const currentUser = useSelector((state) => state.currentUser.user);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
 
@@ -69,16 +68,13 @@ export default function PostModal({
     if (currentUser.uid === uid) {
       setIsCurrentUser(true);
     }
-
-
-  }, [])
+  }, []);
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
   const handleDelete = (ev) => {
-
     ev.preventDefault();
 
     db.collection("posts")
@@ -91,7 +87,7 @@ export default function PostModal({
       .catch((error) => {
         console.error("Error removing document: ", error);
       });
-  }
+  };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -110,8 +106,11 @@ export default function PostModal({
               <strong className={styles.username}> {username} </strong>{" "}
             </h3>
           </Link>
-          {isCurrentUser ?
-            <button onClick={handleDelete} className={styles.deleteBtn}>Delete post</button> :
+          {isCurrentUser ? (
+            <button onClick={handleDelete} className={styles.deleteBtn}>
+              Delete post
+            </button>
+          ) : (
             <PostMenu
               setLikedByNumber={setLikedByNumber}
               postId={postId}
@@ -127,8 +126,9 @@ export default function PostModal({
               setIsSaved={setIsSaved}
               isSaved={isSaved}
               savedBy={savedBy}
-
-            />}
+              openModal={openModal}
+            />
+          )}
         </div>
         <div className={styles.post_modal_description_container}>
           <strong>{username.split(" ")[0]}</strong> <span>{caption}</span>

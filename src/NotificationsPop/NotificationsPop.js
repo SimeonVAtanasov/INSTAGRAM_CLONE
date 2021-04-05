@@ -12,20 +12,24 @@ import { v4 } from "uuid";
 import { makeStyles } from "@material-ui/core/styles";
 import { db } from "../AppService/firebase.js";
 const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
   paper: {
     border: "none",
     borderRadius: "3px",
     backgroundColor: theme.palette.background.paper,
     display: "flex",
     justifyContent: "center",
-
   },
 
   text: {
     display: "flex",
     justifyContent: "center",
     width: "276px",
-  }
+  },
 }));
 
 export default function NotificationsPop({ uid }) {

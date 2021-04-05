@@ -69,9 +69,6 @@ export default function SettingsPage() {
 
     }
 
-
-
-
     return (
         <>
             <CssBaseline />
@@ -96,7 +93,6 @@ export default function SettingsPage() {
                         </Box>
                     </Box>
 
-
                     <Box className={styles.settingsWrapperDiv}>
                         <FormControl className={classes.margin}>
                             <InputLabel htmlFor="input-with-icon-adornment">Change your name</InputLabel>
@@ -114,7 +110,6 @@ export default function SettingsPage() {
 
                     </Box>
 
-
                     <Box className={styles.settingsWrapperDiv}>
                         <aside>Biography:</aside>
                         <TextareaAutosize
@@ -126,20 +121,15 @@ export default function SettingsPage() {
                             value={biography}
                             onInput={handleBiographyChange}
                         />
-
                     </Box>
 
                     <Box className={styles.settingsWrapperDiv}>
-
-
                         <Button onClick={handleSaveChanges} variant="contained" color="primary">
                             Save
                         </Button>
                     </Box>
 
                 </Box>
-
-
             </Container>
         </>
     )

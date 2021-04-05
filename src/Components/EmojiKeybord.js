@@ -6,7 +6,6 @@ function EmojiKeybord({ comment, setComment, inputRef }) {
 
   const [cursorPosition, setCursorPosition] = useState();
  
-
   const onEmojiClick = (ev, emojiObject) => {
     const ref = inputRef.current;
     ref.focus();

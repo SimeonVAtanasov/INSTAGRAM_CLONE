@@ -24,16 +24,12 @@ function Post({
 
   const [likedByNumber, setLikedByNumber] = useState(likesCount);
   const [likedByUsers, setLikedByUsers] = useState([]);
-
   const [openModal, setOpenModal] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   
-
   const userCredential = useSelector(state => state.currentUser.user)
-
-
 
   const handleShowHeart = () => {
     let likedByArr = [...likedBy];
@@ -60,7 +56,6 @@ function Post({
             alt={username}
             src={userPhoto || "/static/images/avatar/1.jpg"}
           />
-
           <h3>{username}</h3>
         </Link>
       </div>

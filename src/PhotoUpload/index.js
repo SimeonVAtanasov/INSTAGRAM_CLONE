@@ -53,8 +53,8 @@ function StoryUpload(props) {
   const [progress, setProgress] = useState(0);
   const [file, setFilie] = useState(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
-  const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
-  const currentUser = useSelector(state => state.currentUser.user)
+  const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true);
+  const currentUser = useSelector((state) => state.currentUser.user);
 
   const WebcamCapture = () => {
     const webcamRef = React.useRef(null);
@@ -67,7 +67,6 @@ function StoryUpload(props) {
       setFilie(imageSrc);
       setIsCameraOpen(false);
       setIsUploadButtonDisabled(false);
-
     }, [webcamRef]);
     return (
       <>
@@ -92,6 +91,7 @@ function StoryUpload(props) {
       setLabel("Change picture");
       setFilie(URL.createObjectURL(ev.target.files[0]));
       setIsUploadButtonDisabled(false);
+      setIsCameraOpen(false);
       return;
     }
     setIsUploadButtonDisabled(true);
@@ -140,7 +140,6 @@ function StoryUpload(props) {
               userPhoto: currentUser.photoUrl,
             });
           }
-
           setProgress(0);
           setCaption("");
           setImage(null);
@@ -165,7 +164,7 @@ function StoryUpload(props) {
           value={progress}
         />
 
-        <input type="file" onChange={handleChange} id="file"></input>
+        <input type="file" onChange={handleChange} id="file" accept="image/*"></input>
         <label htmlFor="file" className="upload_label">
           <ImageSearchIcon />
           {label}
@@ -178,8 +177,6 @@ function StoryUpload(props) {
           Take a picture
         </button>
 
-        {isCameraOpen && <WebcamCapture />}
-
         {props.isPost && (
           <Input
             type="text"
@@ -188,8 +185,9 @@ function StoryUpload(props) {
             onInput={(ev) => setCaption(ev.target.value)}
           />
         )}
-
-        <img src={file} alt={caption} />
+        {isCameraOpen && <WebcamCapture />}
+        {!isCameraOpen && file && <img src={file} alt={caption} />}
+        
         <Button
           disabled={isUploadButtonDisabled}
           variant="contained"

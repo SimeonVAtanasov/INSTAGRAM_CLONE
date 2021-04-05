@@ -1,14 +1,11 @@
 import { Link, Redirect } from "react-router-dom";
 import Logo from "./Logo/Logo.js";
-// import Input from "../Login/Input/Input.js";
-// import styles from "../Login//Input/Input.module.css";
-
 import ExploreOutlinedIcon from "@material-ui/icons/ExploreOutlined";
 import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
-// import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
+
 
 import { Avatar, TextField, Tooltip } from "@material-ui/core";
 import "./NavBar.scss";
@@ -23,6 +20,7 @@ import Comment from "../Post/Comment/Comment.js";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
+ 
   searchInput: {
     "& > *": {
       marginTop: "-7px",
@@ -46,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default React.memo(function NavBar({ onLogout }) {
   const currentUser = useSelector((state) => state.currentUser.user);
-
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -105,7 +102,6 @@ export default React.memo(function NavBar({ onLogout }) {
           <ul id="inputNav">
             <li>
               <form className={classes.searchInput}>
-                {/* <Input className={styles.searchInput} placeholder="" /> */}
                 <TextField
                   className={classes.searchInput}
                   autoComplete= "off"
