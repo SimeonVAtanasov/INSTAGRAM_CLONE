@@ -1,4 +1,4 @@
-import { db } from "../firebase";
+import { db } from "../AppService/firebase";
 export const FETCH_POSTS_UPDATED = "FETCH_POSTS_UPDATED";
 export const FETCH_POSTS_FAILED = "FETCH_POSTS_FAILED";
 export const FETCH_POSTS_REQUESTED = "FETCH_POSTS_REQUESTED";

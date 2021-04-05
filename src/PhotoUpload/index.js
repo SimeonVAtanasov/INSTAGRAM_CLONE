@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { Button } from "@material-ui/core";
-import { storage, db } from "../firebase";
+import { storage, db } from "../AppService/firebase";
 import firebase from "firebase/app";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import "../ProfileSection/ProfileSection.css";
 import { Input } from "@material-ui/core";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
-import LinearProgress from "../LinearProgress";
+import LinearProgress from "../Components/LinearProgress.js";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import { v4 } from "uuid";
 

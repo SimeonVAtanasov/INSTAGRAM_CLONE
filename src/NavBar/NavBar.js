@@ -14,7 +14,7 @@ import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import { Avatar, TextField, Tooltip } from "@material-ui/core";
 import "./NavBar.scss";
 
-import { auth, db } from "../firebase";
+import { auth, db } from "../AppService/firebase";
 
 import React, { useState, useEffect } from "react";
 import NotificationsPop from "../NotificationsPop/NotificationsPop.js";

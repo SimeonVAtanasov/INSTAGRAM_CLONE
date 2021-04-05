@@ -3,7 +3,7 @@ import stylesB from "./MessageForm.module.scss";
 import stylesC from "../../TextInput/TextInput.module.scss";
 
 import Comment from "../../Post/Comment/Comment";
-import { db } from "../../firebase";
+import { db } from "../../AppService/firebase";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase"
 import TextInput from "../../TextInput/TextInput";
@@ -41,7 +41,6 @@ export default function CommentsForm({ convoId, time, buttonText }) {
             db.collection("messages")
                 .where("forConvo", "==", convoId)
                 .orderBy("timestamp", "asc")
-                .limit(15)
                 .onSnapshot((snapshot) => {
                     let messagesArr = [];
                     snapshot.forEach((doc) => {

@@ -6,7 +6,7 @@ import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import { db } from "../../firebase";
+import { db } from "../../AppService/firebase";
 import firebase from "firebase/app";
 import { useSelector } from "react-redux";
 

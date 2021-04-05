@@ -6,11 +6,10 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { db } from "../firebase";
 import NotificationBar from "./NotificationBar/NotificationBar.js";
 import { v4 } from "uuid";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { db } from "../AppService/firebase.js";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {

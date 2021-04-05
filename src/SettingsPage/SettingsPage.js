@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { Avatar, Box, Button, TextareaAutosize } from '@material-ui/core';
-import { db } from '../firebase';
 import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import styles from "./SettingsPage.module.scss"
@@ -15,7 +14,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import SettingsMenu from './SettingsMenu/SettingsMenu'; //  Do not delete
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrentUserUpdated } from '../CurrentUser.actions';
+import { fetchCurrentUserUpdated } from '../AppService/CurrentUser.actions';
+import { db } from '../AppService/firebase';
 
 const useStyles = makeStyles((theme) => ({
     margin: {
