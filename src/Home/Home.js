@@ -13,23 +13,21 @@ export default function Home() {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [postsToShow, setPostsToShow] = useState([]);
   const [hasMore, setHasmore] = useState(true)
-  const [lastPosition, setLastPosition] = useState(0)  // to remove
-  const perPage = 2;
+  const perPage = 3;
 
   const loadHomePagePosts = () => {
     let endPosition = postsToShow.length + perPage
 
     if (endPosition > filteredPosts.length) {
-      endPosition = filteredPosts.length - 1;
+      endPosition = filteredPosts.length;
     }
 
 
-    let arr = filteredPosts.slice(lastPosition, endPosition)
+    let arr = filteredPosts.slice(postsToShow.length, endPosition)
 
     setTimeout(() => {
       let arrtoSet = [...postsToShow, ...arr]
       setPostsToShow(arrtoSet)
-      setLastPosition(arrtoSet.length - 1)
       if (endPosition >= filteredPosts.length - 1) {
         setHasmore(false)
       }
@@ -41,10 +39,10 @@ export default function Home() {
     if (currentUser.uid.length) {
       const arr = posts.filter(({ post }) => currentUser.following.includes(post.createdBy) || post.createdBy === currentUser.uid);
       setFilteredPosts(arr);
-      setPostsToShow(arr.slice(0, perPage)) // to  remove
-      setLastPosition(perPage)
+      if(!postsToShow.length){
+        setPostsToShow(arr.slice(0, perPage)) 
+      }
     }
-
   }, [currentUser, posts])
 
   if (filteredPosts.length) {

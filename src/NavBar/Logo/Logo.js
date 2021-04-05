@@ -5,7 +5,7 @@ function Logo(props) {
     <img
       className={props.className}
       src={
-        "https://firebasestorage.googleapis.com/v0/b/instagram-4c584.appspot.com/o/images%2FlogoHeader.png?alt=media&token=53c828a3-179a-4a6c-b1e7-236028bc36d6"
+        "https://firebasestorage.googleapis.com/v0/b/instagram-4c584.appspot.com/o/300.png?alt=media&token=e7a71f54-e047-49ae-a8c6-2c1db300fe3f"
       }
       alt="instagram"
       width={props.width}

@@ -2,35 +2,41 @@ import ExplorePost from "./ExplorePost/ExplorePost.js";
 import styles from "./Explore.module.scss";
 import { useSelector } from "react-redux";
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useState } from "react";
+import { useEffect ,useState } from "react";
 
 export default function Explore() {
-  debugger
   const posts = useSelector(state => state.posts.posts);
-  const perPage = 9;
-  const [postsToShow, setPostsToShow] = useState(posts.slice(0, perPage));
+  const [postsToShow, setPostsToShow] = useState([]);
 
   const [hasMore, setHasmore] = useState(true)
+  const perPage = 9;
 
   const loadExplorePagePosts = () => {
-    let endPosition = postsToShow.length + perPage;
+    let endPosition = postsToShow.length  + perPage
 
     if (endPosition > posts.length) {
-      endPosition = posts.length;
+      endPosition = posts.length ;
     }
 
-    let arr = posts.slice(postsToShow, endPosition)
+    let arr = posts.slice(postsToShow.length, endPosition)
 
     setTimeout(() => {
       let arrtoSet = [...postsToShow, ...arr]
       setPostsToShow(arrtoSet)
       if (endPosition >= posts.length - 1) {
-        setHasmore(false);
+        setHasmore(false)
       }
     }, 1200);
 
   }
- 
+
+  useEffect(() => {
+    if(!postsToShow.length){
+    setPostsToShow(posts.slice(0, perPage))
+  }
+
+  }, [posts])
+
   return (
     <>
       <InfiniteScroll

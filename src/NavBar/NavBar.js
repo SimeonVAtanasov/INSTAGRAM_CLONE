@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default React.memo(function NavBar({ onLogout }) {
+export default function NavBar({ onLogout }) {
   const currentUser = useSelector((state) => state.currentUser.user);
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -199,4 +199,4 @@ export default React.memo(function NavBar({ onLogout }) {
       </header>
     </>
   );
-});
+};
