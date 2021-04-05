@@ -10,6 +10,7 @@ import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 
+
 import { Avatar, TextField, Tooltip } from "@material-ui/core";
 import "./NavBar.scss";
 
@@ -23,6 +24,7 @@ import Comment from "../Post/Comment/Comment.js";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
+ 
   searchInput: {
     "& > *": {
       marginTop: "-7px",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import {
   CircularProgress,
@@ -12,20 +12,24 @@ import { v4 } from "uuid";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
   paper: {
     border: "none",
     borderRadius: "3px",
     backgroundColor: theme.palette.background.paper,
-     display: "flex",
+    display: "flex",
     justifyContent: "center",
-   
   },
 
   text: {
     display: "flex",
     justifyContent: "center",
     width: "276px",
-  }
+  },
 }));
 
 export default function NotificationsPop({ uid }) {
@@ -45,6 +49,7 @@ export default function NotificationsPop({ uid }) {
       .where("forUser", "==", uid)
       .orderBy("timestamp", "desc")
       .onSnapshot((notifications) => {
+        console.log(notifications);
         notifications.forEach((noti) => {
           notificationsQuerry.push(noti.data());
         });
@@ -58,7 +63,7 @@ export default function NotificationsPop({ uid }) {
     setAnchorEl(null);
   };
   return (
-    <div>
+    <div className={classes.root}>
       <Tooltip
         disableFocusListener
         disableTouchListener

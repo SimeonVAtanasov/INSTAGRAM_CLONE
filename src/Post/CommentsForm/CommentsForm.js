@@ -34,6 +34,7 @@ export default function CommentsForm({
       },
       comment: str,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      
     });
 
     if (uid !== currentUser.uid) {
@@ -47,7 +48,6 @@ export default function CommentsForm({
         forUser: uid,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         target: imageUrl,
-        postId: postId,
       });
     }
 
