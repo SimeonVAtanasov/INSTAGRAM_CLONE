@@ -35,7 +35,6 @@ function PostMenu({
           if (snap.exists) {
             let likesArr = snap.data().likedBy;
             let savedPostsArr = snap.data().savedBy;
-            console.log(snap.data().savedBy);
             let isSavedByUser = savedPostsArr.some(
               (id) => id === currentUser.uid
             );

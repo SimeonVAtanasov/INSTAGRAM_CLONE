@@ -16,6 +16,10 @@ body {
   margin-top: 85px  !important;
 }
 
+::-webkit-scrollbar {
+  width: 0;  /* Remove scrollbar space */
+}
+
 
 
 code {

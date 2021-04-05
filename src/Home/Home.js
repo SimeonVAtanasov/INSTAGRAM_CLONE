@@ -10,12 +10,12 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 export default function Home() {
   const currentUser = useSelector(state => state.currentUser.user)
-  const posts = useSelector((state) => state.posts.posts);
-  const [filteredPosts, setFilteredPosts] = useState([]);
-  const [postsToShow, setPostsToShow] = useState([]);
+  const filteredPosts = useSelector((state) => state.posts.posts.filter(({ post }) => currentUser.following.includes(post.createdBy) || post.createdBy === currentUser.uid))
+
+  const perPage = 3;
+
+  const [postsToShow, setPostsToShow] = useState(filteredPosts.slice(0, 3));
   const [hasMore, setHasmore] = useState(true)
-  const [lastPosition, setLastPosition] = useState(0)
-  const perPage = 2;
 
   const loadHomePagePosts = () => {
     let endPosition = postsToShow.length + perPage
@@ -24,29 +24,17 @@ export default function Home() {
       endPosition = filteredPosts.length;
     }
 
-
-    let arr = filteredPosts.slice(lastPosition, endPosition)
+    let arr = filteredPosts.slice(postsToShow.length, endPosition)
 
     setTimeout(() => {
       let arrtoSet = [...postsToShow, ...arr]
       setPostsToShow(arrtoSet)
-      setLastPosition(arrtoSet.length - 1)
       if (endPosition >= filteredPosts.length - 1) {
         setHasmore(false)
       }
     }, 1200);
 
   }
-
-  useEffect(() => {
-    if (currentUser.uid.length) {
-      const arr = posts.filter(({ post }) => currentUser.following.includes(post.createdBy) || post.createdBy === currentUser.uid);
-      setFilteredPosts(arr);
-      setPostsToShow(arr.slice(0, perPage))
-      setLastPosition(perPage)
-    }
-
-  }, [currentUser, posts])
 
 
   if (filteredPosts.length) {

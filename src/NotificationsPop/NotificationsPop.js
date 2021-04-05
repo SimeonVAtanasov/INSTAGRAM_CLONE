@@ -41,92 +41,92 @@ export default function NotificationsPop({ uid }) {
 
 
   useEffect(() => {
-    console.log("nowa noti");
-    setInvisible(false);
-
-  }, [notificationCount])
-  const handleClick = (event) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-    setIsLoading(true);
     let notificationsQuerry = [];
-    setInvisible(true)
+      db.collection("notifications")
+        .where("forUser", "==", uid)
+        .orderBy("timestamp", "desc")
+        .onSnapshot((notifications) => {
+          notifications.forEach((noti) => {
+            notificationsQuerry.push(noti.data());
+          });
 
-    db.collection("notifications")
-      .where("forUser", "==", uid)
-      .orderBy("timestamp", "desc")
-      .onSnapshot((notifications) => {
-        notifications.forEach((noti) => {
-          notificationsQuerry.push(noti.data());
-        });
+          setNotifications(notificationsQuerry);
+          setNotificationCount(notifications.size)
+          // setIsLoading(false);
+          setInvisible(false);
+        })
+      
+  }, [notificationCount])
+const handleClick = (event) => {
+  setIsLoading(true);
+  setTimeout(()=>{setIsLoading(false)}, 600)
+  setAnchorEl(anchorEl ? null : event.currentTarget);
+  setInvisible(true);
 
-        setNotifications(notificationsQuerry);
-        setNotificationCount(notifications.size)
-        setIsLoading(false);
-      });
-  };
+};
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+const handleClose = () => {
+  setAnchorEl(null);
+};
 
-  return (
-    <div>
-      <Tooltip
-        disableFocusListener
-        disableTouchListener
-        title="Notifications"
-        arrow
-      >
-        <Badge color="secondary" variant="dot" invisible={invisible}>
+return (
+  <div>
+    <Tooltip
+      disableFocusListener
+      disableTouchListener
+      title="Notifications"
+      arrow
+    >
+      <Badge color="secondary" variant="dot" invisible={invisible}>
 
-          <FavoriteBorderOutlinedIcon
-            style={{ fontSize: 26, cursor: "pointer" }}
-            onClick={handleClick}
-          />
-        </Badge>
+        <FavoriteBorderOutlinedIcon
+          style={{ fontSize: 26, cursor: "pointer" }}
+          onClick={handleClick}
+        />
+      </Badge>
 
-      </Tooltip>
+    </Tooltip>
 
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        <Typography component="div">
-          <div className={classes.paper}>
-            {isLoading ? (
-              <CircularProgress />
-            ) : notifications.length ? (
-              <ul style={{ maxHeight: "364px" }}>
-                {notifications.map((noti) => (
-                  <NotificationBar
-                    action={noti.action}
-                    timestamp={noti.timestamp}
-                    userId={noti.fromUser.uid}
-                    userName={noti.fromUser.displayName}
-                    userPhoto={noti.fromUser.photoUrl}
-                    targetPhoto={noti.target}
-                    key={v4()}
-                    forUser={noti.forUser}
-                    postId={noti.postId}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <h6 className={classes.text}>No notifications available</h6>
-            )}
-          </div>
-        </Typography>
-      </Popover>
-    </div>
-  );
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      onClose={handleClose}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "center",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+    >
+      <Typography component="div">
+        <div className={classes.paper}>
+          {isLoading ? (
+            <CircularProgress />
+          ) : notifications.length ? (
+            <ul style={{ maxHeight: "364px" }}>
+              {notifications.map((noti) => (
+                <NotificationBar
+                  action={noti.action}
+                  timestamp={noti.timestamp}
+                  userId={noti.fromUser.uid}
+                  userName={noti.fromUser.displayName}
+                  userPhoto={noti.fromUser.photoUrl}
+                  targetPhoto={noti.target}
+                  key={v4()}
+                  forUser={noti.forUser}
+                  postId={noti.postId}
+                />
+              ))}
+            </ul>
+          ) : (
+            <h6 className={classes.text}>No notifications available</h6>
+          )}
+        </div>
+      </Typography>
+    </Popover>
+  </div>
+);
 }

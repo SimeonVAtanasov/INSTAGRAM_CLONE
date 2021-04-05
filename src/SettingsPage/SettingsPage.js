@@ -52,22 +52,20 @@ export default function SettingsPage() {
     }
 
 
-    //  REFACTOR !!!
     const handleSaveChanges = () => {
-        if (displayNameText.length !== 0 && id) {
+        if (displayNameText.length !== 0 && id && displayNameText   !== currentUser.displayName) {
             db.collection("users").doc(id).update({ displayName: displayNameText })
             .then(()=> {
                 dispatch(fetchCurrentUserUpdated({ ...currentUser, displayName: displayNameText }))
-                console.log(displayNameText);
             })
         }
 
-        // if (biography.length  !== 0 && id) {
-        //     db.collection("users").doc(id).update({ biography: biography }).then(() => console.log("yes"))
-        //         .then(() => {
-        //             dispatch(fetchCurrentUserUpdated({ ...currentUser, biography: biography }))
-        //         })
-        // }
+        if (biography.length !== 0 && id && biography !== currentUser.biography) {
+            db.collection("users").doc(id).update({ biography: biography })
+                .then(() => {
+                    dispatch(fetchCurrentUserUpdated({ ...currentUser, biography: biography }))
+                })
+        }
 
     }
 
@@ -118,7 +116,7 @@ export default function SettingsPage() {
 
 
                     <Box className={styles.settingsWrapperDiv}>
-                        <aside>Bio:</aside>
+                        <aside>Biography:</aside>
                         <TextareaAutosize
                             maxLength={180}
                             cols={50}
@@ -135,7 +133,7 @@ export default function SettingsPage() {
 
 
                         <Button onClick={handleSaveChanges} variant="contained" color="primary">
-                            Запази
+                            Save
                         </Button>
                     </Box>
 
