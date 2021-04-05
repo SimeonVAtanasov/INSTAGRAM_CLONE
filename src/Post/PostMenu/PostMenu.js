@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "../PostMenu/PostMenu.module.scss";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
-import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
@@ -24,6 +23,7 @@ function PostMenu({
   setIsSaved,
   isSaved,
   savedBy,
+  openModal,
 }) {
   const currentUser = useSelector((state) => state.currentUser.user);
 
@@ -120,8 +120,12 @@ function PostMenu({
           <FavoriteBorderIcon onClick={handleLike} className={styles.icon} />
         )}
 
-        <ModeCommentOutlinedIcon className={styles.icon} onClick={handleOpen} />
-        {/* <SendOutlinedIcon className={styles.icon} /> */}
+        {!openModal && (
+          <ModeCommentOutlinedIcon
+            className={styles.icon}
+            onClick={handleOpen}
+          />
+        )}
       </div>
       {isSaved ? (
         <BookmarkIcon className={styles.icon} onClick={handleSave} />

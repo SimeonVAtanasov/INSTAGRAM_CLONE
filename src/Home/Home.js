@@ -1,7 +1,6 @@
 import Post from "../Post/Post";
 import ProfileSection from "../ProfileSection/ProfileSection";
 import { useSelector } from "react-redux";
-
 import styles from "./Home.module.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -23,7 +22,6 @@ export default function Home() {
     if (endPosition > filteredPosts.length) {
       endPosition = filteredPosts.length;
     }
-
 
     let arr = filteredPosts.slice(lastPosition, endPosition)
 
@@ -47,7 +45,6 @@ export default function Home() {
     }
 
   }, [currentUser, posts])
-
 
   if (filteredPosts.length) {
     return (
@@ -98,7 +95,6 @@ export default function Home() {
         </div>
 
         <ProfileSection />
-
       </div>)
   }
 

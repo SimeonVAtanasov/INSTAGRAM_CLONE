@@ -1,10 +1,12 @@
 @font-face {
-  font-family: 'Snell-Roundhand';
-  src: local('Snell-Roundhand'), url(./Fonts/Snell-Roundhand-Script.ttf) format('truetype');
+  font-family: "Snell-Roundhand";
+  src: local("Snell-Roundhand"),
+    url(./Fonts/Snell-Roundhand-Script.ttf) format("truetype");
 }
 @font-face {
-  font-family: 'Handlee-Regular';
-  src: local('Handlee-Regular'), url(./Fonts/Handlee-Regular.ttf) format('truetype');
+  font-family: "Handlee-Regular";
+  src: local("Handlee-Regular"),
+    url(./Fonts/Handlee-Regular.ttf) format("truetype");
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -12,11 +14,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(250,250,250);
-  margin-top: 85px  !important;
+  background-color: rgb(250, 250, 250);
+  margin-top: 85px !important;
 }
-
-
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import stylesB from "./MessageForm.module.scss";
 import stylesC from "../../TextInput/TextInput.module.scss";
-
 import Comment from "../../Post/Comment/Comment";
 import { db } from "../../AppService/firebase";
 import { v4 as uuidv4 } from "uuid";

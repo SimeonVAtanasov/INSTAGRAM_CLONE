@@ -140,7 +140,6 @@ function StoryUpload(props) {
               userPhoto: currentUser.photoUrl,
             });
           }
-
           setProgress(0);
           setCaption("");
           setImage(null);
@@ -165,7 +164,7 @@ function StoryUpload(props) {
           value={progress}
         />
 
-        <input type="file" onChange={handleChange} id="file"></input>
+        <input type="file" onChange={handleChange} id="file" accept="image/*"></input>
         <label htmlFor="file" className="upload_label">
           <ImageSearchIcon />
           {label}

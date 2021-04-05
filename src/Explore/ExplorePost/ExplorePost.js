@@ -21,7 +21,6 @@ export default function ExplorePost({ post, id, uid }) {
   return (
     <>
       <div className={styles.postLayout}>
-        {/* <a> */}
         <div className={styles.imagebox}>
           <ImgExplore
             src={post.imageUrl}
@@ -40,8 +39,7 @@ export default function ExplorePost({ post, id, uid }) {
             {commentsCount}
           </p>
         </div>
-        {/* <a/> */}
-
+      
         <PostModal
           openModal={openModal}
           setOpenModal={setOpenModal}

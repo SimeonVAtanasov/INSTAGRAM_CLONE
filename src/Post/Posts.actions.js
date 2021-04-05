@@ -23,25 +23,20 @@ export const fetchPostAdded = (post) => ({
   payload: post,
 });
 
-
-
 export const subscribeToRealTimeEvents = () => {
   return function (dispatch) {
-      dispatch(fetchPostsRequested());
-       db.collection("posts")
-        .orderBy("timestamp", "desc")
-        .onSnapshot((snapshot) => {
-          dispatch(
-            fetchPostsUpdated(
-              snapshot.docs.map((doc) => ({
-                id: doc.id,
-                post: doc.data(),
-              }))
-            )
-          );
-        });
-        
-    }
-    
+    dispatch(fetchPostsRequested());
+    db.collection("posts")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        dispatch(
+          fetchPostsUpdated(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              post: doc.data(),
+            }))
+          )
+        );
+      });
+  };
 };
-

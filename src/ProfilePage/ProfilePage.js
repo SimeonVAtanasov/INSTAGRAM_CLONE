@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import firebase from "firebase";
 import AppsIcon from "@material-ui/icons/Apps";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import { fetchCurrentUserUpdated } from '../AppService/CurrentUser.actions';
+import { fetchCurrentUserUpdated } from "../AppService/CurrentUser.actions";
 import { db } from "../AppService/firebase";
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -35,10 +35,8 @@ export default function ProfilePage() {
   const savedPosts = posts.filter(({ post }) =>
     post.savedBy.includes(currentUser.uid)
   );
-
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [stories, setStories] = useState([]);
-
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [hasStories, setHasStories] = useState(false);

@@ -66,7 +66,6 @@ function PostUpload(props) {
     setOpen(false);
   };
 
-
   const handleChange = (ev) => {
     if (ev.target.files[0]) {
       setImage(ev.target.files[0]);
@@ -124,10 +123,9 @@ function PostUpload(props) {
 
       <div className="modal">
         <h1 className="new_post_header">{props.text}</h1>
-        {/* <progress className="progress" value={progress} max="100" /> */}
         <LinearProgress progress={progress} className="progress" value={progress} />
 
-        <input type="file" onChange={handleChange} id="file"></input>
+        <input type="file" onChange={handleChange} id="file" accept="image/*"></input>
         <label htmlFor="file" className="upload_label">
           <ImageSearchIcon></ImageSearchIcon>{label}</label>
 

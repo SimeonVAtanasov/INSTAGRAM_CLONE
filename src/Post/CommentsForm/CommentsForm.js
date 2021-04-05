@@ -20,7 +20,7 @@ export default function CommentsForm({
 }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-  const [isPost, setIsPost] = useState(true);
+  const isPost = true;
 
   const currentUser = useSelector(state => state.currentUser.user);
 
