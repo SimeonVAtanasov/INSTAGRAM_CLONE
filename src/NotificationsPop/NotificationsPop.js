@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import {
+  Badge,
   CircularProgress,
   Popover,
   Tooltip,
@@ -15,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     borderRadius: "3px",
     backgroundColor: theme.palette.background.paper,
-     display: "flex",
+    display: "flex",
     justifyContent: "center",
-   
+
   },
 
   text: {
@@ -32,13 +33,23 @@ export default function NotificationsPop({ uid }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [invisible, setInvisible] = useState(false)
+  const [notificationCount, setNotificationCount] = useState(0);
+
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+
+  useEffect(() => {
+    console.log("nowa noti");
+    setInvisible(false);
+
+  }, [notificationCount])
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
     setIsLoading(true);
     let notificationsQuerry = [];
+    setInvisible(true)
 
     db.collection("notifications")
       .where("forUser", "==", uid)
@@ -49,6 +60,7 @@ export default function NotificationsPop({ uid }) {
         });
 
         setNotifications(notificationsQuerry);
+        setNotificationCount(notifications.size)
         setIsLoading(false);
       });
   };
@@ -56,6 +68,7 @@ export default function NotificationsPop({ uid }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <div>
       <Tooltip
@@ -64,10 +77,14 @@ export default function NotificationsPop({ uid }) {
         title="Notifications"
         arrow
       >
-        <FavoriteBorderOutlinedIcon
-          style={{ fontSize: 26 }}
-          onClick={handleClick}
-        />
+        <Badge color="secondary" variant="dot" invisible={invisible}>
+
+          <FavoriteBorderOutlinedIcon
+            style={{ fontSize: 26, cursor: "pointer" }}
+            onClick={handleClick}
+          />
+        </Badge>
+
       </Tooltip>
 
       <Popover
