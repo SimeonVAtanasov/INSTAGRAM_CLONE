@@ -94,6 +94,7 @@ export default function ChatRoom() {
             id="outlined-basic"
             label="To: "
             variant="outlined"
+            autoComplete= "off"
             value={searchInput}
             onInput={(ev) => {
               handleInput(ev);
@@ -118,7 +119,7 @@ export default function ChatRoom() {
             ))}
           </div>
         </form>
-        
+
         <div className={stylesB.convoBoxBottom}>
           {conversations.map((convo) => (
             <div key={v4()} className={stylesB.singleConvo}>

@@ -83,13 +83,23 @@ function StoryUpload(props) {
   const handleClose = () => {
     setOpen(false);
     setIsCameraOpen(false);
+    setProgress(0);
+    setCaption("");
+    setImage(null);
+    setLabel("Choose a picture");
+    setFilie(null);
+    setIsCameraOpen(false);
+    setIsUploadButtonDisabled(true);
   };
 
   const handleChange = (ev) => {
-    if (ev.target.files[0]) {
-      setImage(ev.target.files[0]);
+    let file = ev.target.files[0];
+    let isImage = (/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i).test(file.name);
+
+    if (file && isImage) {
+      setImage(file);
       setLabel("Change picture");
-      setFilie(URL.createObjectURL(ev.target.files[0]));
+      setFilie(URL.createObjectURL(file));
       setIsUploadButtonDisabled(false);
       setIsCameraOpen(false);
       return;
