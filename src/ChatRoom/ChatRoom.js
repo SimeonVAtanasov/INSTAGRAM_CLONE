@@ -1,7 +1,7 @@
 import { TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { v4 } from 'uuid';
-import { db } from '../firebase';
+import { db } from '../AppService/firebase';
 import stylesB from "./ChatRoom.module.scss"
 import MessageForm from "./MessageForm/MessageForm"
 import Comment from '../Post/Comment/Comment';

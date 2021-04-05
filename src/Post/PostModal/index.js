@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Avatar } from "@material-ui/core";
@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 import CommentsForm from "../CommentsForm/CommentsForm.js";
 import styles from "../Post.module.scss";
 import { subscribeToRealTimeEvents } from "../Posts.actions";
-import {useDispatch } from "react-redux";
-import { db } from "../../firebase";
+import { useDispatch } from "react-redux";
+import { db } from "../../AppService/firebase";
 import { useSelector } from "react-redux";
+import PostMenu from "../PostMenu/PostMenu.js";
 
 function getModalStyle() {
   const top = 50;
@@ -45,6 +46,16 @@ export default function PostModal({
   time,
   userPhoto,
   uid,
+  setLikedByNumber,
+  likedByUsers,
+  setLikedByUsers,
+  setIsLiked,
+  setShowHeart,
+  likedBy,
+  setIsSaved,
+  isSaved,
+  savedBy,
+  isLiked
 }) {
 
   const currentUser = useSelector((state) => state.currentUser.user);
@@ -54,22 +65,22 @@ export default function PostModal({
   const [modalStyle] = React.useState(getModalStyle);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    if(currentUser.uid === uid){
+  useEffect(() => {
+    if (currentUser.uid === uid) {
       setIsCurrentUser(true);
     }
-    
 
-  },[])
+
+  }, [])
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
-  const handleDelete = (ev) => { 
+  const handleDelete = (ev) => {
 
-     ev.preventDefault();
-    
+    ev.preventDefault();
+
     db.collection("posts")
       .doc(postId)
       .delete()
@@ -95,14 +106,32 @@ export default function PostModal({
               alt={username}
               src={userPhoto || "/static/images/avatar/1.jpg"}
             />
-             <h3 className={styles.post_modal_description}>
+            <h3 className={styles.post_modal_description}>
               <strong className={styles.username}> {username} </strong>{" "}
             </h3>
           </Link>
-          {isCurrentUser &&  <button onClick = {handleDelete} className={styles.deleteBtn}>Delete post</button>}
+          {isCurrentUser ?
+            <button onClick={handleDelete} className={styles.deleteBtn}>Delete post</button> :
+            <PostMenu
+              setLikedByNumber={setLikedByNumber}
+              postId={postId}
+              setOpenModal={setOpenModal}
+              likedByUsers={likedByUsers}
+              setLikedByUsers={setLikedByUsers}
+              isLiked={isLiked}
+              setIsLiked={setIsLiked}
+              setShowHeart={setShowHeart}
+              uid={uid}
+              imageUrl={imageUrl}
+              likedBy={likedBy}
+              setIsSaved={setIsSaved}
+              isSaved={isSaved}
+              savedBy={savedBy}
+
+            />}
         </div>
         <div className={styles.post_modal_description_container}>
-              <strong>{username.split(" ")[0]}</strong> <span>{caption}</span>
+          <strong>{username.split(" ")[0]}</strong> <span>{caption}</span>
         </div>
         <div className={styles.modal_comments_form}>
           <CommentsForm

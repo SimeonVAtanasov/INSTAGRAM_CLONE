@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
-import { storage, db } from "../firebase";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import "../ProfileSection/ProfileSection.css";
 import { Input } from '@material-ui/core';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
-import LinearProgress from "../LinearProgress";
+import LinearProgress from "../Components/LinearProgress";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCurrentUserUpdated } from "../CurrentUser.actions";
+import { fetchCurrentUserUpdated } from "../AppService/CurrentUser.actions";
 import { useParams } from "react-router";
-
+import { db, storage } from "../AppService/firebase";
 
 function getModalStyle() {
   const top = 50;

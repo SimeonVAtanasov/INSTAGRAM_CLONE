@@ -1,15 +1,14 @@
 
 import "./ProfileSection.css";
 import Avatar from "@material-ui/core/Avatar";
-import StoryUpload from "../StoryUpload";
+import StoryUpload from "../PhotoUpload";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { db } from "../firebase";
 import { v4 } from "uuid";
 import Comment from "../Post/Comment/Comment";
 import { Button } from "@material-ui/core";
 import {useSelector} from "react-redux";
-
+import { db } from "../AppService/firebase";
 export default function ProfileSection() {
 
   const [users, setUsers] = useState([]);

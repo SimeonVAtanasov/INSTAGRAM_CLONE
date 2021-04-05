@@ -9,14 +9,14 @@ import {
 } from "react-router-dom";
 import Home from "./Home/Home";
 import NavBar from "./NavBar/NavBar";
-import { auth } from "./firebase";
+import { auth } from "./AppService/firebase";
 import Login from "./Login/Login.js";
 import Explore from "./Explore/Explore";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import SettingsPage from "./SettingsPage/SettingsPage";
 import ChatRoom from "./ChatRoom/ChatRoom";
 import { subscribeToRealTimeEvents } from "./Post/Posts.actions";
-import { getCurrentUser } from "./CurrentUser.actions";
+import { getCurrentUser } from "./AppService/CurrentUser.actions";
 
 function App() {
   const dispatch = useDispatch();

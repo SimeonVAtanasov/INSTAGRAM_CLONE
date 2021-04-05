@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import CommentsForm from "../Post/CommentsForm/CommentsForm.js";
 import PostModal from "./PostModal";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { db } from "../firebase";
+import { db } from "../AppService/firebase";
 import {useSelector} from "react-redux"; 
 
 function Post({
@@ -123,6 +123,15 @@ function Post({
         postId={postId}
         uid={uid}
         isLiked = {isLiked}
+        setLikedByNumber={setLikedByNumber}
+        likedByUsers={likedByUsers}
+        setLikedByUsers={setLikedByUsers}
+        setIsLiked={setIsLiked}
+        setShowHeart={setShowHeart}
+        likedBy= {likedBy}
+        setIsSaved = {setIsSaved}
+        isSaved = {isSaved}
+        savedBy = {savedBy}
       />
     </div>
   );

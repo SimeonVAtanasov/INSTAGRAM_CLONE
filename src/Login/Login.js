@@ -3,7 +3,7 @@ import Logo from "../NavBar/Logo/Logo.js";
 import Input from "./Input/Input.js";
 import "./Login.css";
 import PasswordField from "./PasswordField/PasswordField.js";
-import { auth, db } from "../firebase.js";
+import { auth, db } from "../AppService/firebase.js";
 import styles from "../NavBar/Logo/Logo.module.scss";
 import firebase from "firebase";
 import "react-slideshow-image/dist/styles.css";

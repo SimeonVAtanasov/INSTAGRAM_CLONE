@@ -1,4 +1,4 @@
-import EmojiKeybord from "../EmojiKeybord";
+import EmojiKeybord from "../Components/EmojiKeybord";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import React, { useState, createRef } from "react";
 import { Button, TextareaAutosize } from "@material-ui/core";

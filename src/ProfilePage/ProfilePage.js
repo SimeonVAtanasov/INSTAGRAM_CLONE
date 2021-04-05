@@ -1,6 +1,5 @@
 import { Avatar } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase";
 import SettingsIcon from "@material-ui/icons/Settings";
 import styles from "../ProfilePage/ProfilePage.module.scss";
 import { v4 } from "uuid";
@@ -8,13 +7,13 @@ import { Link, useParams } from "react-router-dom";
 import ExplorePost from "../Explore/ExplorePost/ExplorePost.js";
 import style from "../Explore/Explore.module.scss";
 import StoriesSection from "../StoriesSection";
-import StoryUpload from "../StoryUpload";
+import StoryUpload from "../PhotoUpload";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "firebase";
 import AppsIcon from "@material-ui/icons/Apps";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import { fetchCurrentUserUpdated } from '../CurrentUser.actions';
-
+import { fetchCurrentUserUpdated } from '../AppService/CurrentUser.actions';
+import { db } from "../AppService/firebase";
 export default function ProfilePage() {
   const dispatch = useDispatch();
 

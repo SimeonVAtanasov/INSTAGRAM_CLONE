@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import styles from "../../Post/Post.module.scss";
 import Comment from "../Comment/Comment";
-import { db } from "../../firebase";
+import { db } from "../../AppService/firebase";
 import ReactTimeAgo from "react-time-ago";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase";
