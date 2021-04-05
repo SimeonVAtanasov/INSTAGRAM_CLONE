@@ -124,7 +124,6 @@ export default function CommentsForm({
       {time && (
         <div className={styles.time}>
           <ReactTimeAgo
-          
           date={time.toDate()}
           locale="en-US"
         />
