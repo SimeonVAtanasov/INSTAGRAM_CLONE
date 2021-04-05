@@ -66,8 +66,8 @@ export default function CommentsForm({ convoId, time, buttonText }) {
         </div>
       ) : (
         <div className = {stylesB.message}>
-          <span>Your Messages</span>
-          <span>Send private messages to your friends</span>
+          <span>You don't have any messages.</span>
+          <span>~ Send your first message to a friend of yours ~</span>
         </div>
       )}
 
