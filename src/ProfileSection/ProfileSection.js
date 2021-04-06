@@ -82,7 +82,7 @@ export default React.memo(function ProfileSection() {
             </a>
           </p>
           <p>
-            This is a project for IT Tallents's Training camp
+            This is a project for IT Talents Training camp
             </p>
         </footer>
       </div>

@@ -45,8 +45,8 @@ function App() {
           action: "Welcome!",
           fromUser: {
             displayName: "300gram",
-            photoUrl: '',
-            uid: "",
+            photoUrl: 'https://firebasestorage.googleapis.com/v0/b/instagram-4c584.appspot.com/o/images%2F1617739146806?alt=media&token=7e8dbb0a-0b48-40b3-9024-8a6e0bcd88bb',
+            uid: "YY1tp2UQ0IVadwl72zgjz5CTeno1",
           },
           forUser: user.uid,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
