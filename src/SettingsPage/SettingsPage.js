@@ -97,6 +97,7 @@ export default function SettingsPage() {
                         <FormControl className={classes.margin}>
                             <InputLabel htmlFor="input-with-icon-adornment">Change your name</InputLabel>
                             <Input
+                            autoComplete={"off"}
                                 value={displayNameText}
                                 onInput={(e) => { handleDisplayNameChange(e) }}
                                 id="input-with-icon-adornment"
