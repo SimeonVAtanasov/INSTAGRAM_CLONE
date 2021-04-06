@@ -59,9 +59,6 @@ function App() {
     });
   }, []);
 
-  useEffect(() => {
-  }, []);
-
   if (isLoading) {
     return (
       <img

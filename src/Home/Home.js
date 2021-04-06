@@ -39,11 +39,18 @@ export default function Home() {
     if (currentUser.uid.length) {
       const arr = posts.filter(({ post }) => currentUser.following.includes(post.createdBy) || post.createdBy === currentUser.uid);
       setFilteredPosts(arr);
-      if(!postsToShow.length){
-        setPostsToShow(arr.slice(0, perPage)) 
-      }
+      if (!postsToShow.length) {
+        setPostsToShow(arr.slice(0, perPage))
+      } 
     }
   }, [currentUser, posts])
+
+  const refresh = ()=>{
+    const arr = posts.filter(({ post }) => currentUser.following.includes(post.createdBy) || post.createdBy === currentUser.uid);
+    setFilteredPosts(arr);
+      setPostsToShow(arr.slice(0, perPage))
+      setHasmore(true)
+  }
 
   if (filteredPosts.length) {
     return (
@@ -53,13 +60,23 @@ export default function Home() {
           next={loadHomePagePosts}
           hasMore={hasMore}
           endMessage={
-            <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
+            <p className={styles.refresh}>
+              <b>~ Yay! You have seen it all ~</b>
             </p>
           }
-          loader={<h4>Loading...</h4>}
+          loader={<h4>~ Loading... ~</h4>}
+          refreshFunction={refresh}
+          pullDownToRefresh
+          pullDownToRefreshThreshold={50}
+          pullDownToRefreshContent={
+            <h3 className={styles.refresh}>&#8595; Keep pulling ~</h3>
+          }
+          releaseToRefreshContent={
+            <h3 className={styles.refresh}>&#8593; Release to refresh  ~</h3>
+          }
         >
           <div className={styles.home_posts}>
+            <h5 className={styles.refresh}>~ pull down to refresh ~</h5>
             {postsToShow.map(({ id, post }) => (
               <Post
                 key={id}

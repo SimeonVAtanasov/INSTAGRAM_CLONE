@@ -2,8 +2,15 @@
   width: 58vw;
   display: flex;
   margin: auto;
+  margin-top: -34px;
   justify-content: space-between;
   position: relative;
+}
+
+.refresh{
+  text-align: center;
+  color: lightgray;
+  cursor: pointer;
 }
 
 .message {

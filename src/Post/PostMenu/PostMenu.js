@@ -25,7 +25,6 @@ function PostMenu({
   likedByUsers
 }) {
 
-  console.log(likedByUsers)
   const currentUser = useSelector((state) => state.currentUser.user);
 
   useEffect(() => {
@@ -77,7 +76,6 @@ function PostMenu({
   const handleLike = () => {
     let likedByArr = [...likedByUsers];
     if (!likedByUsers.includes(currentUser.uid)) {
-      // debugger
       likedByArr.push(currentUser.uid);
       setLikedByUsers(likedByArr);
       db.collection("posts").doc(postId).update({
@@ -85,7 +83,6 @@ function PostMenu({
       });
     } else {
 
-      // debugger
       
       let arr = likedByUsers.filter(el => el !== currentUser.uid)
       setLikedByUsers([...arr]);
