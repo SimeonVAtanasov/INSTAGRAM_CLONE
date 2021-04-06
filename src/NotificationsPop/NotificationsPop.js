@@ -54,7 +54,6 @@ export default function NotificationsPop() {
     .where("forUser", "==", currentUser.uid)
     .orderBy("timestamp", "desc")
     .onSnapshot((notifications) => {
-      debugger
           let notificationsQuerry = [];
           notifications.forEach((noti) => {
             notificationsQuerry.push(noti.data());

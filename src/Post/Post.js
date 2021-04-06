@@ -7,7 +7,7 @@ import CommentsForm from "../Post/CommentsForm/CommentsForm.js";
 import PostModal from "./PostModal";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { db } from "../AppService/firebase";
-import {useSelector} from "react-redux"; 
+import { useSelector } from "react-redux";
 
 function Post({
   postId,
@@ -20,15 +20,13 @@ function Post({
   uid,
   savedBy
 }) {
-  let likesCount = likedBy.length;
 
-  const [likedByNumber, setLikedByNumber] = useState(likesCount);
-  const [likedByUsers, setLikedByUsers] = useState([]);
+  const [likedByUsers, setLikedByUsers] = useState(likedBy);
   const [openModal, setOpenModal] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  
+
   const userCredential = useSelector(state => state.currentUser.user)
 
   const handleShowHeart = () => {
@@ -68,11 +66,10 @@ function Post({
       >
         <img className={styles.post_image} src={imageUrl} alt="post"></img>
 
-        {showHeart && <FavoriteIcon className={styles.heart}/>}
+        {showHeart && <FavoriteIcon className={styles.heart} />}
       </div>
 
       <PostMenu
-        setLikedByNumber={setLikedByNumber}
         postId={postId}
         setOpenModal={setOpenModal}
         likedByUsers={likedByUsers}
@@ -81,16 +78,14 @@ function Post({
         setIsLiked={setIsLiked}
         setShowHeart={setShowHeart}
         uid={uid}
-        imageUrl= {imageUrl}
-        likedBy= {likedBy}
-        setIsSaved = {setIsSaved}
-        isSaved = {isSaved}
-        savedBy = {savedBy}
-
+        imageUrl={imageUrl}
+        setIsSaved={setIsSaved}
+        isSaved={isSaved}
+        savedBy={savedBy}
       />
       <div className={styles.liked_by}>
         <span>
-          <strong>{likedByNumber} </strong> likes
+          <strong>{likedByUsers.length} </strong> likes
         </span>
       </div>
       <h4 className={styles.post_description}>
@@ -104,7 +99,7 @@ function Post({
         buttonText={"Post"}
         openModal={openModal}
         setOpenModal={setOpenModal}
-        imageUrl = {imageUrl}
+        imageUrl={imageUrl}
       />
 
       <PostModal
@@ -117,16 +112,14 @@ function Post({
         time={time}
         postId={postId}
         uid={uid}
-        isLiked = {isLiked}
-        setLikedByNumber={setLikedByNumber}
+        isLiked={isLiked}
         likedByUsers={likedByUsers}
         setLikedByUsers={setLikedByUsers}
         setIsLiked={setIsLiked}
         setShowHeart={setShowHeart}
-        likedBy= {likedBy}
-        setIsSaved = {setIsSaved}
-        isSaved = {isSaved}
-        savedBy = {savedBy}
+        setIsSaved={setIsSaved}
+        isSaved={isSaved}
+        savedBy={savedBy}
       />
     </div>
   );

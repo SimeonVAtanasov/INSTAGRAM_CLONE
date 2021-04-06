@@ -8,6 +8,9 @@ import { db } from "../../AppService/firebase";
 export default function ExplorePost({ post, id, uid }) {
   const [commentsCount, setCommentsCount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
+  const [likedByUsers, setLikedByUsers] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     db.collection("comments")
@@ -39,7 +42,7 @@ export default function ExplorePost({ post, id, uid }) {
             {commentsCount}
           </p>
         </div>
-      
+
         <PostModal
           openModal={openModal}
           setOpenModal={setOpenModal}
@@ -50,6 +53,15 @@ export default function ExplorePost({ post, id, uid }) {
           time={post.timestamp}
           postId={id}
           uid={uid}
+          isLiked={isLiked}
+          likedByUsers={likedByUsers}
+          setLikedByUsers={setLikedByUsers}
+          setIsLiked={setIsLiked}
+          setShowHeart={() => { }}
+          likedBy={post.likedBy}
+          setIsSaved={setIsSaved}
+          isSaved={isSaved}
+          savedBy={post.savedBy}
         />
       </div>
     </>

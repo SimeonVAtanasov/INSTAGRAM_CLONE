@@ -19,16 +19,20 @@ export default function CommentsForm({ convoId, time, buttonText }) {
   };
 
   const sendMessage = (str) => {
-    db.collection("messages").add({
-      forConvo: convoId,
-      fromUser: {
-        username: currentUser.displayName,
-        userPhoto: currentUser.photoUrl,
-        uid: currentUser.uid,
-      },
-      text: str,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+
+    if (str.length && convoId) {
+      db.collection("messages").add({
+        forConvo: convoId,
+        fromUser: {
+          username: currentUser.displayName,
+          userPhoto: currentUser.photoUrl,
+          uid: currentUser.uid,
+        },
+        text: str,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+
   };
 
   useEffect(() => {
@@ -65,7 +69,7 @@ export default function CommentsForm({ convoId, time, buttonText }) {
           <div ref={messagesEndRef}></div>
         </div>
       ) : (
-        <div className = {stylesB.message}>
+        <div className={stylesB.message}>
           <span>You don't have any messages.</span>
           <span>~ Send your first message to a friend of yours ~</span>
         </div>

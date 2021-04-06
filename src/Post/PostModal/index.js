@@ -5,7 +5,7 @@ import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import CommentsForm from "../CommentsForm/CommentsForm.js";
 import styles from "../Post.module.scss";
-import { subscribeToRealTimeEvents } from "../Posts.actions";
+import { subscribeToRealTimePosts } from "../Posts.actions";
 import { useDispatch } from "react-redux";
 import { db } from "../../AppService/firebase";
 import { useSelector } from "react-redux";
@@ -82,7 +82,7 @@ export default function PostModal({
       .delete()
       .then(() => {
         console.log("Document successfully deleted!");
-        dispatch(subscribeToRealTimeEvents());
+        dispatch(subscribeToRealTimePosts());
       })
       .catch((error) => {
         console.error("Error removing document: ", error);

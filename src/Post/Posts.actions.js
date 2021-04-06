@@ -23,7 +23,7 @@ export const fetchPostAdded = (post) => ({
   payload: post,
 });
 
-export const subscribeToRealTimeEvents = () => {
+export const subscribeToRealTimePosts = () => {
   return function (dispatch) {
     dispatch(fetchPostsRequested());
     db.collection("posts")

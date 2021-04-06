@@ -6,12 +6,10 @@
   background-color: white;
   height: 600px;
   .convoBox {
-    
-    cursor: pointer;
     border-radius: 3px;
     position: relative;
     border-right: 1px solid lightgray;
-    width: 300px ;
+    width: 300px;
     display: flex;
     flex-direction: column;
     height: 600px;
@@ -20,7 +18,13 @@
       width: 100%;
     }
 
+    div:focus {
+      background-color: lightgray;
+    }
+
     .singleConvo {
+      cursor: pointer;
+
       display: flex;
       align-items: center;
       height: 56px;
@@ -29,7 +33,9 @@
       &:hover {
         background-color: lightgray;
       }
+
       .convoName {
+        pointer-events: none;
         margin-bottom: 0;
         margin-top: 12px;
         margin-left: 12px;
@@ -55,7 +61,7 @@
       }
     }
 
-    .convoBoxBottom{
+    .convoBoxBottom {
       max-height: 542px !important;
       width: 300px !important;
       overflow-y: auto;

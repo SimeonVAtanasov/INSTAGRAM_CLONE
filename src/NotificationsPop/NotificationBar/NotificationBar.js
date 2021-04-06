@@ -27,7 +27,7 @@ export default function NofificationBar(props) {
       </div>
       {props.action !== "followed you" && (
         <div>
-          <img alt="targetPhoto" src={props.targetPhoto} width={40} />
+          {props.targetPhoto && <img alt="targetPhoto" src={props.targetPhoto} width={40} />}
         </div>
       )}
     </li>

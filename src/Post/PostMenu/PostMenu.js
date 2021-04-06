@@ -10,7 +10,6 @@ import firebase from "firebase/app";
 import { useSelector } from "react-redux";
 
 function PostMenu({
-  setLikedByNumber,
   postId,
   setOpenModal,
   isLiked,
@@ -19,12 +18,14 @@ function PostMenu({
   setShowHeart,
   uid,
   imageUrl,
-  likedBy,
   setIsSaved,
   isSaved,
   savedBy,
   openModal,
+  likedByUsers
 }) {
+
+  console.log(likedByUsers)
   const currentUser = useSelector((state) => state.currentUser.user);
 
   useEffect(() => {
@@ -40,7 +41,6 @@ function PostMenu({
             );
             let isLikedByUser = likesArr.some((id) => id === currentUser.uid);
 
-            setLikedByNumber(likesArr.length);
             if (isLikedByUser) {
               setIsLiked(true);
             }
@@ -75,19 +75,27 @@ function PostMenu({
   };
 
   const handleLike = () => {
-    let likedByArr = [...likedBy];
-    if (!isLiked) {
+    let likedByArr = [...likedByUsers];
+    if (!likedByUsers.includes(currentUser.uid)) {
+      // debugger
       likedByArr.push(currentUser.uid);
       setLikedByUsers(likedByArr);
+      db.collection("posts").doc(postId).update({
+        likedBy: likedByArr,
+      });
     } else {
-      let index = likedByArr.indexOf(currentUser.uid);
-      likedByArr.splice(index, 1);
-      setLikedByUsers(likedByArr);
+
+      // debugger
+      
+      let arr = likedByUsers.filter(el => el !== currentUser.uid)
+      setLikedByUsers([...arr]);
+    setShowHeart(false);
+ db.collection("posts").doc(postId).update({
+      likedBy: arr,
+    });
     }
 
-    db.collection("posts").doc(postId).update({
-      likedBy: likedByArr,
-    });
+   
 
     if (uid !== currentUser.uid && !isLiked) {
       db.collection("notifications").add({
@@ -104,7 +112,6 @@ function PostMenu({
     }
 
     setIsLiked(!isLiked);
-    setShowHeart(false);
   };
 
   return (

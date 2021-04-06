@@ -122,13 +122,12 @@ export default function ChatRoom() {
 
         <div className={stylesB.convoBoxBottom}>
           {conversations.map((convo) => (
-            <div key={v4()} className={stylesB.singleConvo}>
+            <div key={v4()} className={stylesB.singleConvo} onClick={() => {
+                  setConvoId(convo.convoId);
+                }}>
               <QuestionAnswerOutlinedIcon />
               <h3
                 className={stylesB.convoName}
-                onClick={() => {
-                  setConvoId(convo.convoId);
-                }}
               >
                 {convo.convoName}
               </h3>

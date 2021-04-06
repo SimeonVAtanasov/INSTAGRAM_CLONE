@@ -9,14 +9,15 @@ import {
 } from "react-router-dom";
 import Home from "./Home/Home";
 import NavBar from "./NavBar/NavBar";
-import { auth } from "./AppService/firebase";
+import { auth, db } from "./AppService/firebase";
 import Login from "./Login/Login.js";
 import Explore from "./Explore/Explore";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import SettingsPage from "./SettingsPage/SettingsPage";
 import ChatRoom from "./ChatRoom/ChatRoom";
-import { subscribeToRealTimeEvents } from "./Post/Posts.actions";
+import { subscribeToRealTimePosts } from "./Post/Posts.actions";
 import { getCurrentUser } from "./AppService/CurrentUser.actions";
+import firebase from "firebase/app";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,11 +34,24 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true);
+    
     auth.onAuthStateChanged((user) => {
       if (user) {
+        dispatch(subscribeToRealTimePosts());
         dispatch(getCurrentUser(user));
         setIsLoggedIn(true);
         setIsLoading(false);
+        db.collection("notifications").add({
+          action: "Welcome!",
+          fromUser: {
+            displayName: "300gram",
+            photoUrl: '',
+            uid: "",
+          },
+          forUser: user.uid,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          target: "",
+        });
       } else {
         <Redirect to="/login" />;
         setIsLoading(false);
@@ -46,7 +60,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    dispatch(subscribeToRealTimeEvents());
   }, []);
 
   if (isLoading) {
