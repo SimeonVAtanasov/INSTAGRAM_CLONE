@@ -36,7 +36,8 @@ Live link: https://instagram-4c584.web.app/
 ![Screenshot 2021-04-07 at 0 23 03](https://user-images.githubusercontent.com/32630123/113780179-8973df80-9737-11eb-8e22-3fc9596fc739.png)
 
 
-Presentation :[Uploading 300gram.pdf…]()
+Presentation :[300gram.pdf](https://github.com/SimeonVAtanasov/INSTAGRAM_CLONE/files/6267650/300gram.pdf)
+
 
 
 
