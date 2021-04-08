@@ -6,8 +6,7 @@
 
 Single Page Application, copy of the original Instagram (https://instagram.com) . 
 
-
-Live link: https://instagram-4c584.web.app/
+Live link: https://instagram-4c584.web.app
 
 #  Technologies :
 
@@ -30,6 +29,15 @@ Live link: https://instagram-4c584.web.app/
 * Follow & unfollow
 * Chat room
 * Notifications
+
+![Screenshot 2021-04-07 at 0 23 12](https://user-images.githubusercontent.com/32630123/113780195-8c6ed000-9737-11eb-9819-3c25d8f68bd0.png)
+
+![Screenshot 2021-04-07 at 0 23 03](https://user-images.githubusercontent.com/32630123/113780179-8973df80-9737-11eb-8e22-3fc9596fc739.png)
+
+
+Presentation :[300gram.pdf](https://github.com/SimeonVAtanasov/INSTAGRAM_CLONE/files/6267650/300gram.pdf)
+
+
 
 
 ### Contributors:
